@@ -64,15 +64,28 @@ import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static gol.css.golStyle.*;
 import gol.golLanguageProperty;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import properties_manager.PropertiesManager;
 
 /**
@@ -144,7 +157,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     // FOR DISPLAYING DEBUG STUFF
     Text debugText;
-  
+
     // FILE TOOLBAR BUTTONS
     protected Button newButton;
     protected Button loadButton;
@@ -154,7 +167,10 @@ public class golWorkspace extends AppWorkspaceComponent {
     // THIS DIALOG IS USED FOR GIVING FEEDBACK TO THE USER
     //protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
     // THIS TITLE WILL GO IN THE TITLE BAR
-    protected String appTitle;
+    protected String appTitle, answer0, answer;
+
+    private File file; //=new File("E:\\LANGUAGE.json"); 
+    private String JSON_CHOICE;
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -174,8 +190,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         gui = app.getGUI();
 
         languageSelection();
-
-        //languageSelection();
         // LAYOUT THE APP
         initLayout();
 
@@ -423,11 +437,75 @@ public class golWorkspace extends AppWorkspaceComponent {
         backgroundColorPicker.setValue(dataManager.getBackgroundColor());
 
     }
-/**
- * Allows User to choose a language 
- */
+
+    /**
+     * If LangSelection.txt file exists, read it and updates the UI in that
+     * Language Otherwise, create LangSelection.txt and save selected Language
+     */
     public void languageSelection() {
 
+        String line = null;
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        try {
+            //String verify, putData;
+            File file = new File("LangSelection.txt");
+            file.createNewFile();
+
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+
+            if ((line = br.readLine()) != null) {       // SUPER IMPORTANT TO USE LINE AND NOT br.readLine()
+
+                // updates
+                if (line.equals("French")) {
+                    boolean success = app.loadProperties("app_properties_FR.xml");
+
+                    if (success) {
+
+                        String appTitle = props.getProperty(APP_TITLE);
+                        initTopToolbar2(app);
+                    }
+
+                } else {
+                    // ENG by default
+                }
+
+            } else { // ASKS sleection
+
+                FileWriter fw = new FileWriter(file);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                answer0 = askLanguageSelection();
+                answer = answer0 + "\n";
+
+                bw.write(answer);
+                bw.flush();
+                bw.close();
+
+                if (answer0.equals("French")) {
+                    boolean success = app.loadProperties("app_properties_FR.xml");
+
+                    if (success) {
+
+                        String appTitle = props.getProperty(APP_TITLE);
+                        initTopToolbar2(app);
+                    }
+                }
+            }
+            br.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Asks user to select a language
+     *
+     * @return language
+     */
+    public String askLanguageSelection() {
         List<String> choices = new ArrayList<>();
         choices.add("English");
         choices.add("French");
@@ -437,33 +515,14 @@ public class golWorkspace extends AppWorkspaceComponent {
         dialog.setHeaderText("Please select your language");
 
         Optional<String> result = dialog.showAndWait();
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
-
-        if (result.isPresent()) {
-
-            if (result.get().equals("French")) {
-                try {
-                    boolean success = app.loadProperties("app_properties_FR.xml");
-                    if (success) {
-                        // GET THE TITLE FROM THE XML FILE
-                        String appTitle = props.getProperty(APP_TITLE);
-                        initTopToolbar2(app);
-                    }
-                } catch (Exception e) {
-                    System.out.println("Error from wspace");
-                }
-            }
-        }
+        return result.get();
     }
 
-    @Override
-    public void resetWorkspace() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-/**
- * Initializes TopFileTolbar in new Language
- * @param app 
- */
+    /**
+     * Initializes TopFileTolbar in new Language
+     *
+     * @param app
+     */
     private void initTopToolbar2(AppTemplate app) {
         //fileToolbar = new FlowPane();
         //fileToolbar = app.getGUI().getFileToolbar();
@@ -488,4 +547,9 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     }
 
+    // public void createLANGFile();
+    @Override
+    public void resetWorkspace() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
