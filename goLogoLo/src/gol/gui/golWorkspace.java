@@ -43,10 +43,21 @@ import djf.controller.AppFileController;
 import static djf.settings.AppPropertyType.APP_LOGO;
 import static djf.settings.AppPropertyType.APP_TITLE;
 import static djf.settings.AppPropertyType.BACKGROUNDCOLOR;
+import static djf.settings.AppPropertyType.EN;
+
 import static djf.settings.AppPropertyType.OUTLINETHICKNESS;
 import static djf.settings.AppPropertyType.EXIT_ICON;
 import static djf.settings.AppPropertyType.EXIT_TOOLTIP;
 import static djf.settings.AppPropertyType.FILLCOLOR;
+import static djf.settings.AppPropertyType.FR;
+
+import static djf.settings.AppPropertyType.INFO_ICON;
+import static djf.settings.AppPropertyType.INFO_TOOLTIP;
+import static djf.settings.AppPropertyType.LANG_ICON;
+import static djf.settings.AppPropertyType.LANG_TEXT;
+import static djf.settings.AppPropertyType.LANG_TITLE;
+
+import static djf.settings.AppPropertyType.LANG_TOOLTIP;
 import static djf.settings.AppPropertyType.LOAD_ICON;
 import static djf.settings.AppPropertyType.LOAD_TOOLTIP;
 import static djf.settings.AppPropertyType.NEW_ICON;
@@ -64,6 +75,12 @@ import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static gol.css.golStyle.*;
 import gol.golLanguageProperty;
+/*
+import static gol.golLanguageProperty.EN;
+import static gol.golLanguageProperty.FR;
+import static gol.golLanguageProperty.LANG_TEXT;
+import static gol.golLanguageProperty.LANG_TITLE;
+ */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -163,6 +180,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     protected Button loadButton;
     protected Button saveButton;
     protected Button exitButton;
+    private Button langButton;
+    private Button infoButton;
 
     // THIS DIALOG IS USED FOR GIVING FEEDBACK TO THE USER
     //protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
@@ -189,9 +208,14 @@ public class golWorkspace extends AppWorkspaceComponent {
         // KEEP THE GUI FOR LATER
         gui = app.getGUI();
 
-        languageSelection();
         // LAYOUT THE APP
         initLayout();
+
+        addFilebuttons();
+
+        languageSelection();
+
+        //initLayout();
 
         // HOOK UP THE CONTROLLERS
         initControllers();
@@ -304,12 +328,34 @@ public class golWorkspace extends AppWorkspaceComponent {
         workspace = new BorderPane();
         ((BorderPane) workspace).setLeft(editToolbar);
         ((BorderPane) workspace).setCenter(canvas);
+
     }
 
     // HELPER SETUP METHOD
     private void initControllers() {
         // MAKE THE EDIT CONTROLLER
         logoEditController = new LogoEditController(app);
+        //PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        langButton.setOnAction(e -> {
+            String selectedLang = askLanguageSelection();
+
+            if (selectedLang.equals("French") || selectedLang.equals("Français")) {
+                boolean success = app.loadProperties("app_properties_FR.xml");
+                if (success) {
+                    initTopToolbar2(app);
+                }
+            } else {
+                boolean success = app.loadProperties("app_properties_EN.xml");
+                if (success) {
+                    initTopToolbar2(app);
+                }
+            }
+        });
+
+        infoButton.setOnAction(e -> {
+
+        });
 
         // NOW CONNECT THE BUTTONS TO THEIR HANDLERS
         selectionToolButton.setOnAction(e -> {
@@ -359,6 +405,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         canvas.setOnMouseDragged(e -> {
             canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY());
         });
+
     }
 
     // HELPER METHOD
@@ -460,10 +507,7 @@ public class golWorkspace extends AppWorkspaceComponent {
                 // updates
                 if (line.equals("French")) {
                     boolean success = app.loadProperties("app_properties_FR.xml");
-
                     if (success) {
-
-                        String appTitle = props.getProperty(APP_TITLE);
                         initTopToolbar2(app);
                     }
 
@@ -487,8 +531,6 @@ public class golWorkspace extends AppWorkspaceComponent {
                     boolean success = app.loadProperties("app_properties_FR.xml");
 
                     if (success) {
-
-                        String appTitle = props.getProperty(APP_TITLE);
                         initTopToolbar2(app);
                     }
                 }
@@ -501,25 +543,39 @@ public class golWorkspace extends AppWorkspaceComponent {
     }
 
     /**
+     * Adds LangButton and InfoButton to TopFileToolbar
+     */
+    public void addFilebuttons() {
+        langButton = new Button();
+        langButton = gui.initChildButton(gui.getFileToolbar(), LANG_ICON.toString(), LANG_TOOLTIP.toString(), false);
+
+        infoButton = new Button();
+        infoButton = gui.initChildButton(gui.getFileToolbar(), INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
+
+    }
+
+    /**
      * Asks user to select a language
      *
      * @return language
      */
     public String askLanguageSelection() {
-        List<String> choices = new ArrayList<>();
-        choices.add("English");
-        choices.add("French");
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("English", choices);
-        dialog.setTitle("Language Setting");
-        dialog.setHeaderText("Please select your language");
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        List<String> choices = new ArrayList<>();
+        choices.add(props.getProperty(FR));
+        choices.add(props.getProperty(EN));
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(props.getProperty(EN), choices);
+        dialog.setTitle(props.getProperty(LANG_TITLE));
+        dialog.setHeaderText(props.getProperty(LANG_TEXT));
 
         Optional<String> result = dialog.showAndWait();
         return result.get();
     }
 
     /**
-     * Initializes TopFileTolbar in new Language
+     * Initializes TopFileToolbar and EditToolbar in new Language
      *
      * @param app
      */
@@ -529,21 +585,50 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         PropertiesManager props = PropertiesManager.getPropertiesManager();
 
-        Button newButton = (Button) app.getGUI().getFileToolbar().getChildren().get(0);
+        newButton = (Button) app.getGUI().getFileToolbar().getChildren().get(0);
         Tooltip buttonTooltip = new Tooltip(props.getProperty(NEW_TOOLTIP));
         newButton.setTooltip(buttonTooltip);
 
-        Button loadButton = (Button) app.getGUI().getFileToolbar().getChildren().get(1);
+        loadButton = (Button) app.getGUI().getFileToolbar().getChildren().get(1);
         buttonTooltip = new Tooltip(props.getProperty(LOAD_TOOLTIP));
         loadButton.setTooltip(buttonTooltip);
 
-        Button saveButton = (Button) app.getGUI().getFileToolbar().getChildren().get(2);
+        saveButton = (Button) app.getGUI().getFileToolbar().getChildren().get(2);
         buttonTooltip = new Tooltip(props.getProperty(SAVE_TOOLTIP));
         saveButton.setTooltip(buttonTooltip);
 
-        Button exitButton = (Button) app.getGUI().getFileToolbar().getChildren().get(3);
+        exitButton = (Button) app.getGUI().getFileToolbar().getChildren().get(3);
         buttonTooltip = new Tooltip(props.getProperty(EXIT_TOOLTIP));
         exitButton.setTooltip(buttonTooltip);
+
+        langButton = (Button) app.getGUI().getFileToolbar().getChildren().get(4);
+        buttonTooltip = new Tooltip(props.getProperty(LANG_TOOLTIP));
+        langButton.setTooltip(buttonTooltip);
+
+        infoButton = (Button) app.getGUI().getFileToolbar().getChildren().get(5);
+        buttonTooltip = new Tooltip(props.getProperty(INFO_TOOLTIP));
+        infoButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(SELECTION_TOOL_TOOLTIP));
+        selectionToolButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(REMOVE_TOOLTIP));
+        removeButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(RECTANGLE_TOOLTIP));
+        rectButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(ELLIPSE_TOOLTIP));
+        ellipseButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(MOVE_TO_BACK_TOOLTIP));
+        moveToBackButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(MOVE_TO_FRONT_TOOLTIP));
+        moveToFrontButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(SNAPSHOT_TOOLTIP));
+        snapshotButton.setTooltip(buttonTooltip);
 
     }
 

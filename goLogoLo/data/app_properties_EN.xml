@@ -23,12 +23,27 @@
         <property name="LOAD_ICON"	    value="Load.png"></property>
         <property name="SAVE_ICON"	    value="Save.png"></property>
         <property name="EXIT_ICON"          value="Exit.png"></property> 
+        <property name="LANG_ICON"	   value="Lang.png"></property>
+        <property name="INFO_ICON"          value="Info.png"></property>
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Create a New Logo"></property>
         <property name="LOAD_TOOLTIP"		value="Load an Existing Logo"></property>
         <property name="SAVE_TOOLTIP"		value="Save this Logo"></property>
         <property name="EXIT_TOOLTIP"		value="Exit the Application"></property>
+        <property name="LANG_TOOLTIP"		value="Change to another Language"></property>
+        <property name="INFO_TOOLTIP"		value="Show Information of Application"></property>
+        
+        
+        <!-- Language Selection Message-->
+        <property name="LANG_TITLE"		value="Language Setting"></property>
+        <property name="LANG_TEXT"		value="Please select your language"></property>
+        <property name="EN"                     value="English"></property>
+        <property name="FR"                     value="French"></property>
+        <property name="OK"                    value="OK"></property>
+        <property name="CANCEL"                 value="CANCEL"></property>
+        
+
         
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Close"></property>

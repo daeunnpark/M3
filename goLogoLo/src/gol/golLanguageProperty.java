@@ -31,5 +31,10 @@ public enum golLanguageProperty {
     OUTLINE_TOOLTIP,
     
     SNAPSHOT_ICON,
-    SNAPSHOT_TOOLTIP 
+    SNAPSHOT_TOOLTIP,  
+
+// DIALOGUE LANGUAGE SETTINGS
+
+
+   
 }

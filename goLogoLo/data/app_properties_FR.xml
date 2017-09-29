@@ -25,12 +25,30 @@ and open the template in the editor.
         <property name="LOAD_ICON"	   value="Load.png"></property>
         <property name="SAVE_ICON"	   value="Save.png"></property>
         <property name="EXIT_ICON"          value="Exit.png"></property> 
+        <property name="LANG_ICON"	   value="Lang.png"></property>
+        <property name="INFO_ICON"          value="Info.png"></property>
+
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"	value="Créer un Nouveau Logo"></property>
         <property name="LOAD_TOOLTIP"	value="Ouvrir un Logo existant"></property>
         <property name="SAVE_TOOLTIP"	value="Sauvegarder ce Logo"></property>
         <property name="EXIT_TOOLTIP"	value="Quitter l'Application"></property>
+        <property name="LANG_TOOLTIP"		value="Changer de Langue"></property>
+        <property name="INFO_TOOLTIP"		value="Savoir plus sur cette Application"></property>
+        
+        
+        
+        
+                <!-- Language Selection Message-->
+        <property name="LANG_TITLE"		value="Préférence de Langue"></property>
+        <property name="LANG_TEXT"		value="Selectionnez une Langue"></property>
+        <property name="EN"                     value="Anglais"></property>
+        <property name="FR"                     value="Français"></property>
+        <property name="OK"                     value="Valider"></property>
+        <property name="CANCEL"                 value="Annuler"></property>
+        
+
         
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Fermer"></property>
