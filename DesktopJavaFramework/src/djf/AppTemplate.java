@@ -95,6 +95,7 @@ public abstract class AppTemplate extends Application {
                 
                 // BUILD THE BASIC APP GUI OBJECT FIRST
 		gui = new AppGUI(primaryStage, appTitle, this);
+                //System.out.println("TW");
 
                 // THIS BUILDS ALL OF THE COMPONENTS, NOTE THAT
                 // IT WOULD BE DEFINED IN AN APPLICATION-SPECIFIC
