@@ -43,6 +43,10 @@ import djf.controller.AppFileController;
 import static djf.settings.AppPropertyType.APP_LOGO;
 import static djf.settings.AppPropertyType.APP_TITLE;
 import static djf.settings.AppPropertyType.BACKGROUNDCOLOR;
+import static djf.settings.AppPropertyType.COPY_ICON;
+import static djf.settings.AppPropertyType.COPY_TOOLTIP;
+import static djf.settings.AppPropertyType.CUT_ICON;
+import static djf.settings.AppPropertyType.CUT_TOOLTIP;
 import static djf.settings.AppPropertyType.EN;
 
 import static djf.settings.AppPropertyType.OUTLINETHICKNESS;
@@ -63,6 +67,8 @@ import static djf.settings.AppPropertyType.LOAD_TOOLTIP;
 import static djf.settings.AppPropertyType.NEW_ICON;
 import static djf.settings.AppPropertyType.NEW_TOOLTIP;
 import static djf.settings.AppPropertyType.OUTLINECOLOR;
+import static djf.settings.AppPropertyType.PASTE_ICON;
+import static djf.settings.AppPropertyType.PASTE_TOOLTIP;
 import static djf.settings.AppPropertyType.PREF_HEIGHT;
 import static djf.settings.AppPropertyType.PREF_WIDTH;
 import static djf.settings.AppPropertyType.PROPERTIES_LOAD_ERROR_MESSAGE;
@@ -95,6 +101,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
@@ -182,6 +191,10 @@ public class golWorkspace extends AppWorkspaceComponent {
     protected Button exitButton;
     private Button langButton;
     private Button infoButton;
+    private Button cutButton;
+    private Button copyButton;
+    private Button pasteButton;
+    
 
     // THIS DIALOG IS USED FOR GIVING FEEDBACK TO THE USER
     //protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
@@ -216,7 +229,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         languageSelection();
 
         //initLayout();
-
         // HOOK UP THE CONTROLLERS
         initControllers();
 
@@ -354,8 +366,20 @@ public class golWorkspace extends AppWorkspaceComponent {
         });
 
         infoButton.setOnAction(e -> {
+            info();
 
         });
+        
+         cutButton.setOnAction(e -> {
+            logoEditController.processSelectOutlineColor();
+        });
+        copyButton.setOnAction(e -> {
+            logoEditController.processSelectOutlineThickness();
+        });
+        pasteButton.setOnAction(e -> {
+            logoEditController.processSnapshot();
+        });
+        
 
         // NOW CONNECT THE BUTTONS TO THEIR HANDLERS
         selectionToolButton.setOnAction(e -> {
@@ -551,6 +575,30 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         infoButton = new Button();
         infoButton = gui.initChildButton(gui.getFileToolbar(), INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
+        
+        cutButton = new Button();
+        cutButton = gui.initChildButton(gui.getFileToolbar(), CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
+
+        copyButton = new Button();
+        copyButton = gui.initChildButton(gui.getFileToolbar(), COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
+        
+        pasteButton = new Button();
+        pasteButton = gui.initChildButton(gui.getFileToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
+
+    }
+
+    public void info() {
+
+        Image image = new Image("file:/Users/Daeun/NetBeansProjects/hw2/goLogoLo/images/goLogoLoLogo2.png");
+
+        Alert a = new Alert(AlertType.INFORMATION);
+        a.setTitle(appTitle);
+        a.setHeaderText("   APP INFORMATION");
+        a.setContentText("  goLogoLo is Created by Daeun Park in 2017 with <3");
+
+        ImageView imageView = new ImageView(image);
+        a.setGraphic(imageView);
+        a.showAndWait();
 
     }
 
@@ -562,6 +610,7 @@ public class golWorkspace extends AppWorkspaceComponent {
     public String askLanguageSelection() {
 
         PropertiesManager props = PropertiesManager.getPropertiesManager();
+
         List<String> choices = new ArrayList<>();
         choices.add(props.getProperty(FR));
         choices.add(props.getProperty(EN));
@@ -580,9 +629,7 @@ public class golWorkspace extends AppWorkspaceComponent {
      * @param app
      */
     private void initTopToolbar2(AppTemplate app) {
-        //fileToolbar = new FlowPane();
-        //fileToolbar = app.getGUI().getFileToolbar();
-
+ 
         PropertiesManager props = PropertiesManager.getPropertiesManager();
 
         newButton = (Button) app.getGUI().getFileToolbar().getChildren().get(0);
@@ -629,6 +676,16 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         buttonTooltip = new Tooltip(props.getProperty(SNAPSHOT_TOOLTIP));
         snapshotButton.setTooltip(buttonTooltip);
+        
+        buttonTooltip = new Tooltip(props.getProperty(CUT_TOOLTIP));
+        cutButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(COPY_TOOLTIP));
+        copyButton.setTooltip(buttonTooltip);
+
+        buttonTooltip = new Tooltip(props.getProperty(PASTE_TOOLTIP));
+        pasteButton.setTooltip(buttonTooltip);
+        
 
     }
 

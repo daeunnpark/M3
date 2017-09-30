@@ -26,6 +26,12 @@
         <property name="LANG_ICON"	   value="Lang.png"></property>
         <property name="INFO_ICON"          value="Info.png"></property>
         
+        <property name="CUT_ICON"	    value="Cut_1.png"></property>
+        <property name="COPY_ICON"	    value="Copy_1.png"></property>
+        <property name="PASTE_ICON"          value="Paste_1.png"></property> 
+       
+ 
+        
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Create a New Logo"></property>
         <property name="LOAD_TOOLTIP"		value="Load an Existing Logo"></property>
@@ -33,6 +39,9 @@
         <property name="EXIT_TOOLTIP"		value="Exit the Application"></property>
         <property name="LANG_TOOLTIP"		value="Change to another Language"></property>
         <property name="INFO_TOOLTIP"		value="Show Information of Application"></property>
+        <property name="CUT_TOOLTIP"            value="Cut selected element"></property>
+        <property name="COPY_TOOLTIP"           value="Copy selected element"></property>
+        <property name="PASTE_TOOLTIP"          value="Paste selected element"></property> 
         
         
         <!-- Language Selection Message-->
