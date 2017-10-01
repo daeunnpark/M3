@@ -1,5 +1,6 @@
 package gol.file;
 
+import djf.AppTemplate;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,14 +27,22 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import djf.components.AppDataComponent;
 import djf.components.AppFileComponent;
+import djf.ui.AppGUI;
 import gol.data.golData;
 import gol.data.DraggableEllipse;
 import gol.data.DraggableRectangle;
 import gol.data.Draggable;
 import static gol.data.Draggable.RECTANGLE;
+import gol.gui.golWorkspace;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javax.json.JsonObjectBuilder;
 
 /**
@@ -66,6 +75,7 @@ public class golFiles implements AppFileComponent {
     static final String DEFAULT_DOCTYPE_DECLARATION = "<!doctype html>\n";
     static final String DEFAULT_ATTRIBUTE_VALUE = "";
     String JSON_CHOICE = "choice";
+    
 
     /**
      * This method is for saving user work, which in the case of this
@@ -183,6 +193,8 @@ public class golFiles implements AppFileComponent {
             Shape shape = loadShape(jsonShape);
             dataManager.addShape(shape);
         }
+   
+        
     }
 
     private double getDataAsDouble(JsonObject json, String dataName) {

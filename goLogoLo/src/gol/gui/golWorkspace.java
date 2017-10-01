@@ -62,8 +62,11 @@ import static djf.settings.AppPropertyType.LANG_TEXT;
 import static djf.settings.AppPropertyType.LANG_TITLE;
 
 import static djf.settings.AppPropertyType.LANG_TOOLTIP;
+import static djf.settings.AppPropertyType.LOAD_ERROR_MESSAGE;
+import static djf.settings.AppPropertyType.LOAD_ERROR_TITLE;
 import static djf.settings.AppPropertyType.LOAD_ICON;
 import static djf.settings.AppPropertyType.LOAD_TOOLTIP;
+import static djf.settings.AppPropertyType.LOAD_WORK_TITLE;
 import static djf.settings.AppPropertyType.NEW_ICON;
 import static djf.settings.AppPropertyType.NEW_TOOLTIP;
 import static djf.settings.AppPropertyType.OUTLINECOLOR;
@@ -79,8 +82,17 @@ import static djf.settings.AppPropertyType.START_MAXIMIZED;
 import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
+import static djf.settings.AppStartupConstants.PATH_WORK;
 import static gol.css.golStyle.*;
 import gol.golLanguageProperty;
+import static gol.golLanguageProperty.ADDPICTURE_ICON;
+import static gol.golLanguageProperty.ADDPICTURE_TOOLTIP;
+import static gol.golLanguageProperty.ADDTEXT_ICON;
+import static gol.golLanguageProperty.ADDTEXT_TOOLTIP;
+import static gol.golLanguageProperty.BOLD_ICON;
+import static gol.golLanguageProperty.BOLD_TOOLTIP;
+import static gol.golLanguageProperty.ITALIC_ICON;
+import static gol.golLanguageProperty.ITALIC_TOOLTIP;
 /*
 import static gol.golLanguageProperty.EN;
 import static gol.golLanguageProperty.FR;
@@ -106,8 +118,10 @@ import javafx.scene.control.Alert.AlertType;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -139,6 +153,16 @@ public class golWorkspace extends AppWorkspaceComponent {
     Button removeButton;
     Button rectButton;
     Button ellipseButton;
+
+    // 1_2 ROW
+    HBox row1_2Box;
+    Button imageButton;
+    Button textButton;
+
+    // 1_3 ROW
+    HBox row1_3Box;
+    Button italicButton;
+    Button boldButton;
 
     // SECOND ROW
     HBox row2Box;
@@ -194,7 +218,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     private Button cutButton;
     private Button copyButton;
     private Button pasteButton;
-    
+
+    boolean continueToOpen;
 
     // THIS DIALOG IS USED FOR GIVING FEEDBACK TO THE USER
     //protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
@@ -279,6 +304,16 @@ public class golWorkspace extends AppWorkspaceComponent {
         rectButton = gui.initChildButton(row1Box, RECTANGLE_ICON.toString(), RECTANGLE_TOOLTIP.toString(), false);
         ellipseButton = gui.initChildButton(row1Box, ELLIPSE_ICON.toString(), ELLIPSE_TOOLTIP.toString(), false);
 
+        //ROW 1_2
+        row1_2Box = new HBox();
+        imageButton = gui.initChildButton(row1_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
+        textButton = gui.initChildButton(row1_2Box, ADDTEXT_ICON.toString(), ADDTEXT_TOOLTIP.toString(), false);
+
+        //row1_3
+        row1_3Box = new HBox();
+        italicButton = gui.initChildButton(row1_3Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
+        boldButton = gui.initChildButton(row1_3Box, BOLD_ICON.toString(), BOLD_TOOLTIP.toString(), false);
+
         // ROW 2
         row2Box = new HBox();
         moveToBackButton = gui.initChildButton(row2Box, MOVE_TO_BACK_ICON.toString(), MOVE_TO_BACK_TOOLTIP.toString(), true);
@@ -318,6 +353,8 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         // NOW ORGANIZE THE EDIT TOOLBAR
         editToolbar.getChildren().add(row1Box);
+        editToolbar.getChildren().add(row1_2Box);
+        editToolbar.getChildren().add(row1_3Box);
         editToolbar.getChildren().add(row2Box);
         editToolbar.getChildren().add(row3Box);
         editToolbar.getChildren().add(row4Box);
@@ -349,6 +386,22 @@ public class golWorkspace extends AppWorkspaceComponent {
         logoEditController = new LogoEditController(app);
         //PropertiesManager props = PropertiesManager.getPropertiesManager();
 
+        imageButton.setOnAction(e -> {
+            System.out.println("11");
+            //handleLoadPicRequest()
+
+            gui.getFileController().handleLoadPicRequest(); // prompttosave
+            handleLoadRequest2();
+
+            //logoEditController.processMakeImageasShape();
+        });
+
+        textButton.setOnAction(e -> {
+
+            promptToText();
+
+        });
+
         langButton.setOnAction(e -> {
             String selectedLang = askLanguageSelection();
 
@@ -369,17 +422,16 @@ public class golWorkspace extends AppWorkspaceComponent {
             info();
 
         });
-        
-         cutButton.setOnAction(e -> {
-            logoEditController.processSelectOutlineColor();
+
+        cutButton.setOnAction(e -> {
+            //logoEditController.processSelectOutlineColor();
         });
         copyButton.setOnAction(e -> {
-            logoEditController.processSelectOutlineThickness();
+            //logoEditController.processSelectOutlineThickness();
         });
         pasteButton.setOnAction(e -> {
-            logoEditController.processSnapshot();
+            //logoEditController.processSnapshot();
         });
-        
 
         // NOW CONNECT THE BUTTONS TO THEIR HANDLERS
         selectionToolButton.setOnAction(e -> {
@@ -443,6 +495,19 @@ public class golWorkspace extends AppWorkspaceComponent {
             outlineThicknessSlider.setValue(lineThickness);
         }
     }
+    
+    
+      public void SaveSelectedShapeSettings(Shape shape) {
+        if (shape != null) {
+           
+            Color fillColor = (Color) shape.getFill();
+            Color strokeColor = (Color) shape.getStroke();
+            double lineThickness = shape.getStrokeWidth();
+            fillColorPicker.setValue(fillColor);
+            outlineColorPicker.setValue(strokeColor);
+            outlineThicknessSlider.setValue(lineThickness);
+        }
+    }
 
     /**
      * This function specifies the CSS style classes for all the UI components
@@ -463,10 +528,11 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         editToolbar.getStyleClass().add(CLASS_EDIT_TOOLBAR);
         row1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
+        row1_2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
+        row1_3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         row2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         row3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         backgroundColorLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
-
         row4Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         fillColorLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
         row5Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
@@ -575,13 +641,13 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         infoButton = new Button();
         infoButton = gui.initChildButton(gui.getFileToolbar(), INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
-        
+
         cutButton = new Button();
         cutButton = gui.initChildButton(gui.getFileToolbar(), CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
 
         copyButton = new Button();
         copyButton = gui.initChildButton(gui.getFileToolbar(), COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
-        
+
         pasteButton = new Button();
         pasteButton = gui.initChildButton(gui.getFileToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
 
@@ -629,7 +695,7 @@ public class golWorkspace extends AppWorkspaceComponent {
      * @param app
      */
     private void initTopToolbar2(AppTemplate app) {
- 
+
         PropertiesManager props = PropertiesManager.getPropertiesManager();
 
         newButton = (Button) app.getGUI().getFileToolbar().getChildren().get(0);
@@ -676,7 +742,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         buttonTooltip = new Tooltip(props.getProperty(SNAPSHOT_TOOLTIP));
         snapshotButton.setTooltip(buttonTooltip);
-        
+
         buttonTooltip = new Tooltip(props.getProperty(CUT_TOOLTIP));
         cutButton.setTooltip(buttonTooltip);
 
@@ -685,11 +751,82 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         buttonTooltip = new Tooltip(props.getProperty(PASTE_TOOLTIP));
         pasteButton.setTooltip(buttonTooltip);
-        
 
     }
 
-    // public void createLANGFile();
+    public void handleLoadRequest2() {
+        try {
+            //AppFileController a = gui.getFileController();
+
+            //
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+            // AND NOW ASK THE USER FOR THE FILE TO OPEN
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File(PATH_WORK));
+            fc.setTitle(props.getProperty(LOAD_WORK_TITLE));
+            File selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
+
+            // ONLY OPEN A NEW FILE IF THE USER SAYS OK
+            if (selectedFile != null) {
+                // RESET THE WORKSPACE
+                //app.getWorkspaceComponent().resetWorkspace();
+
+                // RESET THE DATA
+                //app.getDataComponent().resetData();
+                // LOAD THE FILE INTO THE DATA
+                //app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
+                // MAKE SURE THE WORKSPACE IS ACTIVATED
+                app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());
+
+                File file = new File(selectedFile.getAbsolutePath());
+                Image image = new Image(file.toURI().toString());
+                System.out.println(file.toURI().toString() + "filepath");
+
+                ImageView imageView = new ImageView(image);
+                //try{
+                // golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
+                //this.getCanvas().getChildren().add(imageView);
+
+                logoEditController.processMakeImageasShape(image);
+
+            }
+        } catch (Exception ioe) {
+            // SOMETHING WENT WRONG
+            System.out.println("rr");
+            ioe.printStackTrace();
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+            dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
+        }
+    }
+
+    public void promptToText() {
+
+        TextInputDialog dialog = new TextInputDialog("walter");
+        dialog.setTitle("TEXT BOX");
+        dialog.setHeaderText("Add a Text Box");
+        //dialog.setContentText("Please enter your name:");
+
+// Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+             logoEditController.processTextBox(result.get());
+            System.out.println("Your name: " + result.get());
+            
+            
+        }
+
+// The Java 8 way to get the response value (with lambda expression).
+       // result.ifPresent(name -> System.out.println("Your name: " + name));
+    //}
+    }
+
+    public void promptToLoadpic() {//throws IOException {
+        // public void createLANGFile();
+
+    }
+
     @Override
     public void resetWorkspace() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

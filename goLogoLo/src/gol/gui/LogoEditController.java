@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import gol.data.golData;
 import gol.data.golState;
 import djf.AppTemplate;
+import javafx.scene.image.Image;
+import javafx.scene.shape.Shape;
 
 /**
  * This class responds to interactions with other UI logo editing controls.
@@ -87,6 +89,24 @@ public class LogoEditController {
 	
 	// CHANGE THE STATE
 	dataManager.setState(golState.STARTING_ELLIPSE);
+
+	// ENABLE/DISABLE THE PROPER BUTTONS
+	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(dataManager);
+    }
+    
+
+      public void processMakeImageasShape(Image image) {
+	// CHANGE THE CURSOR
+	//Scene scene = app.getGUI().getPrimaryScene();
+	//scene.setCursor(Cursor.CROSSHAIR);
+	
+        //dataManager.initNewShape();
+	// CHANGE THE STATE
+	//dataManager.setState(golState.STARTING_ELLIPSE);
+        
+        dataManager.startNewImage(image.getHeight(), image.getWidth(), image);
+        //dataManager.setSelectedShape();
 
 	// ENABLE/DISABLE THE PROPER BUTTONS
 	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
@@ -176,5 +196,13 @@ public class LogoEditController {
 	catch(IOException ioe) {
 	    ioe.printStackTrace();
 	}
+     
+    }
+    
+    public void processTextBox(String text){
+    
+        dataManager.makeNewTextBox(text);
+        golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(dataManager);
     }
 }

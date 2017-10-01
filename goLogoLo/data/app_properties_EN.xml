@@ -95,6 +95,15 @@
         <property name="MOVE_TO_BACK_ICON"	value="MoveToBack.png"></property>
         <property name="SNAPSHOT_ICON"		value="Snapshot.png"></property>
         
+        <property name="ADDTEXT_ICON"           value="addtext.png"></property>
+        <property name="ADDPICTURE_ICON"	value="addpicture.png"></property>
+        <property name="FONT_ICON"		value="font.png"></property>
+        
+        <property name="BOLD_ICON"              value="bold.png"></property>
+        <property name="ITALIC_ICON"            value="italic.png"></property>
+        <property name="TEXTSIZE_ICON"		value="textsize.png"></property>
+        
+        
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="SELECTION_TOOL_TOOLTIP"	    value="Use Shape Selection Tool"></property>
         <property name="REMOVE_ELEMENT_TOOLTIP"	    value="Remove Element"></property>
@@ -106,6 +115,16 @@
         <property name="FILL_TOOLTIP"		    value="Select Fill Color"></property>
         <property name="OUTLINE_TOOLTIP"	    value="Select Outline Color"></property>
         <property name="SNAPSHOT_TOOLTIP"	    value="Take Snapshot"></property>
+        
+        
+        
+        <property name="ADDTEXT_TOOLTIP"           value="Add Text"></property>
+        <property name="ADDPICTURE_TOOLTIP"	value="Add Image"></property>
+        <property name="FONT_TOOLTIP"		value="Change Font"></property>
+        
+        <property name="BOLD_TOOLTIP"              value="Bold"></property>
+        <property name="ITALIC_TOOLTIP"            value="Italic"></property>
+        <property name="TEXTSIZE_TOOLTIP"           value="Change Fontsize"></property>
 	
         <!-- MESSAGES -->
         <property name="REMOVE_ELEMENT_MESSAGE"	    value="Are you sure you wish to remove that element?"></property>

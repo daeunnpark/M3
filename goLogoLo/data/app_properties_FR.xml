@@ -27,6 +27,15 @@ and open the template in the editor.
         <property name="EXIT_ICON"          value="Exit.png"></property> 
         <property name="LANG_ICON"	   value="Lang.png"></property>
         <property name="INFO_ICON"          value="Info.png"></property>
+        
+        
+        <property name="ADDTEXT_ICON"           value="addtext.png"></property>
+        <property name="ADDPICTURE_ICON"	value="addpicture.png"></property>
+        <property name="FONT_ICON"		value="font.png"></property>
+        
+        <property name="BOLD_ICON"              value="bold.png"></property>
+        <property name="ITALIC_ICON"            value="italic.png"></property>
+        <property name="TEXTSIZE_ICON"		value="textsize.png"></property>
 
         
         <!-- TOOLTIPS FOR BUTTONS -->
@@ -37,7 +46,13 @@ and open the template in the editor.
         <property name="LANG_TOOLTIP"		value="Changer de Langue"></property>
         <property name="INFO_TOOLTIP"		value="Savoir plus sur cette Application"></property>
         
+         <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
+        <property name="ADDPICTURE_TOOLTIP"	value="Ajouter Image"></property>
+        <property name="FONT_TOOLTIP"		value="Changer Police"></property>
         
+        <property name="BOLD_TOOLTIP"           value="Bold"></property>
+        <property name="ITALIC_TOOLTIP"         value="Italic"></property>
+        <property name="TEXTSIZE_TOOLTIP"       value="Changer taille de police "></property>
         
         
                 <!-- Language Selection Message-->

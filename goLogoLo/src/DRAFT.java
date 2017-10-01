@@ -5,11 +5,64 @@
  */
 
 /**
- *
+ *STROKE FOR IMAGE?
  * @author Daeun
  */
 public class DRAFT { 
         /*
+    
+      public void initNewShape() {
+	// DESELECT THE SELECTED SHAPE IF THERE IS ONE
+	if (selectedShape != null) {
+	    unhighlightShape(selectedShape);
+	    selectedShape = null;
+	}
+
+	// USE THE CURRENT SETTINGS FOR THIS NEW SHAPE
+	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
+	newShape.setFill(workspace.getFillColorPicker().getValue());
+	newShape.setStroke(workspace.getOutlineColorPicker().getValue());
+	newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
+	
+	// ADD THE SHAPE TO THE CANVAS
+	shapes.add(newShape);
+	
+	// GO INTO SHAPE SIZING MODE
+	state = golState.SIZING_SHAPE;
+    }
+    
+    
+    
+    
+      @Override
+    public void loadData(AppDataComponent data, String filePath) throws IOException {
+        // CLEAR THE OLD DATA OUT
+        golData dataManager = (golData) data;
+        dataManager.resetData();
+
+        // LOAD THE JSON FILE WITH ALL THE DATA
+        JsonObject json = loadJSONFile(filePath);
+
+        // LOAD THE BACKGROUND COLOR
+        Color bgColor = loadColor(json, JSON_BG_COLOR);
+        dataManager.setBackgroundColor(bgColor);
+
+        // AND NOW LOAD ALL THE SHAPES
+        JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
+        for (int i = 0; i < jsonShapeArray.size(); i++) {
+            JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
+            Shape shape = loadShape(jsonShape);
+            dataManager.addShape(shape);
+        }
+        
+        
+        
+        
+    }
+    
+    
+    
+    
     
     
     
