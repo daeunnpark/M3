@@ -256,19 +256,13 @@ public class golData implements AppDataComponent {
     }
 
     public void makeNewTextBox(String s) {
-        DraggableRectangle newRectangle = new DraggableRectangle();
+       // DraggableRectangle newRectangle = new DraggableRectangle();
         
-        
-        System.out.println(s + "THIS");
-        Text text = new Text();
+        DraggableText text = new DraggableText();
         text.setText(s);
+        System.out.println(s + "THIS");
         
-        //newRectangle.setAccessibleText(s);
-        text.setLayoutX(newRectangle.getLayoutX());
-        text.setLayoutY(newRectangle.getLayoutY());
-       
-        newRectangle.setUserData("Text");
-        newShape = newRectangle;
+        newShape = text;
 
         initNewShape();
 
@@ -289,7 +283,8 @@ public class golData implements AppDataComponent {
        // }
         // ADD THE SHAPE TO THE CANVAS
         shapes.add(newShape);
-
+        
+        
         if (newShape.getUserData() == null) {// Rect or Elip
             newShape.setFill(workspace.getFillColorPicker().getValue());
             newShape.setStroke(workspace.getOutlineColorPicker().getValue());
@@ -298,7 +293,7 @@ public class golData implements AppDataComponent {
             state = golState.SIZING_SHAPE;
             System.out.println("WELL FOR REC AND ELIP");
             
-        } else {//if (newShape.getUserData().equals("Image") || newShape.getUserData().equals("Text")) {
+        } else {// Image of Text
             
             
             state = golState.SELECTING_SHAPE;

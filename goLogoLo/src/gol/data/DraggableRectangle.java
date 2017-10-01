@@ -19,13 +19,13 @@ public class DraggableRectangle extends Rectangle implements Draggable {
 	setWidth(0.0);
 	setHeight(0.0);
 	setOpacity(1.0);
-	startX = 0.0;
+	startX = 0.0; 
 	startY = 0.0;
     }
     
     @Override
     public golState getStartingState() {
-	return golState.STARTING_RECTANGLE;
+	return golState.SELECTING_SHAPE;
     }
     
     @Override
