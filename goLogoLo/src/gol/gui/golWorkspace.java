@@ -112,6 +112,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -120,6 +121,8 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -390,16 +393,15 @@ public class golWorkspace extends AppWorkspaceComponent {
             System.out.println("11");
             //handleLoadPicRequest()
 
-            gui.getFileController().handleLoadPicRequest(); // prompttosave
+            //gui.getFileController().handleLoadPicRequest(); // prompttosave
             handleLoadRequest2();
 
             //logoEditController.processMakeImageasShape();
         });
 
         textButton.setOnAction(e -> {
-
-            promptToText();
-
+           // promptToText(); // processTextBox in this method
+            logoEditController.processTextBox(promptToText());
         });
 
         langButton.setOnAction(e -> {
@@ -475,14 +477,36 @@ public class golWorkspace extends AppWorkspaceComponent {
         canvas.setOnMousePressed(e -> {
             canvasController.processCanvasMousePress((int) e.getX(), (int) e.getY());
         });
-        canvas.setOnMouseReleased(e -> {
-            canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
-        });
-        canvas.setOnMouseDragged(e -> {
-            canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY());
+       
+        
+        canvas.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                if (mouseEvent.getClickCount() == 2) {
+                    
+                    System.out.println("Double clicked");
+                 
+                    
+                    golData dataManager = (golData) app.getDataComponent();
+                    dataManager.setState(golState.MODIFYING_TEXT);
+                    canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY(), promptToText());
+                    System.out.println("eee");
+              
+                }
+            }
         });
 
+        //canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
+        canvas.setOnMouseReleased(e -> {
+            canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
+        }
+        );
+        canvas.setOnMouseDragged(e-> {
+            canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY());
+        }
+        );
+
     }
+
 
     // HELPER METHOD
     public void loadSelectedShapeSettings(Shape shape) {
@@ -495,11 +519,10 @@ public class golWorkspace extends AppWorkspaceComponent {
             outlineThicknessSlider.setValue(lineThickness);
         }
     }
-    
-    
-      public void SaveSelectedShapeSettings(Shape shape) {
+
+    public void SaveSelectedShapeSettings(Shape shape) {
         if (shape != null) {
-           
+
             Color fillColor = (Color) shape.getFill();
             Color strokeColor = (Color) shape.getStroke();
             double lineThickness = shape.getStrokeWidth();
@@ -756,9 +779,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     public void handleLoadRequest2() {
         try {
-            //AppFileController a = gui.getFileController();
 
-            //
             PropertiesManager props = PropertiesManager.getPropertiesManager();
 
             // AND NOW ASK THE USER FOR THE FILE TO OPEN
@@ -770,13 +791,7 @@ public class golWorkspace extends AppWorkspaceComponent {
             // ONLY OPEN A NEW FILE IF THE USER SAYS OK
             if (selectedFile != null) {
                 // RESET THE WORKSPACE
-                //app.getWorkspaceComponent().resetWorkspace();
 
-                // RESET THE DATA
-                //app.getDataComponent().resetData();
-                // LOAD THE FILE INTO THE DATA
-                //app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
-                // MAKE SURE THE WORKSPACE IS ACTIVATED
                 app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());
 
                 File file = new File(selectedFile.getAbsolutePath());
@@ -784,10 +799,6 @@ public class golWorkspace extends AppWorkspaceComponent {
                 System.out.println(file.toURI().toString() + "filepath");
 
                 ImageView imageView = new ImageView(image);
-                //try{
-                // golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-                //this.getCanvas().getChildren().add(imageView);
-
                 logoEditController.processMakeImageasShape(image);
 
             }
@@ -801,30 +812,20 @@ public class golWorkspace extends AppWorkspaceComponent {
         }
     }
 
-    public void promptToText() {
+    public String promptToText() {
 
         TextInputDialog dialog = new TextInputDialog("walter");
         dialog.setTitle("TEXT BOX");
         dialog.setHeaderText("Add a Text Box");
         //dialog.setContentText("Please enter your name:");
 
-// Traditional way to get the response value.
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-             logoEditController.processTextBox(result.get());
-            System.out.println("Your name: " + result.get());
-            
-            
+            System.out.println("ssss");
+            return result.get();
+
         }
-
-// The Java 8 way to get the response value (with lambda expression).
-       // result.ifPresent(name -> System.out.println("Your name: " + name));
-    //}
-    }
-
-    public void promptToLoadpic() {//throws IOException {
-        // public void createLANGFile();
-
+        return null;
     }
 
     @Override

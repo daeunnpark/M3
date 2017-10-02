@@ -14,195 +14,203 @@ import gol.data.golData;
 import gol.data.golState;
 import djf.AppTemplate;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Shape;
 
 /**
  * This class responds to interactions with other UI logo editing controls.
- * 
+ *
  * @author Richard McKenna
  * @author ?
  * @version 1.0
  */
 public class LogoEditController {
+
     AppTemplate app;
     golData dataManager;
-    
+
     public LogoEditController(AppTemplate initApp) {
-	app = initApp;
-	dataManager = (golData)app.getDataComponent();
+        app = initApp;
+        dataManager = (golData) app.getDataComponent();
     }
-    
+
     /**
-     * This method handles the response for selecting either the
-     * selection or removal tool.
+     * This method handles the response for selecting either the selection or
+     * removal tool.
      */
     public void processSelectSelectionTool() {
-	// CHANGE THE CURSOR
-	Scene scene = app.getGUI().getPrimaryScene();
-	scene.setCursor(Cursor.DEFAULT);
-	
-	// CHANGE THE STATE
-	dataManager.setState(golState.SELECTING_SHAPE);	
-	
-	// ENABLE/DISABLE THE PROPER BUTTONS
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	workspace.reloadWorkspace(dataManager);
+        // CHANGE THE CURSOR
+        Scene scene = app.getGUI().getPrimaryScene();
+        scene.setCursor(Cursor.DEFAULT);
+
+        // CHANGE THE STATE
+        dataManager.setState(golState.SELECTING_SHAPE);
+
+        // ENABLE/DISABLE THE PROPER BUTTONS
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
     }
-    
+
     /**
      * This method handles a user request to remove the selected shape.
      */
     public void processRemoveSelectedShape() {
-	// REMOVE THE SELECTED SHAPE IF THERE IS ONE
-	dataManager.removeSelectedShape();
-	
-	// ENABLE/DISABLE THE PROPER BUTTONS
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	workspace.reloadWorkspace(dataManager);
-	app.getGUI().updateToolbarControls(false);
+        // REMOVE THE SELECTED SHAPE IF THERE IS ONE
+        dataManager.removeSelectedShape();
+
+        // ENABLE/DISABLE THE PROPER BUTTONS
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
+        app.getGUI().updateToolbarControls(false);
     }
-    
+
     /**
      * This method processes a user request to start drawing a rectangle.
      */
     public void processSelectRectangleToDraw() {
-	// CHANGE THE CURSOR
-	Scene scene = app.getGUI().getPrimaryScene();
-	scene.setCursor(Cursor.CROSSHAIR);
-	
-	// CHANGE THE STATE
-	dataManager.setState(golState.STARTING_RECTANGLE);
+        // CHANGE THE CURSOR
+        Scene scene = app.getGUI().getPrimaryScene();
+        scene.setCursor(Cursor.CROSSHAIR);
 
-	// ENABLE/DISABLE THE PROPER BUTTONS
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	workspace.reloadWorkspace(dataManager);
+        // CHANGE THE STATE
+        dataManager.setState(golState.STARTING_RECTANGLE);
+
+        // ENABLE/DISABLE THE PROPER BUTTONS
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
     }
-    
+
     /**
-     * This method provides a response to the user requesting to start
-     * drawing an ellipse.
+     * This method provides a response to the user requesting to start drawing
+     * an ellipse.
      */
     public void processSelectEllipseToDraw() {
-	// CHANGE THE CURSOR
-	Scene scene = app.getGUI().getPrimaryScene();
-	scene.setCursor(Cursor.CROSSHAIR);
-	
-	// CHANGE THE STATE
-	dataManager.setState(golState.STARTING_ELLIPSE);
+        // CHANGE THE CURSOR
+        Scene scene = app.getGUI().getPrimaryScene();
+        scene.setCursor(Cursor.CROSSHAIR);
 
-	// ENABLE/DISABLE THE PROPER BUTTONS
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	workspace.reloadWorkspace(dataManager);
+        // CHANGE THE STATE
+        dataManager.setState(golState.STARTING_ELLIPSE);
+
+        // ENABLE/DISABLE THE PROPER BUTTONS
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
     }
-    
 
-      public void processMakeImageasShape(Image image) {
-	// CHANGE THE CURSOR
-	//Scene scene = app.getGUI().getPrimaryScene();
-	//scene.setCursor(Cursor.CROSSHAIR);
-	
-        //dataManager.initNewShape();
-	// CHANGE THE STATE
-	//dataManager.setState(golState.STARTING_ELLIPSE);
-        
+    /**
+     * This method processes a user request to add a image to canvas
+     *
+     * @param image
+     */
+
+    public void processMakeImageasShape(Image image) {
+        // CHANGE THE CURSOR
+        //Scene scene = app.getGUI().getPrimaryScene();
+        //scene.setCursor(Cursor.CROSSHAIR);
+
         dataManager.startNewImage(image.getHeight(), image.getWidth(), image);
         //dataManager.setSelectedShape();
 
-	// ENABLE/DISABLE THE PROPER BUTTONS
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	workspace.reloadWorkspace(dataManager);
+        // ENABLE/DISABLE THE PROPER BUTTONS
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
     }
-    
+
     /**
-     * This method processes a user request to move the selected shape
-     * down to the back layer.
+     * This method processes a user request to move the selected shape down to
+     * the back layer.
      */
     public void processMoveSelectedShapeToBack() {
-	dataManager.moveSelectedShapeToBack();
-	app.getGUI().updateToolbarControls(false);
+        dataManager.moveSelectedShapeToBack();
+        app.getGUI().updateToolbarControls(false);
     }
-    
+
     /**
-     * This method processes a user request to move the selected shape
-     * up to the front layer.
+     * This method processes a user request to move the selected shape up to the
+     * front layer.
      */
     public void processMoveSelectedShapeToFront() {
-	dataManager.moveSelectedShapeToFront();
-	app.getGUI().updateToolbarControls(false);
+        dataManager.moveSelectedShapeToFront();
+        app.getGUI().updateToolbarControls(false);
     }
-        
+
     /**
-     * This method processes a user request to select a fill color for
-     * a shape.
+     * This method processes a user request to select a fill color for a shape.
      */
     public void processSelectFillColor() {
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	Color selectedColor = workspace.getFillColorPicker().getValue();
-	if (selectedColor != null) {
-	    dataManager.setCurrentFillColor(selectedColor);
-	    app.getGUI().updateToolbarControls(false);
-	}
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        Color selectedColor = workspace.getFillColorPicker().getValue();
+        if (selectedColor != null) {
+            dataManager.setCurrentFillColor(selectedColor);
+            app.getGUI().updateToolbarControls(false);
+        }
     }
-    
+
     /**
-     * This method processes a user request to select the outline
-     * color for a shape.
+     * This method processes a user request to select the outline color for a
+     * shape.
      */
     public void processSelectOutlineColor() {
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	Color selectedColor = workspace.getOutlineColorPicker().getValue();
-	if (selectedColor != null) {
-	    dataManager.setCurrentOutlineColor(selectedColor);
-	    app.getGUI().updateToolbarControls(false);
-	}    
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        Color selectedColor = workspace.getOutlineColorPicker().getValue();
+        if (selectedColor != null) {
+            dataManager.setCurrentOutlineColor(selectedColor);
+            app.getGUI().updateToolbarControls(false);
+        }
     }
-    
+
     /**
-     * This method processes a user request to select the 
-     * background color.
+     * This method processes a user request to select the background color.
      */
     public void processSelectBackgroundColor() {
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	Color selectedColor = workspace.getBackgroundColorPicker().getValue();
-	if (selectedColor != null) {
-	    dataManager.setBackgroundColor(selectedColor);
-	    app.getGUI().updateToolbarControls(false);
-	}
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        Color selectedColor = workspace.getBackgroundColorPicker().getValue();
+        if (selectedColor != null) {
+            dataManager.setBackgroundColor(selectedColor);
+            app.getGUI().updateToolbarControls(false);
+        }
     }
-    
+
     /**
-     * This method processes a user request to select the outline
-     * thickness for shape drawing.
+     * This method processes a user request to select the outline thickness for
+     * shape drawing.
      */
     public void processSelectOutlineThickness() {
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	int outlineThickness = (int)workspace.getOutlineThicknessSlider().getValue();
-	dataManager.setCurrentOutlineThickness(outlineThickness);
-	app.getGUI().updateToolbarControls(false);
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        int outlineThickness = (int) workspace.getOutlineThicknessSlider().getValue();
+        dataManager.setCurrentOutlineThickness(outlineThickness);
+        app.getGUI().updateToolbarControls(false);
     }
-    
+
     /**
-     * This method processes a user request to take a snapshot of the
-     * current scene.
+     * This method processes a user request to take a snapshot of the current
+     * scene.
      */
     public void processSnapshot() {
-	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	Pane canvas = workspace.getCanvas();
-	WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
-	File file = new File("Logo.png");
-	try {
-	    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-	}
-	catch(IOException ioe) {
-	    ioe.printStackTrace();
-	}
-     
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        Pane canvas = workspace.getCanvas();
+        WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
+        File file = new File("Logo.png");
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
     }
-    
-    public void processTextBox(String text){
-    
+
+    public void processTextBox(String text) {
+
         dataManager.makeNewTextBox(text);
-        golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	workspace.reloadWorkspace(dataManager);
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
     }
+
+    public void processModifyTextBox(String newText) {
+        //dataManager.changeTextBox(newText);
+        
+        //processModifyText(int x, int y, String s)
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
+
+    }
+
 }

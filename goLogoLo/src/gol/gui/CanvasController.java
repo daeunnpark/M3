@@ -11,6 +11,8 @@ import static gol.data.golState.DRAGGING_SHAPE;
 import static gol.data.golState.SELECTING_SHAPE;
 import static gol.data.golState.SIZING_SHAPE;
 import djf.AppTemplate;
+import gol.data.DraggableText;
+import static gol.data.golState.MODIFYING_TEXT;
 
 /**
  * This class responds to interactions with the rendering surface.
@@ -52,6 +54,9 @@ public class CanvasController {
             dataManager.startNewRectangle(x, y);
         } else if (dataManager.isInState(golState.STARTING_ELLIPSE)) {
             dataManager.startNewEllipse(x, y);
+        } else if (dataManager.isInState(golState.MODIFYING_TEXT)) {
+            //  DraggableText d = (DraggableText) shape;
+
         }
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
@@ -74,11 +79,12 @@ public class CanvasController {
     }
 
     /**
-     * Respond to mouse button release on the rendering surface, which we call canvas,
-     * but is actually a Pane.
+     * Respond to mouse button release on the rendering surface, which we call
+     * canvas, but is actually a Pane.
      */
     public void processCanvasMouseRelease(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
+
         if (dataManager.isInState(SIZING_SHAPE)) {
             dataManager.selectSizedShape();
             app.getGUI().updateToolbarControls(false);
@@ -91,4 +97,23 @@ public class CanvasController {
             dataManager.setState(SELECTING_SHAPE);
         }
     }
+    
+    
+    public void processModifyText(int x, int y, String s){
+        golData dataManager = (golData) app.getDataComponent();
+       // if (dataManager.isInState(SELECTING_SHAPE)) {
+       if(dataManager.isInState(MODIFYING_TEXT)){
+            // SELECT THE TOP SHAPE
+            Shape shape = dataManager.selectTopShape(x, y);
+
+           dataManager.changeTextBox (s);
+        
+           
+                System.out.println("ddwwww");
+        
+        }
+    }
+    
+    
+
 }

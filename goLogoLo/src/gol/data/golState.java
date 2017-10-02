@@ -17,5 +17,6 @@ public enum golState {
     SIZING_SHAPE,
     DRAGGING_NOTHING,
     SIZING_NOTHING,
-    STARTING_TEXT
+    STARTING_TEXT,
+    MODIFYING_TEXT
 }

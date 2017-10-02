@@ -17,10 +17,8 @@ import static gol.data.golState.SIZING_SHAPE;
 import gol.gui.golWorkspace;
 import djf.components.AppDataComponent;
 import djf.AppTemplate;
-import static gol.data.golState.DRAGGING_SHAPE;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.text.Text;
 
 /**
  * This class serves as the data management component for this application.
@@ -256,18 +254,23 @@ public class golData implements AppDataComponent {
     }
 
     public void makeNewTextBox(String s) {
-       // DraggableRectangle newRectangle = new DraggableRectangle();
-        
         DraggableText text = new DraggableText();
         text.setText(s);
-        System.out.println(s + "THIS");
-        
+        //System.out.println(s + "THIS");
         newShape = text;
-
         initNewShape();
-
     }
 
+    public void changeTextBox (String news){
+     if (selectedShape != null) {
+           DraggableText text = (DraggableText ) selectedShape;
+           text.setText(news);
+        }
+     state = SELECTING_SHAPE;
+     
+     
+    }
+    
     public void initNewShape() {
         // DESELECT THE SELECTED SHAPE IF THERE IS ONE
         if (selectedShape != null) {
@@ -280,10 +283,10 @@ public class golData implements AppDataComponent {
         //newShape.setFill(workspace.getFillColorPicker().getValue());                      // FOR IMG AND TEXT
         //newShape.setStroke(workspace.getOutlineColorPicker().getValue());
         //newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
-       // }
+       //
+       
         // ADD THE SHAPE TO THE CANVAS
         shapes.add(newShape);
-        
         
         if (newShape.getUserData() == null) {// Rect or Elip
             newShape.setFill(workspace.getFillColorPicker().getValue());
@@ -291,14 +294,11 @@ public class golData implements AppDataComponent {
             newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
             
             state = golState.SIZING_SHAPE;
-            System.out.println("WELL FOR REC AND ELIP");
+            //System.out.println("WELL FOR REC AND ELIP");
             
-        } else {// Image of Text
-            
-            
+        } else { // Image of Text
             state = golState.SELECTING_SHAPE;
-             System.out.println("HERE");
-
+            // System.out.println("HERE");
         }
 
     }
@@ -322,7 +322,6 @@ public class golData implements AppDataComponent {
         // GO INTO SHAPE SIZING MODE
         state = golState.SELECTING_SHAPE;
 
-        //setSelectedShape(newShape);
     }
 
     public Shape getNewShape() {
