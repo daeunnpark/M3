@@ -2,7 +2,6 @@ package gol.gui;
 
 import java.io.IOException;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -39,9 +38,6 @@ import djf.ui.AppGUI;
 import djf.AppTemplate;
 import djf.components.AppDataComponent;
 import djf.components.AppWorkspaceComponent;
-import djf.controller.AppFileController;
-import static djf.settings.AppPropertyType.APP_LOGO;
-import static djf.settings.AppPropertyType.APP_TITLE;
 import static djf.settings.AppPropertyType.BACKGROUNDCOLOR;
 import static djf.settings.AppPropertyType.COPY_ICON;
 import static djf.settings.AppPropertyType.COPY_TOOLTIP;
@@ -50,7 +46,6 @@ import static djf.settings.AppPropertyType.CUT_TOOLTIP;
 import static djf.settings.AppPropertyType.EN;
 
 import static djf.settings.AppPropertyType.OUTLINETHICKNESS;
-import static djf.settings.AppPropertyType.EXIT_ICON;
 import static djf.settings.AppPropertyType.EXIT_TOOLTIP;
 import static djf.settings.AppPropertyType.FILLCOLOR;
 import static djf.settings.AppPropertyType.FR;
@@ -64,27 +59,17 @@ import static djf.settings.AppPropertyType.LANG_TITLE;
 import static djf.settings.AppPropertyType.LANG_TOOLTIP;
 import static djf.settings.AppPropertyType.LOAD_ERROR_MESSAGE;
 import static djf.settings.AppPropertyType.LOAD_ERROR_TITLE;
-import static djf.settings.AppPropertyType.LOAD_ICON;
 import static djf.settings.AppPropertyType.LOAD_TOOLTIP;
 import static djf.settings.AppPropertyType.LOAD_WORK_TITLE;
-import static djf.settings.AppPropertyType.NEW_ICON;
 import static djf.settings.AppPropertyType.NEW_TOOLTIP;
 import static djf.settings.AppPropertyType.OUTLINECOLOR;
 import static djf.settings.AppPropertyType.PASTE_ICON;
 import static djf.settings.AppPropertyType.PASTE_TOOLTIP;
-import static djf.settings.AppPropertyType.PREF_HEIGHT;
-import static djf.settings.AppPropertyType.PREF_WIDTH;
-import static djf.settings.AppPropertyType.PROPERTIES_LOAD_ERROR_MESSAGE;
-import static djf.settings.AppPropertyType.PROPERTIES_LOAD_ERROR_TITLE;
-import static djf.settings.AppPropertyType.SAVE_ICON;
 import static djf.settings.AppPropertyType.SAVE_TOOLTIP;
-import static djf.settings.AppPropertyType.START_MAXIMIZED;
-import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import static gol.css.golStyle.*;
-import gol.golLanguageProperty;
 import static gol.golLanguageProperty.ADDPICTURE_ICON;
 import static gol.golLanguageProperty.ADDPICTURE_TOOLTIP;
 import static gol.golLanguageProperty.ADDTEXT_ICON;
@@ -102,37 +87,23 @@ import static gol.golLanguageProperty.LANG_TITLE;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import static javafx.scene.control.Alert.AlertType.INFORMATION;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import properties_manager.PropertiesManager;
 
 /**
@@ -233,10 +204,9 @@ public class golWorkspace extends AppWorkspaceComponent {
     // THIS TITLE WILL GO IN THE TITLE BAR
     protected String appTitle, answer0, answer;
 
-    private File file; //=new File("E:\\LANGUAGE.json"); 
-    private String JSON_CHOICE;
-    
-     ComboBox comboBox, comboBox2;
+    // private File file; //=new File("E:\\LANGUAGE.json"); 
+    //private String JSON_CHOICE;
+    ComboBox comboBox, comboBox2;
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -268,6 +238,9 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         // AND INIT THE STYLE FOR THE WORKSPACE
         initStyle();
+
+        List<String> families = javafx.scene.text.Font.getFamilies();
+        System.out.println(families.toString());
     }
 
     /**
@@ -323,39 +296,36 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         italicButton = new ToggleButton();
         String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(ITALIC_ICON.toString());
-        System.out.println(imagePath + "img path");
         Image buttonImage = new Image(imagePath);
 
         italicButton.setSelected(false);
         italicButton.setGraphic(new ImageView(buttonImage));
         Tooltip buttonTooltip = new Tooltip(props.getProperty(ITALIC_TOOLTIP.toString()));
         italicButton.setTooltip(buttonTooltip);
-        // italicButton = gui.initChildButton(row1_3Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
+
         row1_3Box.getChildren().add(italicButton);
 
         boldButton = new ToggleButton();
         imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(BOLD_ICON.toString());
-        System.out.println(imagePath + "img path");
         buttonImage = new Image(imagePath);
 
         boldButton.setSelected(false);
         boldButton.setGraphic(new ImageView(buttonImage));
         buttonTooltip = new Tooltip(props.getProperty(BOLD_TOOLTIP.toString()));
         boldButton.setTooltip(buttonTooltip);
-        // italicButton = gui.initChildButton(row1_3Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
         row1_3Box.getChildren().add(boldButton);
 
         ObservableList<String> options
                 = FXCollections.observableArrayList(
-                        "Arial Black",
-                        "Century Gothic",
-                        "Courier",
-                        "InaiMathi",
-                        "Jazz LET"
+                        "Arial",
+                        "Menlo",
+                        "Tw Cen MT",
+                        "Shree Devanagari 714",
+                        "Arial Narrow"
                 );
-         comboBox = new ComboBox(options);
-        
-        
+        comboBox = new ComboBox(options);
+
+        /*
          comboBox.setOnAction((e) -> {
              if(comboBox.getSelectionModel().getSelectedItem()!=null){
              System.out.println(comboBox.getSelectionModel().getSelectedItem().toString() + "se");
@@ -365,37 +335,35 @@ public class golWorkspace extends AppWorkspaceComponent {
         
         });
         
-
+         */
         ObservableList<String> options2
                 = FXCollections.observableArrayList(
-                        "10",
-                        "12",
-                        "14",
-                        "16",
-                        "18",
-                        "20",
-                        "22",
-                        "24",
-                        "26",
-                        "28",
-                        "30",
-                        "32",
-                        "34",
-                        "36",
-                        "38",
-                        "40",
-                        "42",
-                        "44",
-                        "46",
-                        "48",
-                        "50"
-                // InaiMathi , Jazz LET
+                        "100",
+                        "105",
+                        "110",
+                        "115",
+                        "120",
+                        "125",
+                        "130",
+                        "135",
+                        "140",
+                        "145",
+                        "150",
+                        "155",
+                        "160",
+                        "165",
+                        "170",
+                        "175",
+                        "180",
+                        "185",
+                        "190",
+                        "195",
+                        "200"
                 );
         comboBox2 = new ComboBox(options2);
 
         row1_3Box.getChildren().addAll(comboBox, comboBox2);
 
-        // boldButton = gui.initChildButton(row1_3Box, BOLD_ICON.toString(), BOLD_TOOLTIP.toString(), false);
         // ROW 2
         row2Box = new HBox();
         moveToBackButton = gui.initChildButton(row2Box, MOVE_TO_BACK_ICON.toString(), MOVE_TO_BACK_TOOLTIP.toString(), true);
@@ -466,20 +434,14 @@ public class golWorkspace extends AppWorkspaceComponent {
     private void initControllers() {
         // MAKE THE EDIT CONTROLLER
         logoEditController = new LogoEditController(app);
-        //PropertiesManager props = PropertiesManager.getPropertiesManager();
 
         imageButton.setOnAction(e -> {
-            System.out.println("11");
-            //handleLoadPicRequest()
 
-            //gui.getFileController().handleLoadPicRequest(); // prompttosave
             handleLoadRequest2();
 
-            //logoEditController.processMakeImageasShape();
         });
 
         textButton.setOnAction(e -> {
-            // promptToText(); // processTextBox in this method
             logoEditController.processTextBox(promptToText());
         });
 
@@ -499,16 +461,8 @@ public class golWorkspace extends AppWorkspaceComponent {
             }
         });
 
-        /*
-        boldButton.setOnAction(e -> {
-            //boldButton.setDisable(true); // pressed
-          // logoEditController. processSelectBold(); // change state to bold
-
-        });
-         */
         infoButton.setOnAction(e -> {
             info();
-
         });
 
         cutButton.setOnAction(e -> {
@@ -567,22 +521,12 @@ public class golWorkspace extends AppWorkspaceComponent {
         canvas.setOnMouseClicked((MouseEvent mouseEvent) -> {
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                 if (mouseEvent.getClickCount() == 2) {
-
-                    System.out.println("Double clicked");
-
                     golData dataManager = (golData) app.getDataComponent();
-                    //Shape shape = dataManager.selectTopShape((int) mouseEvent.getX(), (int) mouseEvent.getY());
-
                     canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY());
-                    // if(shape!=null){
-                    //canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY(), promptToText());
-                    System.out.println("eee");
-                    // }
                 }
             }
         });
 
-        //canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
         canvas.setOnMouseReleased(e -> {
             canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
         }
@@ -762,6 +706,9 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     }
 
+    /**
+     * Dialogue for Info about app
+     */
     public void info() {
 
         Image image = new Image("file:/Users/Daeun/NetBeansProjects/hw2/goLogoLo/images/goLogoLoLogo2.png");
@@ -864,6 +811,10 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     }
 
+    /**
+     * Allows user to upload a Image
+     *
+     */
     public void handleLoadRequest2() {
         try {
 
@@ -883,7 +834,6 @@ public class golWorkspace extends AppWorkspaceComponent {
 
                 File file = new File(selectedFile.getAbsolutePath());
                 Image image = new Image(file.toURI().toString());
-                System.out.println(file.toURI().toString() + "filepath");
 
                 ImageView imageView = new ImageView(image);
                 logoEditController.processMakeImageasShape(image);
@@ -891,7 +841,6 @@ public class golWorkspace extends AppWorkspaceComponent {
             }
         } catch (Exception ioe) {
             // SOMETHING WENT WRONG
-            System.out.println("rr");
             ioe.printStackTrace();
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -899,16 +848,21 @@ public class golWorkspace extends AppWorkspaceComponent {
         }
     }
 
+    /**
+     *
+     * Dialogue for text input Asks users to type text to add
+     *
+     * @return input text
+     */
     public String promptToText() {
 
-        TextInputDialog dialog = new TextInputDialog("walter");
+        TextInputDialog dialog = new TextInputDialog("daeun");
         dialog.setTitle("TEXT BOX");
         dialog.setHeaderText("Add a Text Box");
         //dialog.setContentText("Please enter your name:");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            System.out.println("prompttotext");
             return result.get();
 
         }

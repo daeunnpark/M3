@@ -11,8 +11,6 @@ import static gol.data.golState.DRAGGING_SHAPE;
 import static gol.data.golState.SELECTING_SHAPE;
 import static gol.data.golState.SIZING_SHAPE;
 import djf.AppTemplate;
-import gol.data.DraggableText;
-import static gol.data.golState.MODIFYING_TEXT;
 
 /**
  * This class responds to interactions with the rendering surface.
@@ -52,31 +50,21 @@ public class CanvasController {
                     golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
 
                     workspace.boldButton.setOnAction(e -> {
-
-                        System.out.println(workspace.boldButton.isSelected() + "selected");
-                        dataManager.getBolded(shape, workspace.boldButton.isSelected());
-
-                        System.out.println("BUTTON BOLD2");
-
+                        dataManager.getBolded(shape);
                     });
 
                     workspace.italicButton.setOnAction(e -> {
-
-                        dataManager.getItalicized(shape, workspace.italicButton.isSelected());
-
+                        dataManager.getItalicized(shape);
                     });
+
                     workspace.comboBox.setOnAction(e -> {
                         if (workspace.comboBox.getSelectionModel().getSelectedItem() != null) {
-                            System.out.println("HHHH");
                             dataManager.changefont(shape, workspace.comboBox.getSelectionModel().getSelectedItem().toString());
                         }
                     });
-                    
-                    
-                     workspace.comboBox2.setOnAction(e -> {
+
+                    workspace.comboBox2.setOnAction(e -> {
                         if (workspace.comboBox2.getSelectionModel().getSelectedItem() != null) {
-                            System.out.println("HHHH222");
-                            
                             dataManager.changesize(shape, Integer.parseInt(workspace.comboBox2.getSelectionModel().getSelectedItem().toString()));
                         }
                     });
@@ -134,37 +122,26 @@ public class CanvasController {
 
     }
 
+    /**
+     * Respond to double clicked mouse
+     *
+     * @param x
+     * @param y
+     */
     public void processModifyText(int x, int y) { //, String s) {
         golData dataManager = (golData) app.getDataComponent();
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         Shape shape = dataManager.selectTopShape(x, y);
 
-        //System.out.println("processmodifying in canvas");
         if (shape != null) {
             if (shape.getUserData() != null) {
                 if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
                     String newS = workspace.promptToText();
 
-                    //System.out.println(newS + "HERE ----------------");
                     if (newS != null) {
                         dataManager.changeTextBox(newS);
                     }
-
-                    // System.out.println("processmodifying in canvas not null");
                 }
-            }
-        }
-    }
-
-    public void processBoldStyle(int x, int y) {
-        golData dataManager = (golData) app.getDataComponent();
-        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        Shape shape = dataManager.selectTopShape(x, y);
-
-        //System.out.println("processmodifying in canvas");
-        if (shape != null) {
-            if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
-                //dataManager.getBolded(shape);
             }
         }
     }

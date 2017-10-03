@@ -68,7 +68,7 @@ public class golData implements AppDataComponent {
     public static final Paint DEFAULT_BACKGROUND_COLOR = Paint.valueOf(WHITE_HEX);
     public static final Paint HIGHLIGHTED_COLOR = Paint.valueOf(YELLOW_HEX);
     public static final int HIGHLIGHTED_STROKE_THICKNESS = 3;
-    
+
     //FONT
     String Fontweight, Fontposture;
 
@@ -264,6 +264,7 @@ public class golData implements AppDataComponent {
         text.setText(s);
         text.setUserData("TEXT");
         newShape = text;
+        text.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 100)); // Default
         initNewShape();
     }
 
@@ -273,7 +274,6 @@ public class golData implements AppDataComponent {
             text.setText(news);
         }
         state = SELECTING_SHAPE;
-
     }
 
     public void initNewShape() {
@@ -288,7 +288,6 @@ public class golData implements AppDataComponent {
         //newShape.setFill(workspace.getFillColorPicker().getValue());                      // FOR IMG AND TEXT
         //newShape.setStroke(workspace.getOutlineColorPicker().getValue());
         //newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
-        //
 
         // ADD THE SHAPE TO THE CANVAS
         shapes.add(newShape);
@@ -299,11 +298,9 @@ public class golData implements AppDataComponent {
             newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
 
             state = golState.SIZING_SHAPE;
-            //System.out.println("WELL FOR REC AND ELIP");
 
         } else { // Image of Text
             state = golState.SELECTING_SHAPE;
-            // System.out.println("HERE");
         }
 
     }
@@ -371,83 +368,79 @@ public class golData implements AppDataComponent {
         for (int i = shapes.size() - 1; i >= 0; i--) {
             Shape shape = (Shape) shapes.get(i);
             if (shape.contains(x, y)) {
-                //System.out.println("CORRECT");
                 return shape;
-
             }
         }
         return null;
     }
 
-    // ADD IF
-    public void getBolded(Shape shape, boolean isSelected) {
+    public void getBolded(Shape shape) {
         DraggableText text = (DraggableText) shape;
-        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-                 //  workspace.boldButton.isPressed();
-        if(isSelected){
-        text.setFont(Font.font(text.getFont().toString(), FontWeight.EXTRA_BOLD, text.getFont().getSize()));
+
+        FontWeight fontweight = FontWeight.NORMAL; 
+        
+        //.getName() contains font name, Bold, Italic and etc
+        if (!text.getFont().getName().contains("Bold")) { // to Bold
+            fontweight = FontWeight.EXTRA_BOLD;
         }
-        else {
-        text.setFont(Font.font(text.getFont().toString(), FontWeight.NORMAL, text.getFont().getSize()));
+
+        FontPosture fontposture = FontPosture.REGULAR;
+        if (text.getFont().getName().contains("Italic")) { // keep italic
+            fontposture = FontPosture.ITALIC;
         }
+
+        text.setFont(Font.font(text.getFont().getFamily(), fontweight, fontposture, text.getFont().getSize()));
     }
 
     
-    public void getItalicized(Shape shape ,boolean isSelected) {//DraggableText text){
-
+    public void getItalicized(Shape shape) {
         DraggableText text = (DraggableText) shape;
-        if(isSelected){ //text.getFont().toString()
-        text.setFont(Font.font("Serif", FontPosture.ITALIC, text.getFont().getSize()));
+
+        FontWeight fontweight = FontWeight.NORMAL;
+        if (text.getFont().getName().contains("Bold")) { // kepp Bold
+            fontweight = FontWeight.EXTRA_BOLD;
         }
-        else {
-        text.setFont(Font.font("Serif".toString(), FontPosture.REGULAR, text.getFont().getSize()));
+        
+        FontPosture fontposture = FontPosture.REGULAR;
+        if (!text.getFont().getName().contains("Italic")) { // add Italic
+            fontposture = FontPosture.ITALIC;
         }
-        //System.out.println("dID");
+        text.setFont(Font.font(text.getFont().getFamily(), fontweight, fontposture, text.getFont().getSize()));
     }
 
-    public void changefont(Shape shape, String newfont){
-     DraggableText text = (DraggableText) shape;
-      //text.setFont(Font.font(s, text.getFont().getStyle(), text.getFont().getSize()));
-    // text.setFont(Font.font(s));//, FontPosture.ITALIC, text.getFont().getSize()));
-    
-   
-     
-     FontWeight fontweight = FontWeight.NORMAL; 
-     if(text.getFont().getName().contains("Bold") ){
-        fontweight=  FontWeight.EXTRA_BOLD;
-         //text.setFont(Font.font(text.getFont().toString(), Fontweight, Fontposture, text.getFont().getSize()));
-         
-     }
-     FontPosture fontposture = FontPosture.REGULAR;
-     if(text.getFont().getName().contains("Italic")){
-     fontposture= FontPosture.ITALIC;
-     }
-     
-    text.setFont(Font.font(newfont, fontweight, fontposture, text.getFont().getSize()));
-   
- 
+    public void changefont(Shape shape, String newfont) {
+        DraggableText text = (DraggableText) shape;
+
+        FontWeight fontweight = FontWeight.NORMAL;
+        if (text.getFont().getName().contains("Bold")) { //keep bold
+            fontweight = FontWeight.EXTRA_BOLD;
+        }
+        
+        FontPosture fontposture = FontPosture.REGULAR;
+        if (text.getFont().getName().contains("Italic")) { // keep italic
+            fontposture = FontPosture.ITALIC;
+        }
+        text.setFont(Font.font(newfont, fontweight, fontposture, text.getFont().getSize()));
     }
+
     
-     public void changesize(Shape shape, int n){
-     DraggableText text = (DraggableText) shape;
-     //String Fontweight = "";
-     
-     
-     FontWeight fontweight = FontWeight.NORMAL; 
-     if(text.getFont().getName().contains("Bold") ){
-        fontweight=  FontWeight.EXTRA_BOLD;
-         //text.setFont(Font.font(text.getFont().toString(), Fontweight, Fontposture, text.getFont().getSize()));
-         
-     }
-     FontPosture fontposture = FontPosture.REGULAR;
-     if(text.getFont().getName().contains("Italic")){
-     fontposture= FontPosture.ITALIC;
-     }
-    text.setFont(Font.font(text.getFont().toString(), fontweight, fontposture, n));
-   
+    
+    public void changesize(Shape shape, int n) {
+        DraggableText text = (DraggableText) shape;
+
+        FontWeight fontweight = FontWeight.NORMAL;
+        if (text.getFont().getName().contains("Bold")) {
+            fontweight = FontWeight.EXTRA_BOLD;
+
+        }
+        FontPosture fontposture = FontPosture.REGULAR;
+        if (text.getFont().getName().contains("Italic")) {
+            fontposture = FontPosture.ITALIC;
+        }
+        text.setFont(Font.font(text.getFont().getFamily(), fontweight, fontposture, n));
+
     }
-     
-     
+
     public void addShape(Shape shapeToAdd) {
         shapes.add(shapeToAdd);
     }

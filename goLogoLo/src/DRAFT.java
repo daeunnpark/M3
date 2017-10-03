@@ -15,6 +15,39 @@ import javafx.scene.control.TextInputDialog;
 public class DRAFT { 
     /*
     
+        /*
+    public void processBoldStyle(int x, int y) {
+        golData dataManager = (golData) app.getDataComponent();
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        Shape shape = dataManager.selectTopShape(x, y);
+
+        //System.out.println("processmodifying in canvas");
+        if (shape != null) {
+            if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
+                //dataManager.getBolded(shape);
+            }
+        }
+    }
+     
+ 
+    
+        "10",
+                        "12",
+                        "14",
+                        "16",
+                        "18",
+                        "20",
+                        "22",
+                        "24",
+                        "26",
+                        "28",
+                        "30",
+                        "32",
+                        "34",
+                        "36",
+                        "38",
+    
+    
      public void processCanvasMousePress(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
         if (dataManager.isInState(SELECTING_SHAPE)) {
