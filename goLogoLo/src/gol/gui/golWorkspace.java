@@ -112,14 +112,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -164,8 +168,8 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     // 1_3 ROW
     HBox row1_3Box;
-    Button italicButton;
-    Button boldButton;
+    ToggleButton italicButton;
+    ToggleButton boldButton;
 
     // SECOND ROW
     HBox row2Box;
@@ -231,6 +235,8 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     private File file; //=new File("E:\\LANGUAGE.json"); 
     private String JSON_CHOICE;
+    
+     ComboBox comboBox, comboBox2;
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -314,9 +320,82 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         //row1_3
         row1_3Box = new HBox();
-        italicButton = gui.initChildButton(row1_3Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
-        boldButton = gui.initChildButton(row1_3Box, BOLD_ICON.toString(), BOLD_TOOLTIP.toString(), false);
 
+        italicButton = new ToggleButton();
+        String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(ITALIC_ICON.toString());
+        System.out.println(imagePath + "img path");
+        Image buttonImage = new Image(imagePath);
+
+        italicButton.setSelected(false);
+        italicButton.setGraphic(new ImageView(buttonImage));
+        Tooltip buttonTooltip = new Tooltip(props.getProperty(ITALIC_TOOLTIP.toString()));
+        italicButton.setTooltip(buttonTooltip);
+        // italicButton = gui.initChildButton(row1_3Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
+        row1_3Box.getChildren().add(italicButton);
+
+        boldButton = new ToggleButton();
+        imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(BOLD_ICON.toString());
+        System.out.println(imagePath + "img path");
+        buttonImage = new Image(imagePath);
+
+        boldButton.setSelected(false);
+        boldButton.setGraphic(new ImageView(buttonImage));
+        buttonTooltip = new Tooltip(props.getProperty(BOLD_TOOLTIP.toString()));
+        boldButton.setTooltip(buttonTooltip);
+        // italicButton = gui.initChildButton(row1_3Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
+        row1_3Box.getChildren().add(boldButton);
+
+        ObservableList<String> options
+                = FXCollections.observableArrayList(
+                        "Arial Black",
+                        "Century Gothic",
+                        "Courier",
+                        "InaiMathi",
+                        "Jazz LET"
+                );
+         comboBox = new ComboBox(options);
+        
+        
+         comboBox.setOnAction((e) -> {
+             if(comboBox.getSelectionModel().getSelectedItem()!=null){
+             System.out.println(comboBox.getSelectionModel().getSelectedItem().toString() + "se");
+             
+             }
+             
+        
+        });
+        
+
+        ObservableList<String> options2
+                = FXCollections.observableArrayList(
+                        "10",
+                        "12",
+                        "14",
+                        "16",
+                        "18",
+                        "20",
+                        "22",
+                        "24",
+                        "26",
+                        "28",
+                        "30",
+                        "32",
+                        "34",
+                        "36",
+                        "38",
+                        "40",
+                        "42",
+                        "44",
+                        "46",
+                        "48",
+                        "50"
+                // InaiMathi , Jazz LET
+                );
+        comboBox2 = new ComboBox(options2);
+
+        row1_3Box.getChildren().addAll(comboBox, comboBox2);
+
+        // boldButton = gui.initChildButton(row1_3Box, BOLD_ICON.toString(), BOLD_TOOLTIP.toString(), false);
         // ROW 2
         row2Box = new HBox();
         moveToBackButton = gui.initChildButton(row2Box, MOVE_TO_BACK_ICON.toString(), MOVE_TO_BACK_TOOLTIP.toString(), true);
@@ -400,7 +479,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         });
 
         textButton.setOnAction(e -> {
-           // promptToText(); // processTextBox in this method
+            // promptToText(); // processTextBox in this method
             logoEditController.processTextBox(promptToText());
         });
 
@@ -420,6 +499,13 @@ public class golWorkspace extends AppWorkspaceComponent {
             }
         });
 
+        /*
+        boldButton.setOnAction(e -> {
+            //boldButton.setDisable(true); // pressed
+          // logoEditController. processSelectBold(); // change state to bold
+
+        });
+         */
         infoButton.setOnAction(e -> {
             info();
 
@@ -477,20 +563,21 @@ public class golWorkspace extends AppWorkspaceComponent {
         canvas.setOnMousePressed(e -> {
             canvasController.processCanvasMousePress((int) e.getX(), (int) e.getY());
         });
-       
-        
+
         canvas.setOnMouseClicked((MouseEvent mouseEvent) -> {
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                 if (mouseEvent.getClickCount() == 2) {
-                    
+
                     System.out.println("Double clicked");
-                 
-                    
+
                     golData dataManager = (golData) app.getDataComponent();
-                    dataManager.setState(golState.MODIFYING_TEXT);
-                    canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY(), promptToText());
+                    //Shape shape = dataManager.selectTopShape((int) mouseEvent.getX(), (int) mouseEvent.getY());
+
+                    canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY());
+                    // if(shape!=null){
+                    //canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY(), promptToText());
                     System.out.println("eee");
-              
+                    // }
                 }
             }
         });
@@ -500,13 +587,12 @@ public class golWorkspace extends AppWorkspaceComponent {
             canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
         }
         );
-        canvas.setOnMouseDragged(e-> {
+        canvas.setOnMouseDragged(e -> {
             canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY());
         }
         );
 
     }
-
 
     // HELPER METHOD
     public void loadSelectedShapeSettings(Shape shape) {
@@ -774,6 +860,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         buttonTooltip = new Tooltip(props.getProperty(PASTE_TOOLTIP));
         pasteButton.setTooltip(buttonTooltip);
+        pasteButton.isPressed();
 
     }
 
@@ -821,7 +908,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            System.out.println("ssss");
+            System.out.println("prompttotext");
             return result.get();
 
         }

@@ -13,7 +13,10 @@ import javax.imageio.ImageIO;
 import gol.data.golData;
 import gol.data.golState;
 import djf.AppTemplate;
+import static gol.data.golState.BOLDING_TEXT;
+import static gol.data.golState.STYLING_TEXT;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Shape;
 
 /**
  * This class responds to interactions with other UI logo editing controls.
@@ -211,6 +214,26 @@ public class LogoEditController {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
 
+    }
+    
+    public void processItalic(){
+         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        
+        
+        workspace.reloadWorkspace(dataManager);
+        
+        
+        
+        
+    }
+    public void processSelectBold(){
+        
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+        workspace.reloadWorkspace(dataManager);
+        
+       // app.getGUI().updateToolbarControls(false);
+        
     }
 
 }

@@ -14,6 +14,41 @@ import javafx.scene.control.TextInputDialog;
  */
 public class DRAFT { 
     /*
+    
+     public void processCanvasMousePress(int x, int y) {
+        golData dataManager = (golData) app.getDataComponent();
+        if (dataManager.isInState(SELECTING_SHAPE)) {
+            // SELECT THE TOP SHAPE
+            Shape shape = dataManager.selectTopShape(x, y);
+            Scene scene = app.getGUI().getPrimaryScene();
+
+            // AND START DRAGGING IT
+            if (shape != null) {
+                scene.setCursor(Cursor.MOVE);
+                dataManager.setState(golState.DRAGGING_SHAPE);
+                app.getGUI().updateToolbarControls(false);
+            } else {
+                scene.setCursor(Cursor.DEFAULT);
+                dataManager.setState(DRAGGING_NOTHING);
+                app.getWorkspaceComponent().reloadWorkspace(dataManager);
+            }
+        } else if (dataManager.isInState(golState.STARTING_RECTANGLE)) {
+            dataManager.startNewRectangle(x, y);
+        } else if (dataManager.isInState(golState.STARTING_ELLIPSE)) {
+            dataManager.startNewEllipse(x, y);
+        } else if (dataManager.isInState(golState.MODIFYING_TEXT)) {
+            //  DraggableText d = (DraggableText) shape;
+
+        }
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
+    }
+    
+    
+    
+    
+    
+    
     public void promptToText() {
 
         TextInputDialog dialog = new TextInputDialog("walter");

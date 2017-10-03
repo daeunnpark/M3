@@ -34,6 +34,7 @@ public class DraggableText extends Text implements Draggable {
     public DraggableText() {
         setX(0.0);
         setY(0.0);
+        
         //setlength(0.0);
         //setWidth(0.0);
         //setHeight(0.0);

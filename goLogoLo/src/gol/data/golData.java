@@ -19,6 +19,9 @@ import djf.components.AppDataComponent;
 import djf.AppTemplate;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 /**
  * This class serves as the data management component for this application.
@@ -65,6 +68,9 @@ public class golData implements AppDataComponent {
     public static final Paint DEFAULT_BACKGROUND_COLOR = Paint.valueOf(WHITE_HEX);
     public static final Paint HIGHLIGHTED_COLOR = Paint.valueOf(YELLOW_HEX);
     public static final int HIGHLIGHTED_STROKE_THICKNESS = 3;
+    
+    //FONT
+    String Fontweight, Fontposture;
 
     /**
      * THis constructor creates the data manager and sets up the
@@ -247,7 +253,7 @@ public class golData implements AppDataComponent {
         newRectangle.setHeight(height);
         newRectangle.setWidth(width);
         newRectangle.setFill(new ImagePattern(image));
-        newRectangle.setUserData("Image");
+        newRectangle.setUserData("IMAGE");
 
         newShape = newRectangle;
         initNewShape();
@@ -256,21 +262,20 @@ public class golData implements AppDataComponent {
     public void makeNewTextBox(String s) {
         DraggableText text = new DraggableText();
         text.setText(s);
-        //System.out.println(s + "THIS");
+        text.setUserData("TEXT");
         newShape = text;
         initNewShape();
     }
 
-    public void changeTextBox (String news){
-     if (selectedShape != null) {
-           DraggableText text = (DraggableText ) selectedShape;
-           text.setText(news);
+    public void changeTextBox(String news) {
+        if (selectedShape != null) {
+            DraggableText text = (DraggableText) selectedShape;
+            text.setText(news);
         }
-     state = SELECTING_SHAPE;
-     
-     
+        state = SELECTING_SHAPE;
+
     }
-    
+
     public void initNewShape() {
         // DESELECT THE SELECTED SHAPE IF THERE IS ONE
         if (selectedShape != null) {
@@ -283,19 +288,19 @@ public class golData implements AppDataComponent {
         //newShape.setFill(workspace.getFillColorPicker().getValue());                      // FOR IMG AND TEXT
         //newShape.setStroke(workspace.getOutlineColorPicker().getValue());
         //newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
-       //
-       
+        //
+
         // ADD THE SHAPE TO THE CANVAS
         shapes.add(newShape);
-        
+
         if (newShape.getUserData() == null) {// Rect or Elip
             newShape.setFill(workspace.getFillColorPicker().getValue());
             newShape.setStroke(workspace.getOutlineColorPicker().getValue());
             newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
-            
+
             state = golState.SIZING_SHAPE;
             //System.out.println("WELL FOR REC AND ELIP");
-            
+
         } else { // Image of Text
             state = golState.SELECTING_SHAPE;
             // System.out.println("HERE");
@@ -366,12 +371,83 @@ public class golData implements AppDataComponent {
         for (int i = shapes.size() - 1; i >= 0; i--) {
             Shape shape = (Shape) shapes.get(i);
             if (shape.contains(x, y)) {
+                //System.out.println("CORRECT");
                 return shape;
+
             }
         }
         return null;
     }
 
+    // ADD IF
+    public void getBolded(Shape shape, boolean isSelected) {
+        DraggableText text = (DraggableText) shape;
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+                 //  workspace.boldButton.isPressed();
+        if(isSelected){
+        text.setFont(Font.font(text.getFont().toString(), FontWeight.EXTRA_BOLD, text.getFont().getSize()));
+        }
+        else {
+        text.setFont(Font.font(text.getFont().toString(), FontWeight.NORMAL, text.getFont().getSize()));
+        }
+    }
+
+    
+    public void getItalicized(Shape shape ,boolean isSelected) {//DraggableText text){
+
+        DraggableText text = (DraggableText) shape;
+        if(isSelected){ //text.getFont().toString()
+        text.setFont(Font.font("Serif", FontPosture.ITALIC, text.getFont().getSize()));
+        }
+        else {
+        text.setFont(Font.font("Serif".toString(), FontPosture.REGULAR, text.getFont().getSize()));
+        }
+        //System.out.println("dID");
+    }
+
+    public void changefont(Shape shape, String newfont){
+     DraggableText text = (DraggableText) shape;
+      //text.setFont(Font.font(s, text.getFont().getStyle(), text.getFont().getSize()));
+    // text.setFont(Font.font(s));//, FontPosture.ITALIC, text.getFont().getSize()));
+    
+   
+     
+     FontWeight fontweight = FontWeight.NORMAL; 
+     if(text.getFont().getName().contains("Bold") ){
+        fontweight=  FontWeight.EXTRA_BOLD;
+         //text.setFont(Font.font(text.getFont().toString(), Fontweight, Fontposture, text.getFont().getSize()));
+         
+     }
+     FontPosture fontposture = FontPosture.REGULAR;
+     if(text.getFont().getName().contains("Italic")){
+     fontposture= FontPosture.ITALIC;
+     }
+     
+    text.setFont(Font.font(newfont, fontweight, fontposture, text.getFont().getSize()));
+   
+ 
+    }
+    
+     public void changesize(Shape shape, int n){
+     DraggableText text = (DraggableText) shape;
+     //String Fontweight = "";
+     
+     
+     FontWeight fontweight = FontWeight.NORMAL; 
+     if(text.getFont().getName().contains("Bold") ){
+        fontweight=  FontWeight.EXTRA_BOLD;
+         //text.setFont(Font.font(text.getFont().toString(), Fontweight, Fontposture, text.getFont().getSize()));
+         
+     }
+     FontPosture fontposture = FontPosture.REGULAR;
+     if(text.getFont().getName().contains("Italic")){
+     fontposture= FontPosture.ITALIC;
+     }
+    text.setFont(Font.font(text.getFont().toString(), fontweight, fontposture, n));
+   
+    }
+     
+     
     public void addShape(Shape shapeToAdd) {
         shapes.add(shapeToAdd);
     }

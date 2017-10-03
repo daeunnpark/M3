@@ -35,6 +35,7 @@ public class CanvasController {
      */
     public void processCanvasMousePress(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
+
         if (dataManager.isInState(SELECTING_SHAPE)) {
             // SELECT THE TOP SHAPE
             Shape shape = dataManager.selectTopShape(x, y);
@@ -45,6 +46,42 @@ public class CanvasController {
                 scene.setCursor(Cursor.MOVE);
                 dataManager.setState(golState.DRAGGING_SHAPE);
                 app.getGUI().updateToolbarControls(false);
+
+                if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
+
+                    golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+                    workspace.boldButton.setOnAction(e -> {
+
+                        System.out.println(workspace.boldButton.isSelected() + "selected");
+                        dataManager.getBolded(shape, workspace.boldButton.isSelected());
+
+                        System.out.println("BUTTON BOLD2");
+
+                    });
+
+                    workspace.italicButton.setOnAction(e -> {
+
+                        dataManager.getItalicized(shape, workspace.italicButton.isSelected());
+
+                    });
+                    workspace.comboBox.setOnAction(e -> {
+                        if (workspace.comboBox.getSelectionModel().getSelectedItem() != null) {
+                            System.out.println("HHHH");
+                            dataManager.changefont(shape, workspace.comboBox.getSelectionModel().getSelectedItem().toString());
+                        }
+                    });
+                    
+                    
+                     workspace.comboBox2.setOnAction(e -> {
+                        if (workspace.comboBox2.getSelectionModel().getSelectedItem() != null) {
+                            System.out.println("HHHH222");
+                            
+                            dataManager.changesize(shape, Integer.parseInt(workspace.comboBox2.getSelectionModel().getSelectedItem().toString()));
+                        }
+                    });
+                }
+
             } else {
                 scene.setCursor(Cursor.DEFAULT);
                 dataManager.setState(DRAGGING_NOTHING);
@@ -54,10 +91,8 @@ public class CanvasController {
             dataManager.startNewRectangle(x, y);
         } else if (dataManager.isInState(golState.STARTING_ELLIPSE)) {
             dataManager.startNewEllipse(x, y);
-        } else if (dataManager.isInState(golState.MODIFYING_TEXT)) {
-            //  DraggableText d = (DraggableText) shape;
-
         }
+
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
     }
@@ -96,24 +131,42 @@ public class CanvasController {
         } else if (dataManager.isInState(golState.DRAGGING_NOTHING)) {
             dataManager.setState(SELECTING_SHAPE);
         }
-    }
-    
-    
-    public void processModifyText(int x, int y, String s){
-        golData dataManager = (golData) app.getDataComponent();
-       // if (dataManager.isInState(SELECTING_SHAPE)) {
-       if(dataManager.isInState(MODIFYING_TEXT)){
-            // SELECT THE TOP SHAPE
-            Shape shape = dataManager.selectTopShape(x, y);
 
-           dataManager.changeTextBox (s);
-        
-           
-                System.out.println("ddwwww");
-        
+    }
+
+    public void processModifyText(int x, int y) { //, String s) {
+        golData dataManager = (golData) app.getDataComponent();
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        Shape shape = dataManager.selectTopShape(x, y);
+
+        //System.out.println("processmodifying in canvas");
+        if (shape != null) {
+            if (shape.getUserData() != null) {
+                if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
+                    String newS = workspace.promptToText();
+
+                    //System.out.println(newS + "HERE ----------------");
+                    if (newS != null) {
+                        dataManager.changeTextBox(newS);
+                    }
+
+                    // System.out.println("processmodifying in canvas not null");
+                }
+            }
         }
     }
-    
-    
+
+    public void processBoldStyle(int x, int y) {
+        golData dataManager = (golData) app.getDataComponent();
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        Shape shape = dataManager.selectTopShape(x, y);
+
+        //System.out.println("processmodifying in canvas");
+        if (shape != null) {
+            if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
+                //dataManager.getBolded(shape);
+            }
+        }
+    }
 
 }
