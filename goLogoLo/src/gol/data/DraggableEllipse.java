@@ -38,9 +38,11 @@ public class DraggableEllipse extends Ellipse implements Draggable {
     public void drag(int x, int y) {
 	double diffX = x - startCenterX;
 	double diffY = y - startCenterY;
-	double newX = getCenterX() + diffX;
+	
+        double newX = getCenterX() + diffX;
 	double newY = getCenterY() + diffY;
-	setCenterX(newX);
+	
+        setCenterX(newX);
 	setCenterY(newY);
 	startCenterX = x;
 	startCenterY = y;

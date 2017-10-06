@@ -1,6 +1,5 @@
 package gol.file;
 
-import djf.AppTemplate;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javax.json.Json;
 import javax.json.JsonArray;
-import javax.json.JsonString;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
@@ -27,23 +25,11 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import djf.components.AppDataComponent;
 import djf.components.AppFileComponent;
-import djf.ui.AppGUI;
 import gol.data.golData;
 import gol.data.DraggableEllipse;
 import gol.data.DraggableRectangle;
 import gol.data.Draggable;
 import static gol.data.Draggable.RECTANGLE;
-import gol.gui.golWorkspace;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javax.json.JsonObjectBuilder;
 
 /**
  * This class serves as the file management component for this application,

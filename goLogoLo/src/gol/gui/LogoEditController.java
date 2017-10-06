@@ -13,10 +13,7 @@ import javax.imageio.ImageIO;
 import gol.data.golData;
 import gol.data.golState;
 import djf.AppTemplate;
-import static gol.data.golState.BOLDING_TEXT;
-import static gol.data.golState.STYLING_TEXT;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Shape;
 
 /**
  * This class responds to interactions with other UI logo editing controls.
@@ -103,7 +100,6 @@ public class LogoEditController {
      *
      * @param image
      */
-
     public void processMakeImageasShape(Image image) {
         // CHANGE THE CURSOR
         //Scene scene = app.getGUI().getPrimaryScene();
@@ -201,55 +197,26 @@ public class LogoEditController {
     }
 
     public void processTextBox(String text) {
-
         dataManager.makeNewTextBox(text);
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
     }
 
-    public void processModifyTextBox(String newText) {
-        //dataManager.changeTextBox(newText);
-        
-        //processModifyText(int x, int y, String s)
-        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        workspace.reloadWorkspace(dataManager);
-
-    }
-    
-    public void processItalic(){
-         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        
-        
-        workspace.reloadWorkspace(dataManager);
-        
-        
-        
-        
-    }
-    public void processSelectBold(){
-        
-        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-
-        workspace.reloadWorkspace(dataManager);
-       // workspace.loadSelectedShapeSettings();
-       // app.getGUI().updateToolbarControls(false);
-        
-    }
-    
-        public void processCopyShapeTool() {
+    public void processCopyShapeTool() {
         // CHANGE THE CURSOR
         Scene scene = app.getGUI().getPrimaryScene();
         scene.setCursor(Cursor.DEFAULT);
 
         // CHANGE THE STATE
-        dataManager.setState(golState.COPY_SHAPE);
+       // dataManager.setState(golState.COPY_SHAPE);
 
         // ENABLE/DISABLE THE PROPER BUTTONS
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
     }
+    
 
-        public void processPasteShapeTool() {
+    public void processPasteShapeTool() {
         // CHANGE THE CURSOR
         Scene scene = app.getGUI().getPrimaryScene();
         scene.setCursor(Cursor.DEFAULT);
@@ -261,6 +228,5 @@ public class LogoEditController {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
     }
-        
-        
+
 }

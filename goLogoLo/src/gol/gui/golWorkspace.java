@@ -87,10 +87,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceDialog;
@@ -102,7 +98,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import javax.swing.JComboBox;
 import properties_manager.PropertiesManager;
 
 /**
@@ -192,9 +187,9 @@ public class golWorkspace extends AppWorkspaceComponent {
     protected Button exitButton;
     private Button langButton;
     private Button infoButton;
-    private Button cutButton;
-    private Button copyButton;
-    private Button pasteButton;
+     Button cutButton;
+     Button copyButton;
+     Button pasteButton;
 
     boolean continueToOpen;
 
@@ -230,7 +225,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         // addFilebuttons();
         languageSelection();
 
-        //initLayout();
         // HOOK UP THE CONTROLLERS
         initControllers();
 
@@ -335,95 +329,32 @@ public class golWorkspace extends AppWorkspaceComponent {
                 "Shree Devanagari 714",
                 "Arial Narrow"
         );
-        golData dataManager = (golData) app.getDataComponent();
 
-    
-
-        //comboBox.addItemListener
-        //comboBox.getSelectionModel().select("Arial Narrow"); 
-        /*
-        ObservableList<String> options
-                = FXCollections.observableArrayList (
-                        "Arial",
-                        "Menlo",
-                        "Tw Cen MT",
-                        "Shree Devanagari 714",
-                        "Arial Narrow"
-                );
-        
-        //comboBox = new ComboBox <String>(options);
-
-        /*
-         comboBox.setOnAction((e) -> {
-             if(comboBox.getSelectionModel().getSelectedItem()!=null){
-             System.out.println(comboBox.getSelectionModel().getSelectedItem().toString() + "se");
-             
-             }
-             
-        
-        });
-        
-         */
         comboBox2 = new ComboBox<Double>();
+
         comboBox2.getItems().addAll(
-                new Double(100.0),
-                new Double(200.0)
-        /*
-                        "105",
-                        "110",
-                        "115",
-                        "120",
-                        "125",
-                        "130",
-                        "135",
-                        "140",
-                        "145",
-                        "150",
-                        "155",
-                        "160",
-                        "165",
-                        "170",
-                        "175",
-                        "180",
-                        "185",
-                        "190",
-                        "195",
-                        "200" 
-         */
+                new Double(100),
+                new Double(105),
+                new Double(110),
+                new Double(115),
+                new Double(120),
+                new Double(125),
+                new Double(130),
+                new Double(135),
+                new Double(140),
+                new Double(145),
+                new Double(150),
+                new Double(155),
+                new Double(160),
+                new Double(165),
+                new Double(170),
+                new Double(175),
+                new Double(180),
+                new Double(185),
+                new Double(190),
+                new Double(200)
         );
-        /*
-        ObservableList<String> options2
-                = FXCollections.observableArrayList(
-                        "100",
-                        "105",
-                        "110",
-                        "115",
-                        "120",
-                        "125",
-                        "130",
-                        "135",
-                        "140",
-                        "145",
-                        "150",
-                        "155",
-                        "160",
-                        "165",
-                        "170",
-                        "175",
-                        "180",
-                        "185",
-                        "190",
-                        "195",
-                        "200"
-                );
-       // comboBox2 = new ComboBox <String>(options2);
 
-         */
-
-        //comboBox2.getSelectionModel().select(200.0); // default
-        //  comboBox2.getSelectionModel().se
-        // comboBox2.se
-        // comboBox2.getSelectionModel().selectFirst();
         row1_3Box.getChildren().addAll(comboBox, comboBox2);
 
         // ROW 2
@@ -469,7 +400,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         editToolbar.getChildren().add(row1_3Box);
         editToolbar.getChildren().add(row2Box);
         editToolbar.getChildren().add(row3Box);
-        editToolbar.getChildren().add(row4Box);
+        editToolbar.getChildren().add(row4Box); // index 5
         editToolbar.getChildren().add(row5Box);
         editToolbar.getChildren().add(row6Box);
         editToolbar.getChildren().add(row7Box);
@@ -526,7 +457,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         });
 
         cutButton.setOnAction(e -> {
-            
+
             //logoEditController.processSelectOutlineColor();
         });
         copyButton.setOnAction(e -> {
@@ -616,8 +547,8 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         if (text.getText() != null) {
             comboBox.getSelectionModel().select(text.getFont().getFamily());
-            comboBox2.getSelectionModel().select((Double)text.getFont().getSize());
-          //System.out.println(shape.toString() + " LOADED");
+            comboBox2.getSelectionModel().select((Double) text.getFont().getSize());
+            //System.out.println(shape.toString() + " LOADED");
         }
     }
 
@@ -850,10 +781,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     public void languageSelection() {
 
         String line = null;
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
 
         try {
-            //String verify, putData;
             File file = new File("LangSelection.txt");
             file.createNewFile();
 
@@ -868,11 +797,9 @@ public class golWorkspace extends AppWorkspaceComponent {
                     if (success) {
                         initTopToolbar2(app);
                     }
-
                 } else {
                     // ENG by default
                 }
-
             } else { // ASKS sleection
 
                 FileWriter fw = new FileWriter(file);
@@ -922,27 +849,4 @@ public class golWorkspace extends AppWorkspaceComponent {
     public void resetWorkspace() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    /**
-     * Adds LangButton and InfoButton to TopFileToolbar
-     */
-    /*
-    public void addFilebuttons() {
-        langButton = new Button();
-        langButton = gui.initChildButton(gui.getFileToolbar(), LANG_ICON.toString(), LANG_TOOLTIP.toString(), false);
-
-        infoButton = new Button();
-        infoButton = gui.initChildButton(gui.getFileToolbar(), INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
-
-        cutButton = new Button();
-        cutButton = gui.initChildButton(gui.getFileToolbar(), CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
-
-        copyButton = new Button();
-        copyButton = gui.initChildButton(gui.getFileToolbar(), COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
-
-        pasteButton = new Button();
-        pasteButton = gui.initChildButton(gui.getFileToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
-
-    }
-     */
 }
