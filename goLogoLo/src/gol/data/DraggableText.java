@@ -9,36 +9,22 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author Daeun 
- * NOTHING WIHT SIZE SINCE ITS WITH FONT 
- * *
+ * @author Daeun NOTHING WIHT SIZE SINCE ITS WITH FONT *
  */
 public class DraggableText extends Text implements Draggable {
 
-    @Override
-    public double getWidth() {
-        return this.getText().length();
-
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getHeight() {
-        return this.getFont().getSize();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     double startX;
     double startY;
+    double startDifX;
+    double startDifY;
+    double diffX;
+    double diffY;
+    double newX;
+    double newY;
 
     public DraggableText() {
         setX(0.0);
-        setY(0.0);
-        
-        //setlength(0.0);
-        //setWidth(0.0);
-        //setHeight(0.0);
-        //setOpacity(1.0);
+        setY(0.0);;
         setWrappingWidth(0);
         startX = 0.0;
         startY = 0.0;
@@ -51,22 +37,28 @@ public class DraggableText extends Text implements Draggable {
 
     @Override
     public void start(int x, int y) {
+        xProperty().set(x);
+        yProperty().set(y);
         startX = x;
         startY = y;
-        setX(x);
-        setY(y);
     }
 
     @Override
     public void drag(int x, int y) {
-        double diffX = x - (getX() + (getWidth() / 2));
-        double diffY = y - (getY() + (getHeight() / 2));
-        double newX = getX() + diffX;
-        double newY = getY() + diffY;
+
+        diffX = x - startDifX;
+        diffY = y - startDifY;
+        newX = startX + diffX;
+        newY = startY + diffY;
+
         xProperty().set(newX);
         yProperty().set(newY);
-        startX = x;
-        startY = y;
+
+        startX = newX;
+        startY = newY;
+
+        setStartDifX(x);
+        setStartDifY(y);
 
     }
 
@@ -91,6 +83,27 @@ public class DraggableText extends Text implements Draggable {
     @Override
     public String getShapeType() {
         return TEXT;
+    }
+
+    public void setStartDifX(double x) {
+        startDifX = x;
+    }
+
+    public void setStartDifY(double y) {
+        startDifY = y;
+    }
+
+    @Override
+    public double getWidth() {
+        return this.getText().length();
+
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getHeight() {
+        return this.getFont().getSize();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

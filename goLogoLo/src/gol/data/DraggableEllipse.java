@@ -4,93 +4,124 @@ import javafx.scene.shape.Ellipse;
 
 /**
  * This is a draggable ellipse for our goLogoLo application.
- * 
+ *
  * @author Richard McKenna
  * @author ?
  * @version 1.0
  */
 public class DraggableEllipse extends Ellipse implements Draggable {
+
+    double startX; // center
+    double startY;
+    double startDifX;
+    double startDifY;
+    double diffX;
+    double diffY;
+    double newX;
+    double newY;
+
     double startCenterX;
     double startCenterY;
-    
+
     public DraggableEllipse() {
-	setCenterX(0.0);
-	setCenterY(0.0);
-	setRadiusX(0.0);
-	setRadiusY(0.0);
-	setOpacity(1.0);
-	startCenterX = 0.0;
-	startCenterY = 0.0;
+
+        setCenterX(0.0);
+        setCenterY(0.0);
+        setRadiusX(0.0);
+        setRadiusY(0.0);
+        setOpacity(1.0);
+        startDifX = 0.0;
+        startDifY = 0.0;
     }
-    
+
     @Override
     public golState getStartingState() {
-	return golState.STARTING_ELLIPSE;
+        return golState.STARTING_ELLIPSE;
     }
-    
+
     @Override
     public void start(int x, int y) {
-	startCenterX = x;
-	startCenterY = y;
+        startCenterX = x;           // for size()
+        startCenterY = y;
     }
-    
+
     @Override
     public void drag(int x, int y) {
-	double diffX = x - startCenterX;
-	double diffY = y - startCenterY;
-	
-        double newX = getCenterX() + diffX;
-	double newY = getCenterY() + diffY;
-	
+        diffX = x - startDifX;
+        diffY = y - startDifY;
+        newX = startX  + diffX;
+        newY = startY + diffY;
+        
         setCenterX(newX);
-	setCenterY(newY);
-	startCenterX = x;
-	startCenterY = y;
+        setCenterY(newY);
+        
+        startX = newX;
+        startY = newY;
+
+        setStartDifX(x);
+        setStartDifY(y);
     }
-    
+
     @Override
     public void size(int x, int y) {
-	double width = x - startCenterX;
-	double height = y - startCenterY;
-	double centerX = startCenterX + (width / 2);
-	double centerY = startCenterY + (height / 2);
-	setCenterX(centerX);
-	setCenterY(centerY);
-	setRadiusX(width / 2);
-	setRadiusY(height / 2);	
-	
+        double width = x - startCenterX;
+        double height = y - startCenterY;
+        double centerX = startCenterX + (width / 2);
+        double centerY = startCenterY + (height / 2);
+        setCenterX(centerX);
+        setCenterY(centerY);
+        setRadiusX(width / 2);
+        setRadiusY(height / 2);
+
     }
-        
+
     @Override
     public double getX() {
-	return getCenterX() - getRadiusX();
+        return getCenterX() - getRadiusX();
     }
 
     @Override
     public double getY() {
-	return getCenterY() - getRadiusY();
+        return getCenterY() - getRadiusY();
     }
 
     @Override
     public double getWidth() {
-	return getRadiusX() * 2;
+        return getRadiusX() * 2;
     }
 
     @Override
     public double getHeight() {
-	return getRadiusY() * 2;
+        return getRadiusY() * 2;
     }
-        
+
     @Override
     public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
-	setCenterX(initX + (initWidth/2));
-	setCenterY(initY + (initHeight/2));
-	setRadiusX(initWidth/2);
-	setRadiusY(initHeight/2);
+        setCenterX(initX + (initWidth / 2));
+        setCenterY(initY + (initHeight / 2));
+        setRadiusX(initWidth / 2);
+        setRadiusY(initHeight / 2);
     }
-    
+
     @Override
     public String getShapeType() {
-	return ELLIPSE;
+        return ELLIPSE;
     }
+
+    public void setStartDifX(double x) {
+        startDifX = x;
+    }
+
+    public void setStartDifY(double y) {
+        startDifY = y;
+    }
+
+    public void setstartCenterX(double x) {
+        startX = x;
+    }
+
+    public void setstartCenterY(double y) {
+        startY = y;
+    }
+
 }

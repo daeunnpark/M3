@@ -15,6 +15,7 @@ public interface Draggable {
     public golState getStartingState();
     public void start(int x, int y);
     public void drag(int x, int y);
+    
     public void size(int x, int y);
     public double getX();
     public double getY();
@@ -22,4 +23,5 @@ public interface Draggable {
     public double getHeight();
     public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight);
     public String getShapeType();
+
 }

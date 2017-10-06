@@ -364,8 +364,8 @@ public class golData implements AppDataComponent {
                 }
             }
         }
-        if (shape != null) {
-            ((Draggable) shape).start(x, y);
+        if (shape != null) { //???
+           // ((Draggable) shape).start(x, y);
         }
 
         return shape;

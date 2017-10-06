@@ -187,9 +187,9 @@ public class golWorkspace extends AppWorkspaceComponent {
     protected Button exitButton;
     private Button langButton;
     private Button infoButton;
-     Button cutButton;
-     Button copyButton;
-     Button pasteButton;
+    Button cutButton;
+    Button copyButton;
+    Button pasteButton;
 
     boolean continueToOpen;
 
@@ -201,6 +201,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     // private File file; //=new File("E:\\LANGUAGE.json"); 
     //private String JSON_CHOICE;
     ComboBox comboBox, comboBox2;
+
+    double orgSceneX, orgSceneY, offsetX, offsetY;
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -507,6 +509,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         // MAKE THE CANVAS CONTROLLER	
         canvasController = new CanvasController(app);
         canvas.setOnMousePressed(e -> {
+            orgSceneX = e.getSceneX();
+            orgSceneY = e.getSceneY();
+            //System.out.println(e.getSceneX() + "Scenexxx");
+            //System.out.println(e.getSceneY() + "Sceneyyy");
             canvasController.processCanvasMousePress((int) e.getX(), (int) e.getY());
         });
 
@@ -524,7 +530,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         }
         );
         canvas.setOnMouseDragged(e -> {
-            canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY());
+            //double offsetX = e.getSceneX() - orgSceneX;
+            //double offsetY = e.getSceneY() - orgSceneY;
+
+            canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY()); //, offsetX, offsetY);
         }
         );
 
@@ -849,4 +858,29 @@ public class golWorkspace extends AppWorkspaceComponent {
     public void resetWorkspace() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public double getsceneX() {
+        return orgSceneX;
+    }
+
+    public double getsceneY() {
+        return orgSceneY;
+    }
+
+     public void setsceneX(double s) {
+        orgSceneX = s;
+    }
+
+    public void setsceneY(double s) {
+        orgSceneY = s;
+    }
+    
+    public double getoffsetX() {
+        return offsetX;
+    }
+
+    public double getoffsetY() {
+        return offsetY;
+    }
+
 }

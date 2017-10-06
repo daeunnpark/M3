@@ -33,6 +33,8 @@ import javafx.scene.text.FontWeight;
 public class DRAFT { 
     /*
     
+    
+    
     package gol.data;
 
 import javafx.scene.shape.Rectangle;
@@ -43,9 +45,383 @@ import javafx.scene.shape.Rectangle;
  * @author Richard McKenna
  * @author ?
  * @version 1.0
- */
+ 
+public class DraggableRectangle extends Rectangle implements Draggable {
+    double startX;
+    double startY;
+    double startDifX ;
+    double startDifY;
+   double diffX;
+   double diffY;
+   double newX;
+   double newY;
+    public DraggableRectangle() {
+	setX(0.0);
+        //System.out.println(getX() + "  X in rect");
+        ///System.out.println(getX() + " Y in rect");
+	setY(0.0);
+	setWidth(0.0);
+	setHeight(0.0);
+	setOpacity(1.0);
+	startX = 0.0;
+	startY = 0.0;
+    }
     
-    /*
+    @Override
+    public golState getStartingState() {
+	return golState.STARTING_RECTANGLE;
+    }
+    
+    @Override
+    public void start(int x, int y) {
+        xProperty().set(x);
+        yProperty().set(y);
+	startX = x;
+	startY = y;
+        //System.out.println(x + "  new x in rect");
+        //System.out.println(y + "  new y in rect");
+
+    }
+    
+    @Override
+    public void drag(int x, int y) {
+
+        diffX = x - startDifX ;
+        diffY = y - startDifY;
+        newX = startX + diffX;
+        newY = startY + diffY;
+        
+ 
+        xProperty().set(newX);
+        yProperty().set(newY);
+
+        startX = newX;
+        startY = newY;
+   
+        setStartDifX (x);
+        setStartDifY(y);
+      
+        
+    }
+    
+    public String cT(double x, double y) {
+	return "(x,y): (" + x + "," + y + ")";
+    }
+    
+    @Override
+    public void size(int x, int y) {
+	double width = x - getX();
+	widthProperty().set(width);
+	double height = y - getY();
+	heightProperty().set(height);	
+    }
+    
+    @Override
+    public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
+	xProperty().set(initX);
+	yProperty().set(initY);
+	widthProperty().set(initWidth);
+	heightProperty().set(initHeight);
+    }
+    
+    @Override
+    public String getShapeType() {
+	return RECTANGLE;
+    }
+
+    @Override
+    public void drag2(int x, int y, double offsetX, double offsetY) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    public void setStartDifX(double x){
+        startDifX = x;
+        System.out.println(x+ "  SET stardifX");
+        
+    }
+     public void setStartDifY(double y){
+        startDifY = y;
+        
+        System.out.println(y+ " SET stardify");
+        
+    }
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    package gol.data;
+
+import djf.AppTemplate;
+import gol.gui.golWorkspace;
+import javafx.scene.shape.Ellipse;
+
+/
+ * This is a draggable ellipse for our goLogoLo application.
+ * 
+ * @author Richard McKenna
+ * @author ?
+ * @version 1.0
+ 
+public class DraggableEllipse extends Ellipse implements Draggable {
+    double startCenterX;
+    double startCenterY;
+     protected golData dataManager;
+     AppTemplate app;
+     
+
+    public DraggableEllipse() {
+        //app = initApp;
+        
+        //dataManager = (golData)app. getDataComponent();
+         
+        
+	setCenterX(0.0);
+	setCenterY(0.0);
+	setRadiusX(0.0);
+	setRadiusY(0.0);
+	setOpacity(1.0);
+	startCenterX = 0.0;
+	startCenterY = 0.0;
+    }
+    
+    @Override
+    public golState getStartingState() {
+	return golState.STARTING_ELLIPSE;
+    }
+    
+    @Override
+    public void start(int x, int y) {
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        dataManager = (golData)app. getDataComponent();
+
+	startCenterX = x;
+	startCenterY = y;
+       
+        
+    }
+    
+    @Override
+    public void drag(int x, int y) {
+	double diffX = x - startCenterX;
+	double diffY = y - startCenterY;
+	double newX = getCenterX() + diffX;
+	double newY = getCenterY() + diffY;
+	setCenterX(newX);
+	setCenterY(newY);
+	startCenterX = x;
+	startCenterY = y;
+    }
+    
+    @Override
+    public void size(int x, int y) {
+	double width = x - startCenterX;
+	double height = y - startCenterY;
+	double centerX = startCenterX + (width / 2);
+	double centerY = startCenterY + (height / 2);
+	setCenterX(centerX);
+	setCenterY(centerY);
+	setRadiusX(width / 2);
+	setRadiusY(height / 2);	
+	
+    }
+        
+    @Override
+    public double getX() {
+	return getCenterX() - getRadiusX();
+    }
+
+    @Override
+    public double getY() {
+	return getCenterY() - getRadiusY();
+    }
+
+    @Override
+    public double getWidth() {
+	return getRadiusX() * 2;
+    }
+
+    @Override
+    public double getHeight() {
+	return getRadiusY() * 2;
+    }
+        
+    @Override
+    public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
+	setCenterX(initX + (initWidth/2));
+	setCenterY(initY + (initHeight/2));
+	setRadiusX(initWidth/2);
+	setRadiusY(initHeight/2);
+    }
+    
+    @Override
+    public String getShapeType() {
+	return ELLIPSE;
+    }
+
+    @Override
+    public void drag2(int x, int y, double offsetX, double offsetY) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}
+
+    
+    
+    
+    
+    package gol.data;
+
+import gol.gui.golWorkspace;
+import javafx.scene.shape.Ellipse;
+
+
+ * This is a draggable ellipse for our goLogoLo application.
+ * 
+ * @author Richard McKenna
+ * @author ?
+ * @version 1.0
+ 
+public class DraggableEllipse extends Ellipse implements Draggable {
+    double startCenterX;
+    double startCenterY;
+    double startX;
+    double startY;
+    double startdifX;
+    double startdifY;
+    //golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+    
+    public DraggableEllipse() {
+	setCenterX(0.0);
+	setCenterY(0.0);
+	setRadiusX(0.0);
+	setRadiusY(0.0);
+	setOpacity(1.0);
+	startCenterX = 0.0;
+	startCenterY = 0.0;
+    }
+    
+    @Override
+    public golState getStartingState() {
+	return golState.STARTING_ELLIPSE;
+    }
+    
+    @Override
+    public void start(int x, int y) {
+        startX = x;
+        startY = y;
+        
+        //double orgSceneX = this.getScaleX();
+        //double orgSceneY = getSceneY();
+        startdifX = x-getRadiusX();
+        startdifY = y-getRadiusY();
+        
+        startCenterX = getCenterX();
+        startCenterY = getCenterY();
+	//startCenterX = getX() ;
+	//startCenterY = y;
+        
+       // System.out.println(this.getScaleX() + "scene X" );
+        //System.out.println(this.getScaleY() + "scene Y");
+        
+        
+    }
+    
+    //@Override
+    public void drag2(int x, int y, double offsetX, double offsetY) {
+	//double diffX = x - startCenterX;
+	//double diffY = y - startCenterY;
+       setCenterX(getCenterX() + offsetX);
+       setCenterY(getCenterY() + offsetY);	
+        //double newX = getCenterX() + diffX;
+	//double newY = getCenterY() + diffY;
+        
+        double difX = x - startX;
+        double difY = y - startY;
+        
+        
+        //double newCenterX = d 
+        
+        
+	
+       // setCenterX(newX);
+//	setCenterY(newY);
+	startCenterX = x;
+	startCenterY = y;
+    }
+    
+    @Override
+    public void size(int x, int y) {
+	double width = x - startCenterX;
+	double height = y - startCenterY;
+	double centerX = startCenterX + (width / 2);
+	double centerY = startCenterY + (height / 2);
+	setCenterX(centerX);
+	setCenterY(centerY);
+	setRadiusX(width / 2);
+	setRadiusY(height / 2);	
+	
+    }
+        
+    @Override
+    public double getX() {
+	return getCenterX() - getRadiusX();
+    }
+
+    @Override
+    public double getY() {
+	return getCenterY() - getRadiusY();
+    }
+
+    @Override
+    public double getWidth() {
+	return getRadiusX() * 2;
+    }
+
+    @Override
+    public double getHeight() {
+	return getRadiusY() * 2;
+    }
+        
+    @Override
+    public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
+	setCenterX(initX + (initWidth/2));
+	setCenterY(initY + (initHeight/2));
+	setRadiusX(initWidth/2);
+	setRadiusY(initHeight/2);
+    }
+    
+    @Override
+    public String getShapeType() {
+	return ELLIPSE;
+    }
+
+    @Override
+    public void drag(int x, int y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}
+    
+    
+    
+    
+    package gol.data;
+
+import javafx.scene.shape.Rectangle;
+
+/
+ * This is a draggable rectangle for our goLogoLo application.
+ * 
+ * @author Richard McKenna
+ * @author ?
+ * @version 1.0
+ 
+    
+    
 public class DraggableRectangle extends Rectangle implements Draggable {
     double startX;
     double startY;
