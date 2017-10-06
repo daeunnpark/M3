@@ -20,5 +20,9 @@ public enum golState {
     STARTING_TEXT,
     MODIFYING_TEXT,
     BOLDING_TEXT,
-    STYLING_TEXT
+    STYLING_TEXT,
+    Loading_TEXT,
+    COPY_SHAPE,
+    PASTE_SHAPE
+    
 }

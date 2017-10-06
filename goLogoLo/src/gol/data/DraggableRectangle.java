@@ -38,10 +38,11 @@ public class DraggableRectangle extends Rectangle implements Draggable {
     
     @Override
     public void drag(int x, int y) {
-	double diffX = x - (getX() + (getWidth()/2));
-	double diffY = y - (getY() + (getHeight()/2));
+	double diffX = x - startX ;
+	double diffY = y - startY;
 	double newX = getX() + diffX;
 	double newY = getY() + diffY;
+        //System.out.println(getX() + "THIS");
 	xProperty().set(newX);
 	yProperty().set(newY);
 	startX = x;
@@ -54,16 +55,20 @@ public class DraggableRectangle extends Rectangle implements Draggable {
     
     @Override
     public void size(int x, int y) {
-	double width = x - getX();
+	double width = x - startX ;
+        double height = y - startY;
+        double centerX = startX + (width/2);
+        double centerY = startY + (height/2);
+        xProperty().set(centerX);
+	yProperty().set(centerY);
 	widthProperty().set(width);
-	double height = y - getY();
 	heightProperty().set(height);	
     }
     
     @Override
     public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
-	xProperty().set(initX);
-	yProperty().set(initY);
+	xProperty().set(initX + (initWidth/2));
+	yProperty().set(initY + (initHeight/2));
 	widthProperty().set(initWidth);
 	heightProperty().set(initHeight);
     }

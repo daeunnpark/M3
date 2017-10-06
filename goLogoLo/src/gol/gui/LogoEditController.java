@@ -231,9 +231,36 @@ public class LogoEditController {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
 
         workspace.reloadWorkspace(dataManager);
-        
+       // workspace.loadSelectedShapeSettings();
        // app.getGUI().updateToolbarControls(false);
         
     }
+    
+        public void processCopyShapeTool() {
+        // CHANGE THE CURSOR
+        Scene scene = app.getGUI().getPrimaryScene();
+        scene.setCursor(Cursor.DEFAULT);
 
+        // CHANGE THE STATE
+        dataManager.setState(golState.COPY_SHAPE);
+
+        // ENABLE/DISABLE THE PROPER BUTTONS
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
+    }
+
+        public void processPasteShapeTool() {
+        // CHANGE THE CURSOR
+        Scene scene = app.getGUI().getPrimaryScene();
+        scene.setCursor(Cursor.DEFAULT);
+
+        // CHANGE THE STATE
+        dataManager.setState(golState.PASTE_SHAPE);
+
+        // ENABLE/DISABLE THE PROPER BUTTONS
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace(dataManager);
+    }
+        
+        
 }

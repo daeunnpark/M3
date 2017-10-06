@@ -17,11 +17,13 @@ import static gol.data.golState.SIZING_SHAPE;
 import gol.gui.golWorkspace;
 import djf.components.AppDataComponent;
 import djf.AppTemplate;
+import static gol.data.Draggable.RECTANGLE;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javax.json.JsonObject;
 
 /**
  * This class serves as the data management component for this application.
@@ -42,8 +44,6 @@ public class golData implements AppDataComponent {
     // AND NOW THE EDITING DATA
     // THIS IS THE SHAPE CURRENTLY BEING SIZED BUT NOT YET ADDED
     Shape newShape;
-
-    boolean isImage;
 
     // THIS IS THE SHAPE CURRENTLY SELECTED
     Shape selectedShape;
@@ -90,8 +90,6 @@ public class golData implements AppDataComponent {
         currentFillColor = Color.web(WHITE_HEX);
         currentOutlineColor = Color.web(BLACK_HEX);
         currentBorderWidth = 1;
-
-        isImage = false;
 
         // THIS IS FOR THE SELECTED SHAPE
         DropShadow dropShadowEffect = new DropShadow();
@@ -234,6 +232,7 @@ public class golData implements AppDataComponent {
         DraggableRectangle newRectangle = new DraggableRectangle();
         //newRectangle.setUserData("Rect");
         newRectangle.start(x, y);
+        newRectangle.setUserData("RECT");
         newShape = newRectangle;
         initNewShape();
     }
@@ -242,12 +241,12 @@ public class golData implements AppDataComponent {
         DraggableEllipse newEllipse = new DraggableEllipse();
         // newEllipse.setUserData("Elli");
         newEllipse.start(x, y);
+        newEllipse.setUserData("ELLIP");
         newShape = newEllipse;
         initNewShape();
     }
 
     public void startNewImage(double height, double width, Image image) {
-        // isImage= true;
         DraggableRectangle newRectangle = new DraggableRectangle();
         //DraggableEllipse newEllipse = new DraggableEllipse();
         newRectangle.setHeight(height);
@@ -258,13 +257,16 @@ public class golData implements AppDataComponent {
         newShape = newRectangle;
         initNewShape();
     }
-
+    // start 
     public void makeNewTextBox(String s) {
+
         DraggableText text = new DraggableText();
         text.setText(s);
         text.setUserData("TEXT");
         newShape = text;
-        text.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 100)); // Default
+        text.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 200)); // Default
+        //state = golState.SELECTING_SHAPE;
+
         initNewShape();
     }
 
@@ -273,7 +275,8 @@ public class golData implements AppDataComponent {
             DraggableText text = (DraggableText) selectedShape;
             text.setText(news);
         }
-        state = SELECTING_SHAPE;
+        state = golState.SELECTING_SHAPE;
+
     }
 
     public void initNewShape() {
@@ -339,6 +342,7 @@ public class golData implements AppDataComponent {
     }
 
     public Shape selectTopShape(int x, int y) {
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         Shape shape = getTopShape(x, y);
         if (shape == selectedShape) {
             return shape;
@@ -350,17 +354,22 @@ public class golData implements AppDataComponent {
 
         if (shape != null) {
             highlightShape(shape);
-            golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-
-            if (shape.getUserData() == null) { // Rect / Elip
-                workspace.loadSelectedShapeSettings(shape);
-            }
 
         }
-        selectedShape = shape;
+        selectedShape = shape; //// SET AFTER THIS 
+
+        if (shape.getUserData() == null) { // Rect / Elip
+            workspace.loadSelectedShapeSettings(shape);
+
+        } else if (shape.getUserData().equals("TEXT")) {
+            workspace.loadSelectedTextSettings(shape);
+        }
+        
+        
         if (shape != null) {
             ((Draggable) shape).start(x, y);
         }
+
         return shape;
     }
 
@@ -374,11 +383,12 @@ public class golData implements AppDataComponent {
         return null;
     }
 
-    public void getBolded(Shape shape) {
+    public void getBolded(Shape shape) { //, boolean b) {
         DraggableText text = (DraggableText) shape;
 
-        FontWeight fontweight = FontWeight.NORMAL; 
-        
+        FontWeight fontweight = FontWeight.NORMAL;
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
         //.getName() contains font name, Bold, Italic and etc
         if (!text.getFont().getName().contains("Bold")) { // to Bold
             fontweight = FontWeight.EXTRA_BOLD;
@@ -392,7 +402,6 @@ public class golData implements AppDataComponent {
         text.setFont(Font.font(text.getFont().getFamily(), fontweight, fontposture, text.getFont().getSize()));
     }
 
-    
     public void getItalicized(Shape shape) {
         DraggableText text = (DraggableText) shape;
 
@@ -400,7 +409,7 @@ public class golData implements AppDataComponent {
         if (text.getFont().getName().contains("Bold")) { // kepp Bold
             fontweight = FontWeight.EXTRA_BOLD;
         }
-        
+
         FontPosture fontposture = FontPosture.REGULAR;
         if (!text.getFont().getName().contains("Italic")) { // add Italic
             fontposture = FontPosture.ITALIC;
@@ -415,17 +424,18 @@ public class golData implements AppDataComponent {
         if (text.getFont().getName().contains("Bold")) { //keep bold
             fontweight = FontWeight.EXTRA_BOLD;
         }
-        
+
         FontPosture fontposture = FontPosture.REGULAR;
-        if (text.getFont().getName().contains("Italic")) { // keep italic
+        if (text.getFont().getName().contains("Italic")) { // keep italic  
             fontposture = FontPosture.ITALIC;
         }
         text.setFont(Font.font(newfont, fontweight, fontposture, text.getFont().getSize()));
+
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        // workspace.loadSelectedTextSettings(shape);
     }
 
-    
-    
-    public void changesize(Shape shape, int n) {
+    public void changesize(Shape shape, double n) {
         DraggableText text = (DraggableText) shape;
 
         FontWeight fontweight = FontWeight.NORMAL;
@@ -438,6 +448,91 @@ public class golData implements AppDataComponent {
             fontposture = FontPosture.ITALIC;
         }
         text.setFont(Font.font(text.getFont().getFamily(), fontweight, fontposture, n));
+    }
+
+    public Shape cloneShape(Shape shape) {
+        Shape finalclone = null;
+        Color n = (Color) shape.getFill();
+        Color fillColor2 = new Color(n.getRed(), n.getGreen(), n.getBlue(), n.getOpacity());
+
+        Color m = (Color) shape.getStroke();
+        Color stroke = new Color(m.getRed(), m.getGreen(), m.getBlue(), m.getOpacity());
+
+        double strokeWidth = shape.getStrokeWidth();
+
+        if (shape.getUserData().equals("RECT")) {
+            DraggableRectangle original = (DraggableRectangle) shape;
+            DraggableRectangle clone = new DraggableRectangle();
+            double width = original.getWidth();
+            double height = original.getHeight();
+
+            clone.setFill(fillColor2);
+            clone.setStroke(stroke);
+            clone.setStrokeWidth(strokeWidth);
+            clone.setWidth(width);
+            clone.setHeight(height);
+            finalclone = clone;
+
+        } else if (shape.getUserData().equals("ELLIP")) {
+            DraggableEllipse original = (DraggableEllipse) shape;
+            DraggableEllipse clone = new DraggableEllipse();
+            double width = original.getRadiusX();
+            double height = original.getRadiusY();
+
+            clone.setFill(fillColor2);
+            clone.setStroke(stroke);
+            clone.setStrokeWidth(strokeWidth);
+            clone.setRadiusX(width);
+            clone.setRadiusY(height);
+            finalclone = clone;
+
+        } else if (shape.getUserData().equals("TEXT")) {
+            DraggableText original = (DraggableText) shape;
+            //DraggableText clone = new DraggableText();
+
+            finalclone = cloneText(original);
+        }
+        /*
+        else if (shape.getUserData().equals("IMAGE")){
+            DraggableEllipse original = (DraggableEllipse) shape;
+            DraggableEllipse clone = new DraggableEllipse ();
+        }
+         */
+        
+        return finalclone;
+
+    }
+
+    /**
+     * Make a deep cloned copy of original
+     *
+     * @param original
+     * @return cloned DraggableText
+     */
+    public DraggableText cloneText(DraggableText original) {
+
+        DraggableText clone = new DraggableText();
+
+        clone.setText(original.getText());
+        //clone.setFont(original.getFont()); // maybe getfamily
+
+        // BOLD
+        FontWeight fontweight = FontWeight.NORMAL;
+        //golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+        //.getName() contains font name, Bold, Italic and etc
+        if (original.getFont().getName().contains("Bold")) { //
+            fontweight = FontWeight.EXTRA_BOLD;
+        }
+
+        FontPosture fontposture = FontPosture.REGULAR;
+        if (original.getFont().getName().contains("Italic")) { //
+            fontposture = FontPosture.ITALIC;
+        }
+
+        clone.setFont(Font.font(original.getFont().getFamily(), fontweight, fontposture, original.getFont().getSize()));
+
+        return clone;
 
     }
 
@@ -460,4 +555,6 @@ public class golData implements AppDataComponent {
     public boolean isInState(golState testState) {
         return state == testState;
     }
+
+    
 }

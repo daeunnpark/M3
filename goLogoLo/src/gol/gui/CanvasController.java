@@ -11,6 +11,14 @@ import static gol.data.golState.DRAGGING_SHAPE;
 import static gol.data.golState.SELECTING_SHAPE;
 import static gol.data.golState.SIZING_SHAPE;
 import djf.AppTemplate;
+import gol.data.DraggableText;
+import static java.awt.SystemColor.text;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.text.Font;
+import java.awt.event.*;
 
 /**
  * This class responds to interactions with the rendering surface.
@@ -22,6 +30,8 @@ import djf.AppTemplate;
 public class CanvasController {
 
     AppTemplate app;
+    Shape shape = null;
+    Shape copy = null;
 
     public CanvasController(AppTemplate initApp) {
         app = initApp;
@@ -36,7 +46,8 @@ public class CanvasController {
 
         if (dataManager.isInState(SELECTING_SHAPE)) {
             // SELECT THE TOP SHAPE
-            Shape shape = dataManager.selectTopShape(x, y);
+            shape = dataManager.selectTopShape(x, y);
+
             Scene scene = app.getGUI().getPrimaryScene();
 
             // AND START DRAGGING IT
@@ -46,6 +57,7 @@ public class CanvasController {
                 app.getGUI().updateToolbarControls(false);
 
                 if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
+                    //DraggableText text2 = (DraggableText) shape;
 
                     golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
 
@@ -57,20 +69,47 @@ public class CanvasController {
                         dataManager.getItalicized(shape);
                     });
 
-                    workspace.comboBox.setOnAction(e -> {
-                        if (workspace.comboBox.getSelectionModel().getSelectedItem() != null) {
-                            dataManager.changefont(shape, workspace.comboBox.getSelectionModel().getSelectedItem().toString());
+                    workspace.comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+                            golData dataManager = (golData) app.getDataComponent();
+                            Shape shape = dataManager.getSelectedShape();
+                            if (shape != null) {
+                                if (shape.getUserData().equals("TEXT")) {
+                                    DraggableText text = (DraggableText) shape;
+                                    if (!workspace.comboBox.getSelectionModel().selectedItemProperty().getValue().equals(text.getFont().getFamily())) {
+                                        //System.out.println(workspace.comboBox.getSelectionModel().selectedItemProperty().getValue() + " selected in combo");
+                                        dataManager.changefont(shape, (String) workspace.comboBox.getSelectionModel().selectedItemProperty().getValue());
+                                    }
+                                }
+                            } else {
+                                System.out.println(" No selected shape");
+                            }
                         }
                     });
 
-                    workspace.comboBox2.setOnAction(e -> {
-                        if (workspace.comboBox2.getSelectionModel().getSelectedItem() != null) {
-                            dataManager.changesize(shape, Integer.parseInt(workspace.comboBox2.getSelectionModel().getSelectedItem().toString()));
+                    workspace.comboBox2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+                            golData dataManager = (golData) app.getDataComponent();
+                            Shape shape = dataManager.getSelectedShape();
+                            if (shape != null) {
+                                if (shape.getUserData().equals("TEXT")) {
+                                    DraggableText text = (DraggableText) shape;
+                                     //dataManager.cloneRect(shape);
+                                    if (!workspace.comboBox2.getSelectionModel().selectedItemProperty().getValue().equals((Double) text.getFont().getSize())) {
+                                        dataManager.changesize(shape, (double) workspace.comboBox2.getSelectionModel().selectedItemProperty().getValue());
+                                    }
+                                }
+                            } else {
+                                System.out.println(" No selected shape");
+                            }
                         }
                     });
+
                 }
 
-            } else {
+            } else { // shape null
                 scene.setCursor(Cursor.DEFAULT);
                 dataManager.setState(DRAGGING_NOTHING);
                 app.getWorkspaceComponent().reloadWorkspace(dataManager);
@@ -79,6 +118,11 @@ public class CanvasController {
             dataManager.startNewRectangle(x, y);
         } else if (dataManager.isInState(golState.STARTING_ELLIPSE)) {
             dataManager.startNewEllipse(x, y);
+        } else if (dataManager.isInState(golState.COPY_SHAPE)){
+            copy = dataManager.cloneShape(shape);
+            dataManager.setState(DRAGGING_NOTHING);                                 // DEFAULt
+        } else if (dataManager.isInState(golState.PASTE_SHAPE)){
+          
         }
 
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
@@ -136,10 +180,12 @@ public class CanvasController {
         if (shape != null) {
             if (shape.getUserData() != null) {
                 if (shape.getUserData() != null && shape.getUserData().equals("TEXT")) {
-                    String newS = workspace.promptToText();
-
-                    if (newS != null) {
-                        dataManager.changeTextBox(newS);
+                    DraggableText text = (DraggableText) shape;
+                    if (text.getText() != null) {
+                        String newS = workspace.promptToText(text.getText()); // original text passed as parameter
+                        if (newS != null) {
+                            dataManager.changeTextBox(newS);
+                        }
                     }
                 }
             }

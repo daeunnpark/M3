@@ -70,6 +70,7 @@ import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import static gol.css.golStyle.*;
+import gol.data.DraggableText;
 import static gol.golLanguageProperty.ADDPICTURE_ICON;
 import static gol.golLanguageProperty.ADDPICTURE_TOOLTIP;
 import static gol.golLanguageProperty.ADDTEXT_ICON;
@@ -78,12 +79,6 @@ import static gol.golLanguageProperty.BOLD_ICON;
 import static gol.golLanguageProperty.BOLD_TOOLTIP;
 import static gol.golLanguageProperty.ITALIC_ICON;
 import static gol.golLanguageProperty.ITALIC_TOOLTIP;
-/*
-import static gol.golLanguageProperty.EN;
-import static gol.golLanguageProperty.FR;
-import static gol.golLanguageProperty.LANG_TEXT;
-import static gol.golLanguageProperty.LANG_TITLE;
- */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -92,6 +87,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -103,7 +100,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javax.swing.JComboBox;
 import properties_manager.PropertiesManager;
 
 /**
@@ -228,8 +227,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         // LAYOUT THE APP
         initLayout();
 
-        addFilebuttons();
-
+        // addFilebuttons();
         languageSelection();
 
         //initLayout();
@@ -239,8 +237,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         // AND INIT THE STYLE FOR THE WORKSPACE
         initStyle();
 
-        List<String> families = javafx.scene.text.Font.getFamilies();
-        System.out.println(families.toString());
     }
 
     /**
@@ -275,6 +271,21 @@ public class golWorkspace extends AppWorkspaceComponent {
     // HELPER SETUP METHOD
     private void initLayout() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        langButton = new Button();
+        langButton = gui.initChildButton(gui.getFileToolbar(), LANG_ICON.toString(), LANG_TOOLTIP.toString(), false);
+
+        infoButton = new Button();
+        infoButton = gui.initChildButton(gui.getFileToolbar(), INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
+
+        cutButton = new Button();
+        cutButton = gui.initChildButton(gui.getFileToolbar(), CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
+
+        copyButton = new Button();
+        copyButton = gui.initChildButton(gui.getFileToolbar(), COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
+
+        pasteButton = new Button();
+        pasteButton = gui.initChildButton(gui.getFileToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
 
         // THIS WILL GO IN THE LEFT SIDE OF THE WORKSPACE
         editToolbar = new VBox();
@@ -315,15 +326,32 @@ public class golWorkspace extends AppWorkspaceComponent {
         boldButton.setTooltip(buttonTooltip);
         row1_3Box.getChildren().add(boldButton);
 
+        comboBox = new ComboBox<Font>();
+
+        comboBox.getItems().addAll(
+                "Arial",
+                "Menlo",
+                "Tw Cen MT",
+                "Shree Devanagari 714",
+                "Arial Narrow"
+        );
+        golData dataManager = (golData) app.getDataComponent();
+
+    
+
+        //comboBox.addItemListener
+        //comboBox.getSelectionModel().select("Arial Narrow"); 
+        /*
         ObservableList<String> options
-                = FXCollections.observableArrayList(
+                = FXCollections.observableArrayList (
                         "Arial",
                         "Menlo",
                         "Tw Cen MT",
                         "Shree Devanagari 714",
                         "Arial Narrow"
                 );
-        comboBox = new ComboBox(options);
+        
+        //comboBox = new ComboBox <String>(options);
 
         /*
          comboBox.setOnAction((e) -> {
@@ -336,6 +364,34 @@ public class golWorkspace extends AppWorkspaceComponent {
         });
         
          */
+        comboBox2 = new ComboBox<Double>();
+        comboBox2.getItems().addAll(
+                new Double(100.0),
+                new Double(200.0)
+        /*
+                        "105",
+                        "110",
+                        "115",
+                        "120",
+                        "125",
+                        "130",
+                        "135",
+                        "140",
+                        "145",
+                        "150",
+                        "155",
+                        "160",
+                        "165",
+                        "170",
+                        "175",
+                        "180",
+                        "185",
+                        "190",
+                        "195",
+                        "200" 
+         */
+        );
+        /*
         ObservableList<String> options2
                 = FXCollections.observableArrayList(
                         "100",
@@ -360,8 +416,14 @@ public class golWorkspace extends AppWorkspaceComponent {
                         "195",
                         "200"
                 );
-        comboBox2 = new ComboBox(options2);
+       // comboBox2 = new ComboBox <String>(options2);
 
+         */
+
+        //comboBox2.getSelectionModel().select(200.0); // default
+        //  comboBox2.getSelectionModel().se
+        // comboBox2.se
+        // comboBox2.getSelectionModel().selectFirst();
         row1_3Box.getChildren().addAll(comboBox, comboBox2);
 
         // ROW 2
@@ -436,13 +498,11 @@ public class golWorkspace extends AppWorkspaceComponent {
         logoEditController = new LogoEditController(app);
 
         imageButton.setOnAction(e -> {
-
             handleLoadRequest2();
-
         });
 
         textButton.setOnAction(e -> {
-            logoEditController.processTextBox(promptToText());
+            logoEditController.processTextBox(promptToText("daeun"));               // TO CHANGE
         });
 
         langButton.setOnAction(e -> {
@@ -466,6 +526,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         });
 
         cutButton.setOnAction(e -> {
+            
             //logoEditController.processSelectOutlineColor();
         });
         copyButton.setOnAction(e -> {
@@ -550,6 +611,16 @@ public class golWorkspace extends AppWorkspaceComponent {
         }
     }
 
+    public void loadSelectedTextSettings(Shape shape) {
+        DraggableText text = (DraggableText) shape;
+
+        if (text.getText() != null) {
+            comboBox.getSelectionModel().select(text.getFont().getFamily());
+            comboBox2.getSelectionModel().select((Double)text.getFont().getSize());
+          //System.out.println(shape.toString() + " LOADED");
+        }
+    }
+
     public void SaveSelectedShapeSettings(Shape shape) {
         if (shape != null) {
 
@@ -625,102 +696,6 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         removeButton.setDisable(dataManager.getSelectedShape() == null);
         backgroundColorPicker.setValue(dataManager.getBackgroundColor());
-
-    }
-
-    /**
-     * If LangSelection.txt file exists, read it and updates the UI in that
-     * Language Otherwise, create LangSelection.txt and save selected Language
-     */
-    public void languageSelection() {
-
-        String line = null;
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
-
-        try {
-            //String verify, putData;
-            File file = new File("LangSelection.txt");
-            file.createNewFile();
-
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-
-            if ((line = br.readLine()) != null) {       // SUPER IMPORTANT TO USE LINE AND NOT br.readLine()
-
-                // updates
-                if (line.equals("French")) {
-                    boolean success = app.loadProperties("app_properties_FR.xml");
-                    if (success) {
-                        initTopToolbar2(app);
-                    }
-
-                } else {
-                    // ENG by default
-                }
-
-            } else { // ASKS sleection
-
-                FileWriter fw = new FileWriter(file);
-                BufferedWriter bw = new BufferedWriter(fw);
-
-                answer0 = askLanguageSelection();
-                answer = answer0 + "\n";
-
-                bw.write(answer);
-                bw.flush();
-                bw.close();
-
-                if (answer0.equals("French")) {
-                    boolean success = app.loadProperties("app_properties_FR.xml");
-
-                    if (success) {
-                        initTopToolbar2(app);
-                    }
-                }
-            }
-            br.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Adds LangButton and InfoButton to TopFileToolbar
-     */
-    public void addFilebuttons() {
-        langButton = new Button();
-        langButton = gui.initChildButton(gui.getFileToolbar(), LANG_ICON.toString(), LANG_TOOLTIP.toString(), false);
-
-        infoButton = new Button();
-        infoButton = gui.initChildButton(gui.getFileToolbar(), INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
-
-        cutButton = new Button();
-        cutButton = gui.initChildButton(gui.getFileToolbar(), CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
-
-        copyButton = new Button();
-        copyButton = gui.initChildButton(gui.getFileToolbar(), COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
-
-        pasteButton = new Button();
-        pasteButton = gui.initChildButton(gui.getFileToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
-
-    }
-
-    /**
-     * Dialogue for Info about app
-     */
-    public void info() {
-
-        Image image = new Image("file:/Users/Daeun/NetBeansProjects/hw2/goLogoLo/images/goLogoLoLogo2.png");
-
-        Alert a = new Alert(AlertType.INFORMATION);
-        a.setTitle(appTitle);
-        a.setHeaderText("   APP INFORMATION");
-        a.setContentText("  goLogoLo is Created by Daeun Park in 2017 with <3");
-
-        ImageView imageView = new ImageView(image);
-        a.setGraphic(imageView);
-        a.showAndWait();
 
     }
 
@@ -854,9 +829,9 @@ public class golWorkspace extends AppWorkspaceComponent {
      *
      * @return input text
      */
-    public String promptToText() {
+    public String promptToText(String s) {
 
-        TextInputDialog dialog = new TextInputDialog("daeun");
+        TextInputDialog dialog = new TextInputDialog(s);
         dialog.setTitle("TEXT BOX");
         dialog.setHeaderText("Add a Text Box");
         //dialog.setContentText("Please enter your name:");
@@ -864,13 +839,110 @@ public class golWorkspace extends AppWorkspaceComponent {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             return result.get();
-
         }
         return null;
+    }
+
+    /**
+     * If LangSelection.txt file exists, read it and updates the UI in that
+     * Language Otherwise, create LangSelection.txt and save selected Language
+     */
+    public void languageSelection() {
+
+        String line = null;
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        try {
+            //String verify, putData;
+            File file = new File("LangSelection.txt");
+            file.createNewFile();
+
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+
+            if ((line = br.readLine()) != null) {       // SUPER IMPORTANT TO USE LINE AND NOT br.readLine()
+
+                // updates
+                if (line.equals("French")) {
+                    boolean success = app.loadProperties("app_properties_FR.xml");
+                    if (success) {
+                        initTopToolbar2(app);
+                    }
+
+                } else {
+                    // ENG by default
+                }
+
+            } else { // ASKS sleection
+
+                FileWriter fw = new FileWriter(file);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                answer0 = askLanguageSelection();
+                answer = answer0 + "\n";
+
+                bw.write(answer);
+                bw.flush();
+                bw.close();
+
+                if (answer0.equals("French")) {
+                    boolean success = app.loadProperties("app_properties_FR.xml");
+
+                    if (success) {
+                        initTopToolbar2(app);
+                    }
+                }
+            }
+            br.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Dialogue for Info about app
+     */
+    public void info() {
+
+        Image image = new Image("file:/Users/Daeun/NetBeansProjects/hw2/goLogoLo/images/goLogoLoLogo2.png");
+
+        Alert a = new Alert(AlertType.INFORMATION);
+        a.setTitle(appTitle);
+        a.setHeaderText("   APP INFORMATION");
+        a.setContentText("  goLogoLo is Created by Daeun Park in 2017 with <3");
+
+        ImageView imageView = new ImageView(image);
+        a.setGraphic(imageView);
+        a.showAndWait();
+
     }
 
     @Override
     public void resetWorkspace() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    /**
+     * Adds LangButton and InfoButton to TopFileToolbar
+     */
+    /*
+    public void addFilebuttons() {
+        langButton = new Button();
+        langButton = gui.initChildButton(gui.getFileToolbar(), LANG_ICON.toString(), LANG_TOOLTIP.toString(), false);
+
+        infoButton = new Button();
+        infoButton = gui.initChildButton(gui.getFileToolbar(), INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
+
+        cutButton = new Button();
+        cutButton = gui.initChildButton(gui.getFileToolbar(), CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
+
+        copyButton = new Button();
+        copyButton = gui.initChildButton(gui.getFileToolbar(), COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
+
+        pasteButton = new Button();
+        pasteButton = gui.initChildButton(gui.getFileToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
+
+    }
+     */
 }
