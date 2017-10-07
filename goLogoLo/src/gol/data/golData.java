@@ -17,12 +17,18 @@ import static gol.data.golState.SIZING_SHAPE;
 import gol.gui.golWorkspace;
 import djf.components.AppDataComponent;
 import djf.AppTemplate;
+import gol.AddtoUndoRedo_Transactions;
+import gol.jTPS;
+import java.io.PrintStream;
+import java.util.Scanner;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import gol.jTPS_Transaction;
+import jtps.test.Num;
 
 /**
  * This class serves as the data management component for this application.
@@ -71,6 +77,11 @@ public class golData implements AppDataComponent {
     //FONT
     String Fontweight, Fontposture;
 
+    static jTPS jTPS = new jTPS();
+    static PrintStream out = System.out;
+    //static Scanner input = new Scanner(System.in);
+    //static Num num = new Num();
+
     /**
      * THis constructor creates the data manager and sets up the
      *
@@ -99,7 +110,9 @@ public class golData implements AppDataComponent {
         dropShadowEffect.setBlurType(BlurType.GAUSSIAN);
         dropShadowEffect.setRadius(15);
         highlightedEffect = dropShadowEffect;
+
     }
+    
 
     public ObservableList<Node> getShapes() {
         return shapes;
@@ -120,18 +133,34 @@ public class golData implements AppDataComponent {
     public double getCurrentBorderWidth() {
         return currentBorderWidth;
     }
-
+    
     public void setShapes(ObservableList<Node> initShapes) {
         shapes = initShapes;
     }
 
     public void setBackgroundColor(Color initBackgroundColor) {
-        backgroundColor = initBackgroundColor;
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        if(!workspace.getredobtn() && !workspace.getundobtn()){
+        System.out.println("SET BGD");
+        
+        jTPS_Transaction transaction = new jTPS_Transaction 
+        ( this, "setBackgroundColor", getBackgroundColor(), initBackgroundColor );
+        
+        jTPS.addTransaction(transaction);
+        //jTPS.doTransaction();
+        
+        }
+       
+        backgroundColor = initBackgroundColor;
+        
         Pane canvas = workspace.getCanvas();
+       
         BackgroundFill fill = new BackgroundFill(backgroundColor, null, null);
         Background background = new Background(fill);
         canvas.setBackground(background);
+       
+
+        
     }
 
     public void setCurrentFillColor(Color initColor) {
@@ -365,7 +394,7 @@ public class golData implements AppDataComponent {
             }
         }
         if (shape != null) { //???
-           // ((Draggable) shape).start(x, y);
+            // ((Draggable) shape).start(x, y);
         }
 
         return shape;
@@ -462,51 +491,51 @@ public class golData implements AppDataComponent {
                 strokeWidth = shape.getStrokeWidth();
             }
 
-           // if (shape != null) {
-                if (shape.getUserData().equals("RECT")) {
-                    DraggableRectangle original = (DraggableRectangle) shape;
-                    DraggableRectangle clone = new DraggableRectangle();
+            // if (shape != null) {
+            if (shape.getUserData().equals("RECT")) {
+                DraggableRectangle original = (DraggableRectangle) shape;
+                DraggableRectangle clone = new DraggableRectangle();
 
-                    clone.setFill(fillColor2);
-                    clone.setStroke(stroke);
-                    clone.setStrokeWidth(strokeWidth);
-                    clone.setWidth(original.getWidth());
-                    clone.setHeight(original.getHeight());
-                    clone.setUserData("RECT");
-                    finalclone = clone;
+                clone.setFill(fillColor2);
+                clone.setStroke(stroke);
+                clone.setStrokeWidth(strokeWidth);
+                clone.setWidth(original.getWidth());
+                clone.setHeight(original.getHeight());
+                clone.setUserData("RECT");
+                finalclone = clone;
 
-                } else if (shape.getUserData().equals("ELLIP")) {
-                    DraggableEllipse original = (DraggableEllipse) shape;
-                    DraggableEllipse clone = new DraggableEllipse();
-                    // double width = original.getRadiusX();
-                    //double height = original.getRadiusY();
+            } else if (shape.getUserData().equals("ELLIP")) {
+                DraggableEllipse original = (DraggableEllipse) shape;
+                DraggableEllipse clone = new DraggableEllipse();
+                // double width = original.getRadiusX();
+                //double height = original.getRadiusY();
 
-                    clone.setFill(fillColor2);
-                    clone.setStroke(stroke);
-                    clone.setStrokeWidth(strokeWidth);
-                    clone.setRadiusX(original.getRadiusY());
-                    clone.setRadiusY(original.getRadiusY());
-                    clone.setUserData("ELLIP");
-                    finalclone = clone;
+                clone.setFill(fillColor2);
+                clone.setStroke(stroke);
+                clone.setStrokeWidth(strokeWidth);
+                clone.setRadiusX(original.getRadiusY());
+                clone.setRadiusY(original.getRadiusY());
+                clone.setUserData("ELLIP");
+                finalclone = clone;
 
-                } else if (shape.getUserData().equals("TEXT")) { // USER DATA BASE TO ADD!!
-                    DraggableText original = (DraggableText) shape;
-                    finalclone = cloneText(original);
+            } else if (shape.getUserData().equals("TEXT")) { // USER DATA BASE TO ADD!!
+                DraggableText original = (DraggableText) shape;
+                finalclone = cloneText(original);
 
-                } else if (shape.getUserData().equals("IMAGE")) {
+            } else if (shape.getUserData().equals("IMAGE")) {
 
-                    DraggableRectangle original = (DraggableRectangle) shape;
-                    DraggableRectangle clone = new DraggableRectangle();
+                DraggableRectangle original = (DraggableRectangle) shape;
+                DraggableRectangle clone = new DraggableRectangle();
 
-                    clone.setFill(original.getFill());
+                clone.setFill(original.getFill());
 
-                    clone.setWidth(original.getWidth());
-                    clone.setHeight(original.getHeight());
+                clone.setWidth(original.getWidth());
+                clone.setHeight(original.getHeight());
 
-                    clone.setUserData("IMAGE");
-                    finalclone = clone;
-                    
-                    /*
+                clone.setUserData("IMAGE");
+                finalclone = clone;
+
+                /*
                   public void startNewImage(double height, double width, Image image) {
         DraggableRectangle newRectangle = new DraggableRectangle();
         newRectangle.setHeight(height);
@@ -516,11 +545,10 @@ public class golData implements AppDataComponent {
 
         newShape = newRectangle;
         initNewShape();
-                     */
-                }
+                 */
+            }
 
-           // }
-
+            // }
         }
         System.out.println(finalclone.toString() + " SHAPE CLONED");
         return finalclone;
@@ -536,7 +564,6 @@ public class golData implements AppDataComponent {
 
         DraggableText clone = new DraggableText();
         Text text = new Text(original.getText());
-       
 
         clone.setText(text.getText());
         //clone.setFont(original.getFont()); // maybe getfamily
@@ -593,6 +620,23 @@ public class golData implements AppDataComponent {
 
     public boolean isInState(golState testState) {
         return state == testState;
+    }
+    
+    public void undoTransaction(){
+        System.out.println("undo11");
+        System.out.println(jTPS.toString());
+       jTPS.undoTransaction();
+       golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+       workspace.resetundobtn();
+    }
+    
+    public void redoTransaction(){
+        System.out.println("redo22");
+        System.out.println(jTPS.toString());
+       jTPS.redoTransaction();
+       golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+       workspace.resetredobtn();
+       
     }
 
 }

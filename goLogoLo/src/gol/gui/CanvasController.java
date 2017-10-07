@@ -147,9 +147,7 @@ public class CanvasController {
                         //}
                     });
                 }
-                
-                
-                    
+
                 } else { // shape null
                     scene.setCursor(Cursor.DEFAULT);
                     dataManager.setState(DRAGGING_NOTHING);
@@ -180,13 +178,7 @@ public class CanvasController {
         } else if (dataManager.isInState(DRAGGING_SHAPE)) {
             
             Draggable selectedDraggableShape = (Draggable) dataManager.getSelectedShape();
-            if (dataManager.getSelectedShape().getUserData().equals("RECT")) {
-            }
-            
-            selectedDraggableShape.drag(x, y); //, offsetX, offsetY);
-            // workspace.setsceneX(offsetX);
-            // workspace.setsceneX(offsetY);
-            
+            selectedDraggableShape.drag(x, y);
             app.getGUI().updateToolbarControls(false);
         }
     }
@@ -218,7 +210,7 @@ public class CanvasController {
      * @param x
      * @param y
      */
-    public void processModifyText(int x, int y) { //, String s) {
+    public void processModifyText(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         Shape shape = dataManager.selectTopShape(x, y);

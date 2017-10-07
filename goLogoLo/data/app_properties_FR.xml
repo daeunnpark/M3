@@ -29,6 +29,15 @@ and open the template in the editor.
         <property name="INFO_ICON"          value="Info.png"></property>
         
         
+        <property name="CUT_ICON"	    value="Cut_1.png"></property>
+        <property name="COPY_ICON"	    value="Copy_1.png"></property>
+        <property name="PASTE_ICON"          value="Paste_1.png"></property> 
+        
+        <property name="UNDO_ICON"	    value="undo.png"></property>
+        <property name="REDO_ICON"          value="redo.png"></property> 
+        
+        
+        
         <property name="ADDTEXT_ICON"           value="addtext.png"></property>
         <property name="ADDPICTURE_ICON"	value="addpicture.png"></property>
         <property name="FONT_ICON"		value="font.png"></property>
@@ -46,7 +55,15 @@ and open the template in the editor.
         <property name="LANG_TOOLTIP"		value="Changer de Langue"></property>
         <property name="INFO_TOOLTIP"		value="Savoir plus sur cette Application"></property>
         
-         <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
+        <property name="CUT_TOOLTIP"            value="Cut selected element"></property>
+        <property name="COPY_TOOLTIP"           value="Copy selected element"></property>
+        <property name="PASTE_TOOLTIP"          value="Paste selected element"></property> 
+        
+        <property name="UNDO_TOOLTIP"           value="Undo Last Action"></property>
+        <property name="REDO_TOOLTIP"           value="Redo Last Action"></property> 
+        
+        
+        <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
         <property name="ADDPICTURE_TOOLTIP"	value="Ajouter Image"></property>
         <property name="FONT_TOOLTIP"		value="Changer Police"></property>
         
@@ -55,7 +72,7 @@ and open the template in the editor.
         <property name="TEXTSIZE_TOOLTIP"       value="Changer taille de police "></property>
         
         
-                <!-- Language Selection Message-->
+        <!-- Language Selection Message-->
         <property name="LANG_TITLE"		value="Préférence de Langue"></property>
         <property name="LANG_TEXT"		value="Selectionnez une Langue"></property>
         <property name="EN"                     value="Anglais"></property>

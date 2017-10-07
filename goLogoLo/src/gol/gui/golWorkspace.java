@@ -65,10 +65,15 @@ import static djf.settings.AppPropertyType.NEW_TOOLTIP;
 import static djf.settings.AppPropertyType.OUTLINECOLOR;
 import static djf.settings.AppPropertyType.PASTE_ICON;
 import static djf.settings.AppPropertyType.PASTE_TOOLTIP;
+import static djf.settings.AppPropertyType.REDO_ICON;
+import static djf.settings.AppPropertyType.REDO_TOOLTIP;
 import static djf.settings.AppPropertyType.SAVE_TOOLTIP;
+import static djf.settings.AppPropertyType.UNDO_ICON;
+import static djf.settings.AppPropertyType.UNDO_TOOLTIP;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static djf.settings.AppStartupConstants.PATH_WORK;
+import gol.AddtoUndoRedo_Transactions;
 import static gol.css.golStyle.*;
 import gol.data.DraggableText;
 import static gol.golLanguageProperty.ADDPICTURE_ICON;
@@ -84,9 +89,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceDialog;
@@ -98,6 +105,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+
+import gol.jTPS_Transaction;
+
+import jtps.test.Num;
 import properties_manager.PropertiesManager;
 
 /**
@@ -190,6 +201,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     Button cutButton;
     Button copyButton;
     Button pasteButton;
+    ToggleButton undoButton;
+    ToggleButton redoButton;
 
     boolean continueToOpen;
 
@@ -232,6 +245,11 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         // AND INIT THE STYLE FOR THE WORKSPACE
         initStyle();
+
+        undoredo();
+    }
+
+    public void undoredo() {
 
     }
 
@@ -283,6 +301,33 @@ public class golWorkspace extends AppWorkspaceComponent {
         pasteButton = new Button();
         pasteButton = gui.initChildButton(gui.getFileToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
 
+        undoButton = new ToggleButton();
+        String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(UNDO_ICON.toString());
+        Image buttonImage = new Image(imagePath);
+
+        undoButton.setSelected(false);
+        undoButton.setGraphic(new ImageView(buttonImage));
+        Tooltip buttonTooltip = new Tooltip(props.getProperty(UNDO_TOOLTIP.toString()));
+        undoButton.setTooltip(buttonTooltip);
+        gui.getFileToolbar().getChildren().add(undoButton);
+
+        redoButton = new ToggleButton();
+        imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(REDO_ICON.toString());
+        buttonImage = new Image(imagePath);
+
+        redoButton.setSelected(false);
+        redoButton.setGraphic(new ImageView(buttonImage));
+        buttonTooltip = new Tooltip(props.getProperty(REDO_TOOLTIP.toString()));
+        redoButton.setTooltip(buttonTooltip);
+        gui.getFileToolbar().getChildren().add(redoButton);
+
+        /*
+        undoButton = new Button();
+        undoButton = gui.initChildButton(gui.getFileToolbar(), UNDO_ICON.toString(), UNDO_TOOLTIP.toString(), false);
+
+        redoButton = new Button();
+        redoButton = gui.initChildButton(gui.getFileToolbar(), REDO_ICON.toString(), REDO_TOOLTIP.toString(), false);
+         */
         // THIS WILL GO IN THE LEFT SIDE OF THE WORKSPACE
         editToolbar = new VBox();
 
@@ -302,14 +347,13 @@ public class golWorkspace extends AppWorkspaceComponent {
         row1_3Box = new HBox();
 
         italicButton = new ToggleButton();
-        String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(ITALIC_ICON.toString());
-        Image buttonImage = new Image(imagePath);
+        imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(ITALIC_ICON.toString());
+        buttonImage = new Image(imagePath);
 
         italicButton.setSelected(false);
         italicButton.setGraphic(new ImageView(buttonImage));
-        Tooltip buttonTooltip = new Tooltip(props.getProperty(ITALIC_TOOLTIP.toString()));
+        buttonTooltip = new Tooltip(props.getProperty(ITALIC_TOOLTIP.toString()));
         italicButton.setTooltip(buttonTooltip);
-
         row1_3Box.getChildren().add(italicButton);
 
         boldButton = new ToggleButton();
@@ -322,7 +366,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         boldButton.setTooltip(buttonTooltip);
         row1_3Box.getChildren().add(boldButton);
 
-        comboBox = new ComboBox<Font>();
+        comboBox = new ComboBox<>();
 
         comboBox.getItems().addAll(
                 "Arial",
@@ -332,7 +376,7 @@ public class golWorkspace extends AppWorkspaceComponent {
                 "Arial Narrow"
         );
 
-        comboBox2 = new ComboBox<Double>();
+        comboBox2 = new ComboBox<>();
 
         comboBox2.getItems().addAll(
                 new Double(100),
@@ -454,10 +498,21 @@ public class golWorkspace extends AppWorkspaceComponent {
             }
         });
 
+        golData dataManager = (golData) app.getDataComponent();
+
         infoButton.setOnAction(e -> {
             info();
         });
 
+        undoButton.setOnAction(e -> {
+            dataManager.undoTransaction();
+        });
+
+        redoButton.setOnAction(e -> {
+            dataManager.redoTransaction();
+        });
+
+        /*
         cutButton.setOnAction(e -> {
 
             //logoEditController.processSelectOutlineColor();
@@ -468,7 +523,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         pasteButton.setOnAction(e -> {
             //logoEditController.processSnapshot();
         });
-
+         */
         // NOW CONNECT THE BUTTONS TO THEIR HANDLERS
         selectionToolButton.setOnAction(e -> {
             logoEditController.processSelectSelectionTool();
@@ -519,7 +574,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         canvas.setOnMouseClicked((MouseEvent mouseEvent) -> {
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                 if (mouseEvent.getClickCount() == 2) {
-                    golData dataManager = (golData) app.getDataComponent();
+                    // golData dataManager = (golData) app.getDataComponent();
                     canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY());
                 }
             }
@@ -859,6 +914,8 @@ public class golWorkspace extends AppWorkspaceComponent {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*
+
     public double getsceneX() {
         return orgSceneX;
     }
@@ -867,14 +924,14 @@ public class golWorkspace extends AppWorkspaceComponent {
         return orgSceneY;
     }
 
-     public void setsceneX(double s) {
+    public void setsceneX(double s) {
         orgSceneX = s;
     }
 
     public void setsceneY(double s) {
         orgSceneY = s;
     }
-    
+
     public double getoffsetX() {
         return offsetX;
     }
@@ -882,5 +939,23 @@ public class golWorkspace extends AppWorkspaceComponent {
     public double getoffsetY() {
         return offsetY;
     }
+     */
+    public boolean getundobtn() {
+        return undoButton.isSelected();
+    }
 
+    public boolean getredobtn() {
+        return redoButton.isSelected();
+    }
+    
+      public void resetundobtn() {
+          undoButton.setSelected(false);
+          System.out.println("undo reseted");
+        
+    }
+
+    public void resetredobtn() {
+        redoButton.setSelected(false);
+        System.out.println("redo reseted");
+    }
 }

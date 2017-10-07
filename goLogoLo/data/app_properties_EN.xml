@@ -29,6 +29,18 @@
         <property name="CUT_ICON"	    value="Cut_1.png"></property>
         <property name="COPY_ICON"	    value="Copy_1.png"></property>
         <property name="PASTE_ICON"          value="Paste_1.png"></property> 
+        
+        <property name="UNDO_ICON"	    value="undo.png"></property>
+        <property name="REDO_ICON"          value="redo.png"></property> 
+        
+       
+        <property name="ADDTEXT_ICON"           value="addtext.png"></property>
+        <property name="ADDPICTURE_ICON"	value="addpicture.png"></property>
+        <property name="FONT_ICON"		value="font.png"></property>
+        
+        <property name="BOLD_ICON"              value="bold.png"></property>
+        <property name="ITALIC_ICON"            value="italic.png"></property>
+        <property name="TEXTSIZE_ICON"		value="textsize.png"></property>
        
  
         
@@ -42,6 +54,17 @@
         <property name="CUT_TOOLTIP"            value="Cut selected element"></property>
         <property name="COPY_TOOLTIP"           value="Copy selected element"></property>
         <property name="PASTE_TOOLTIP"          value="Paste selected element"></property> 
+        
+        <property name="UNDO_TOOLTIP"           value="Undo Last Action"></property>
+        <property name="REDO_TOOLTIP"           value="Redo Last Action"></property> 
+        
+        <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
+        <property name="ADDPICTURE_TOOLTIP"	value="Ajouter Image"></property>
+        <property name="FONT_TOOLTIP"		value="Changer Police"></property>
+        
+        <property name="BOLD_TOOLTIP"           value="Bold"></property>
+        <property name="ITALIC_TOOLTIP"         value="Italic"></property>
+        <property name="TEXTSIZE_TOOLTIP"       value="Changer taille de police "></property>
         
         
         <!-- Language Selection Message-->
