@@ -896,7 +896,7 @@ public class golWorkspace extends AppWorkspaceComponent {
      */
     public void info() {
 
-        Image image = new Image("file:/Users/Daeun/NetBeansProjects/hw2/goLogoLo/images/goLogoLoLogo2.png");
+        Image image = new Image("file:/Users/Daeun/NetBeansProjects/hw2/goLogoLo/images/cat.png");
 
         Alert a = new Alert(AlertType.INFORMATION);
         a.setTitle(appTitle);
