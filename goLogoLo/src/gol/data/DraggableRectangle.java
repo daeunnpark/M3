@@ -51,9 +51,19 @@ public class DraggableRectangle extends Rectangle implements Draggable {
         diffY = y - startDifY;
         newX = startX + diffX;
         newY = startY + diffY;
+        
+        //System.out.println(xProperty()+" x1");
+        // System.out.println();
+        //System.out.println(xProperty().getValue()+" x2");
+         //System.out.println(getX()+" x3");
+        
+        //System.out.println(this.xProperty().toString()+" Before");
 
         xProperty().set(newX);
         yProperty().set(newY);
+       // System.out.println(this.xProperty().toString()+" After");
+       // System.out.println(this.yProperty().toString()+" After");
+        
 
         startX = newX;
         startY = newY;
@@ -82,7 +92,7 @@ public class DraggableRectangle extends Rectangle implements Draggable {
         widthProperty().set(initWidth);
         heightProperty().set(initHeight);
     }
-
+    
     @Override
     public String getShapeType() {
         return RECTANGLE;
@@ -94,5 +104,12 @@ public class DraggableRectangle extends Rectangle implements Draggable {
 
     public void setStartDifY(double y) {
         startDifY = y;
+    }
+
+    @Override
+    public void setXY(double x , double y ) {
+        xProperty().set(x);
+        yProperty().set(y);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

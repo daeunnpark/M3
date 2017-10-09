@@ -54,7 +54,7 @@ public class LogoEditController {
      */
     public void processRemoveSelectedShape() {
         // REMOVE THE SELECTED SHAPE IF THERE IS ONE
-        dataManager.removeSelectedShape();
+        dataManager.removeSelectedShape(dataManager.getSelectedShape());
 
         // ENABLE/DISABLE THE PROPER BUTTONS
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
@@ -118,7 +118,7 @@ public class LogoEditController {
      * the back layer.
      */
     public void processMoveSelectedShapeToBack() {
-        dataManager.moveSelectedShapeToBack();
+        dataManager.moveSelectedShapeToBack(dataManager.getSelectedShape());
         app.getGUI().updateToolbarControls(false);
     }
 
@@ -127,7 +127,7 @@ public class LogoEditController {
      * front layer.
      */
     public void processMoveSelectedShapeToFront() {
-        dataManager.moveSelectedShapeToFront();
+        dataManager.moveSelectedShapeToFront(dataManager.getSelectedShape());
         app.getGUI().updateToolbarControls(false);
     }
 
@@ -138,7 +138,8 @@ public class LogoEditController {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         Color selectedColor = workspace.getFillColorPicker().getValue();
         if (selectedColor != null) {
-            dataManager.setCurrentFillColor(selectedColor);
+            //dataManager.setCurrentFillColor(null,selectedColor);
+            dataManager.setCurrentFillColor(dataManager.getSelectedShape(),selectedColor);
             app.getGUI().updateToolbarControls(false);
         }
     }
@@ -151,7 +152,8 @@ public class LogoEditController {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         Color selectedColor = workspace.getOutlineColorPicker().getValue();
         if (selectedColor != null) {
-            dataManager.setCurrentOutlineColor(selectedColor);
+            dataManager.setCurrentOutlineColor(null,selectedColor);
+            dataManager.setCurrentOutlineColor(dataManager.getSelectedShape(),selectedColor);
             app.getGUI().updateToolbarControls(false);
         }
     }
@@ -175,7 +177,7 @@ public class LogoEditController {
     public void processSelectOutlineThickness() {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         int outlineThickness = (int) workspace.getOutlineThicknessSlider().getValue();
-        dataManager.setCurrentOutlineThickness(outlineThickness);
+        dataManager.setCurrentOutlineThickness(dataManager.getSelectedShape(),outlineThickness);
         app.getGUI().updateToolbarControls(false);
     }
 

@@ -16,6 +16,7 @@ public interface Draggable {
     public void start(int x, int y);
     public void drag(int x, int y);
     
+    public void setXY(double x, double y);
     public void size(int x, int y);
     public double getX();
     public double getY();

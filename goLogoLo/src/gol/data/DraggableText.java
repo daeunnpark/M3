@@ -5,6 +5,8 @@
  */
 package gol.data;
 
+import java.awt.Font;
+import java.awt.Graphics;
 import javafx.scene.text.Text;
 
 /**
@@ -23,11 +25,12 @@ public class DraggableText extends Text implements Draggable {
     double newY;
 
     public DraggableText() {
-        setX(0.0);
-        setY(0.0);;
+        setX(200);
+        setY(200);
         setWrappingWidth(0);
-        startX = 0.0;
-        startY = 0.0;
+        startX = 200;
+        startY = 200;
+        
     }
 
     @Override
@@ -75,7 +78,8 @@ public class DraggableText extends Text implements Draggable {
     public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
         xProperty().set(initX);
         yProperty().set(initY);
-        wrappingWidthProperty().set(initWidth);
+        //wrappingWidthProperty().set(initWidth);
+        
         //widthProperty().set(initWidth);
         //heightProperty().set(initHeight);
     }
@@ -95,6 +99,11 @@ public class DraggableText extends Text implements Draggable {
 
     @Override
     public double getWidth() {
+        int width;
+        //Graphics g = (Graphics) this;
+        //g.getFontMetrics((Font)this.getFont());
+        //width = getFont().getFontMetrics().stringWidth(this.toString());
+        //return wrappingWidthProperty().getValue();
         return this.getText().length();
 
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -102,8 +111,18 @@ public class DraggableText extends Text implements Draggable {
 
     @Override
     public double getHeight() {
+        System.out.println(this.getFont().getSize() + "HEIGHT font");
+
         return this.getFont().getSize();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void setXY(double x, double y) {
+        xProperty().set(x);
+        yProperty().set(y);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 
 }

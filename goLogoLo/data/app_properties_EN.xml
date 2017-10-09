@@ -58,13 +58,13 @@
         <property name="UNDO_TOOLTIP"           value="Undo Last Action"></property>
         <property name="REDO_TOOLTIP"           value="Redo Last Action"></property> 
         
-        <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
-        <property name="ADDPICTURE_TOOLTIP"	value="Ajouter Image"></property>
-        <property name="FONT_TOOLTIP"		value="Changer Police"></property>
+        <property name="ADDTEXT_TOOLTIP"       value="Add Text"></property>
+        <property name="ADDPICTURE_TOOLTIP"	value="Add Image"></property>
+        <property name="FONT_TOOLTIP"		value="Change Font"></property>
         
         <property name="BOLD_TOOLTIP"           value="Bold"></property>
         <property name="ITALIC_TOOLTIP"         value="Italic"></property>
-        <property name="TEXTSIZE_TOOLTIP"       value="Changer taille de police "></property>
+        <property name="TEXTSIZE_TOOLTIP"       value="Change Font size"></property>
         
         
         <!-- Language Selection Message-->

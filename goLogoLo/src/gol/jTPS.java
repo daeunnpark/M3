@@ -64,7 +64,8 @@ public class jTPS {
         text += "--Current Transaction Stack:\n";
         for (int i = 0; i <= mostRecentTransaction; i++) {
             jTPS_Transaction jT = transactions.get(i);
-            text += "----" + jT.toString() + "\n";
+            text += "----" + jT.getmethodname() + "\n";
+            //text += "----" + jT.toString() + "\n";
         }
         return text;
     }

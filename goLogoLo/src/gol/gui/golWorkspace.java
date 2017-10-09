@@ -73,7 +73,6 @@ import static djf.settings.AppPropertyType.UNDO_TOOLTIP;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static djf.settings.AppStartupConstants.PATH_WORK;
-import gol.AddtoUndoRedo_Transactions;
 import static gol.css.golStyle.*;
 import gol.data.DraggableText;
 import static gol.golLanguageProperty.ADDPICTURE_ICON;
@@ -89,11 +88,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceDialog;
@@ -103,12 +100,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
-import gol.jTPS_Transaction;
-
-import jtps.test.Num;
 import properties_manager.PropertiesManager;
 
 /**
@@ -432,7 +425,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         // ROW 6
         row6Box = new VBox();
         outlineThicknessLabel = new Label(props.getProperty(OUTLINETHICKNESS));
-        outlineThicknessSlider = new Slider(0, 10, 1);
+        outlineThicknessSlider = new Slider(0, 10, 5);                          // default
         row6Box.getChildren().add(outlineThicknessLabel);
         row6Box.getChildren().add(outlineThicknessSlider);
 
@@ -564,8 +557,8 @@ public class golWorkspace extends AppWorkspaceComponent {
         // MAKE THE CANVAS CONTROLLER	
         canvasController = new CanvasController(app);
         canvas.setOnMousePressed(e -> {
-            orgSceneX = e.getSceneX();
-            orgSceneY = e.getSceneY();
+           // orgSceneX = e.getSceneX();
+            //orgSceneY = e.getSceneY();
             //System.out.println(e.getSceneX() + "Scenexxx");
             //System.out.println(e.getSceneY() + "Sceneyyy");
             canvasController.processCanvasMousePress((int) e.getX(), (int) e.getY());
@@ -596,26 +589,36 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     // HELPER METHOD
     public void loadSelectedShapeSettings(Shape shape) {
-        if (shape != null) {
-            Color fillColor = (Color) shape.getFill();
-            Color strokeColor = (Color) shape.getStroke();
-            double lineThickness = shape.getStrokeWidth();
-            fillColorPicker.setValue(fillColor);
-            outlineColorPicker.setValue(strokeColor);
-            outlineThicknessSlider.setValue(lineThickness);
-        }
+        //if (shape != null) {
+           // if (!shape.getUserData().equals("IMAGE")) {
+                Color fillColor = (Color) shape.getFill();
+                Color strokeColor = (Color) shape.getStroke();
+                double lineThickness = shape.getStrokeWidth();
+                fillColorPicker.setValue(fillColor);
+                outlineColorPicker.setValue(strokeColor);
+                outlineThicknessSlider.setValue(lineThickness);
+            //}
+            if (shape.getUserData().equals("TEXT")) { // Load extra properties for TEXT
+                DraggableText text = (DraggableText) shape;
+
+                if (text.getText() != null) {
+                    comboBox.getSelectionModel().select(text.getFont().getFamily());
+                    comboBox2.getSelectionModel().select((Double) text.getFont().getSize());
+                   
+                }
+
+            }
+            System.out.println("LOADED for " + shape.toString());
+
+        //}
     }
 
+    /*
     public void loadSelectedTextSettings(Shape shape) {
-        DraggableText text = (DraggableText) shape;
 
-        if (text.getText() != null) {
-            comboBox.getSelectionModel().select(text.getFont().getFamily());
-            comboBox2.getSelectionModel().select((Double) text.getFont().getSize());
-            //System.out.println(shape.toString() + " LOADED");
-        }
     }
-
+*/
+    /*
     public void SaveSelectedShapeSettings(Shape shape) {
         if (shape != null) {
 
@@ -627,7 +630,7 @@ public class golWorkspace extends AppWorkspaceComponent {
             outlineThicknessSlider.setValue(lineThickness);
         }
     }
-
+     */
     /**
      * This function specifies the CSS style classes for all the UI components
      * known at the time the workspace is initially constructed. Note that the
@@ -947,15 +950,23 @@ public class golWorkspace extends AppWorkspaceComponent {
     public boolean getredobtn() {
         return redoButton.isSelected();
     }
-    
-      public void resetundobtn() {
-          undoButton.setSelected(false);
-          System.out.println("undo reseted");
-        
+
+    public void resetundobtn() {
+        undoButton.setSelected(false);
+        System.out.println("undo reseted");
+
     }
 
     public void resetredobtn() {
         redoButton.setSelected(false);
         System.out.println("redo reseted");
     }
+    // Allows access
+    
+    /*
+    public CanvasController getCanvasController(){
+        //canvasController = new CanvasController(app);
+    return canvasController;
+    }
+    */
 }
