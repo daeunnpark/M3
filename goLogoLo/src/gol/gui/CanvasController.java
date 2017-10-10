@@ -136,7 +136,8 @@ public class CanvasController {
                         copy = dataManager.cloneShape(shape);
                         
                         //System.out.println( dataManager.getSelectedShape().toString() + " selected shape removed ");
-                        dataManager.removeSelectedShape(dataManager.getSelectedShape());
+                        dataManager.removeSelectedShape();
+                      //  dataManager.removeSelectedShape(dataManager.getSelectedShape());
                     });
 
                     workspace.pasteButton.setOnAction(e -> {
@@ -304,7 +305,8 @@ public class CanvasController {
                     if (text.getText() != null) {
                         String newS = workspace.promptToText(text.getText()); // original text passed as parameter
                         if (newS != null) {
-                            dataManager.changeTextBox(shape, newS);
+                           // dataManager.changeTextBox(shape, newS);
+                           dataManager.changeTextBox( newS);
                         }
                     }
                 }

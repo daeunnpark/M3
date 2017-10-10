@@ -33,7 +33,6 @@
         <property name="UNDO_ICON"	    value="undo.png"></property>
         <property name="REDO_ICON"          value="redo.png"></property> 
         
-       
         <property name="ADDTEXT_ICON"           value="addtext.png"></property>
         <property name="ADDPICTURE_ICON"	value="addpicture.png"></property>
         <property name="FONT_ICON"		value="font.png"></property>
@@ -43,7 +42,6 @@
         <property name="TEXTSIZE_ICON"		value="textsize.png"></property>
        
  
-        
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Create a New Logo"></property>
         <property name="LOAD_TOOLTIP"		value="Load an Existing Logo"></property>
@@ -66,7 +64,6 @@
         <property name="ITALIC_TOOLTIP"         value="Italic"></property>
         <property name="TEXTSIZE_TOOLTIP"       value="Change Font size"></property>
         
-        
         <!-- Language Selection Message-->
         <property name="LANG_TITLE"		value="Language Setting"></property>
         <property name="LANG_TEXT"		value="Please select your language"></property>
@@ -75,11 +72,8 @@
         <property name="OK"                    value="OK"></property>
         <property name="CANCEL"                 value="CANCEL"></property>
         
-
-        
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Close"></property>
-
         <property name="NEW_ERROR_MESSAGE"              value="An error occured creating New work."></property>
         <property name="NEW_ERROR_TITLE"		value="New Work Error"></property>
         <property name="LOAD_ERROR_MESSAGE"             value="An error occured loading work."></property>
@@ -90,7 +84,6 @@
         <property name="PROPERTIES_LOAD_ERROR_TITLE"	value="Properties File Loading Error"></property>
 	
         <!-- VERIFICATION MESSAGES -->
-	
         <property name="NEW_COMPLETED_MESSAGE"		value="New Work Ready for Editing"></property>
         <property name="NEW_COMPLETED_TITLE"		value="New Work Created"></property>
         <property name="LOAD_COMPLETED_MESSAGE"		value="File Loading Completed and ready for editing"></property>
@@ -125,8 +118,7 @@
         <property name="BOLD_ICON"              value="bold.png"></property>
         <property name="ITALIC_ICON"            value="italic.png"></property>
         <property name="TEXTSIZE_ICON"		value="textsize.png"></property>
-        
-        
+       
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="SELECTION_TOOL_TOOLTIP"	    value="Use Shape Selection Tool"></property>
         <property name="REMOVE_ELEMENT_TOOLTIP"	    value="Remove Element"></property>
@@ -138,29 +130,17 @@
         <property name="FILL_TOOLTIP"		    value="Select Fill Color"></property>
         <property name="OUTLINE_TOOLTIP"	    value="Select Outline Color"></property>
         <property name="SNAPSHOT_TOOLTIP"	    value="Take Snapshot"></property>
-        
-        
-        
-        <property name="ADDTEXT_TOOLTIP"           value="Add Text"></property>
-        <property name="ADDPICTURE_TOOLTIP"	value="Add Image"></property>
-        <property name="FONT_TOOLTIP"		value="Change Font"></property>
-        
-        <property name="BOLD_TOOLTIP"              value="Bold"></property>
-        <property name="ITALIC_TOOLTIP"            value="Italic"></property>
-        <property name="TEXTSIZE_TOOLTIP"           value="Change Fontsize"></property>
-	
+      
         <!-- MESSAGES -->
         <property name="REMOVE_ELEMENT_MESSAGE"	    value="Are you sure you wish to remove that element?"></property>
-		
         <!-- ERROR MESSAGES AND TITLES FOR THEIR DIALOGS -->
         <property name="ATTRIBUTE_UPDATE_ERROR_MESSAGE"	    value="WARNING: An error occured updating the element's attribute."></property>
         <property name="ATTRIBUTE_UPDATE_ERROR_TITLE"	    value="Attribute Update Error"></property>
         <property name="UPDATE_ERROR_MESSAGE"		    value="An error occured updating the UI"></property>
         <property name="UPDATE_ERROR_TITLE"		    value="UI Update Error"></property>
-                
-                
+     
         <property name="BACKGROUNDCOLOR"	    value="Background Color"></property>
-        <property name="FILLCOLOR"                  value="Fill COlor"></property>
+        <property name="FILLCOLOR"                  value="Fill Color"></property>
         <property name="OUTLINECOLOR"		    value="Outline Color"></property>
         <property name="OUTLINETHICKNESS"           value="Outline Thickness"></property>
         

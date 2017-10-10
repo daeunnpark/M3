@@ -21,8 +21,22 @@ public enum golLanguageProperty {
     ELLIPSE_ICON,
     ELLIPSE_TOOLTIP,
     
+    ADDPICTURE_ICON,
+    ADDPICTURE_TOOLTIP,
+  
+    ADDTEXT_ICON,
+    ADDTEXT_TOOLTIP,
+    
+    ITALIC_ICON,
+    ITALIC_TOOLTIP,
+    
+    BOLD_ICON,
+    BOLD_TOOLTIP,
+   
+  
     MOVE_TO_BACK_ICON,
     MOVE_TO_BACK_TOOLTIP,
+    
     MOVE_TO_FRONT_ICON,
     MOVE_TO_FRONT_TOOLTIP,
     
@@ -31,22 +45,15 @@ public enum golLanguageProperty {
     OUTLINE_TOOLTIP,
     
     SNAPSHOT_ICON,
-    SNAPSHOT_TOOLTIP,  
+    SNAPSHOT_TOOLTIP
     
-    ADDTEXT_ICON,
-    ADDPICTURE_ICON,
-    FONT_ICON,
-    BOLD_ICON,
-    ITALIC_ICON,
-    TEXTSIZE_ICON,
-    
-    
-    ADDTEXT_TOOLTIP,
-    ADDPICTURE_TOOLTIP,
-    FONT_TOOLTIP,
-    BOLD_TOOLTIP,
-    ITALIC_TOOLTIP,
-    TEXTSIZE_TOOLTIP
+  
+    //FONT_ICON,
+
+    //TEXTSIZE_ICON,
+   
+    //FONT_TOOLTIP,  
+    //TEXTSIZE_TOOLTIP
 
 
 }

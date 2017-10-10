@@ -6,8 +6,7 @@ and open the template in the editor.
 -->
 
 
- 
-<properties>
+ <properties>
     <property_list>
         <property name="APP_TITLE"	    value="goLogoLo(FR)"></property>
         <property name="APP_LOGO"	    value="goLogoLo.png"></property>
@@ -19,7 +18,6 @@ and open the template in the editor.
         <property name="PREF_HEIGHT"        value="600"></property>
         <property name="START_MAXIMIZED"    value="true"></property>
   
-
         <!-- PROGRAM ICON FILES -->
         <property name="NEW_ICON"	   value="New.png"></property>
         <property name="LOAD_ICON"	   value="Load.png"></property>
@@ -28,15 +26,12 @@ and open the template in the editor.
         <property name="LANG_ICON"	   value="Lang.png"></property>
         <property name="INFO_ICON"          value="Info.png"></property>
         
-        
         <property name="CUT_ICON"	    value="Cut_1.png"></property>
         <property name="COPY_ICON"	    value="Copy_1.png"></property>
         <property name="PASTE_ICON"          value="Paste_1.png"></property> 
         
         <property name="UNDO_ICON"	    value="undo.png"></property>
-        <property name="REDO_ICON"          value="redo.png"></property> 
-        
-        
+        <property name="REDO_ICON"          value="redo.png"></property>    
         
         <property name="ADDTEXT_ICON"           value="addtext.png"></property>
         <property name="ADDPICTURE_ICON"	value="addpicture.png"></property>
@@ -60,10 +55,15 @@ and open the template in the editor.
         
         <property name="UNDO_TOOLTIP"           value="Annuler"></property>
         <property name="REDO_TOOLTIP"           value="Rétablir"></property> 
+       
+        <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
+        <property name="ADDPICTURE_TOOLTIP"	value="Ajouter Image"></property>
+        <property name="FONT_TOOLTIP"		value="Changer de Police"></property>
         
+         <property name="BOLD_TOOLTIP"           value="Epais"></property>
+        <property name="ITALIC_TOOLTIP"         value="Italic"></property>
+        <property name="TEXTSIZE_TOOLTIP"       value="Changer taille de police "></property>
    
-        
-        
         <!-- Language Selection Message-->
         <property name="LANG_TITLE"		value="Préférence de Langue"></property>
         <property name="LANG_TEXT"		value="Selectionnez une Langue"></property>
@@ -71,12 +71,9 @@ and open the template in the editor.
         <property name="FR"                     value="Français"></property>
         <property name="OK"                     value="Valider"></property>
         <property name="CANCEL"                 value="Annuler"></property>
-        
 
-        
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Fermer"></property>
-
         <property name="NEW_ERROR_MESSAGE"              value="Erreur de création de Nouveau Fichier."></property>
         <property name="NEW_ERROR_TITLE"	value="Nouveau Fichier Erreur "></property>
         <property name="LOAD_ERROR_MESSAGE"             value="Erreur d'Ouverture de Fichier."></property>
@@ -85,7 +82,6 @@ and open the template in the editor.
         <property name="SAVE_ERROR_TITLE"	value="Sauvegarde de Fichier Erreur"></property>
         <property name="PROPERTIES_LOAD_ERROR_MESSAGE"	value="Erreur de Chargement de Fichier de propriété"></property>
         <property name="PROPERTIES_LOAD_ERROR_TITLE"	value="Chargement de Fichier de propriété Erreur"></property>
-
 
         <!-- VERIFICATION MESSAGES -->
         <property name="NEW_COMPLETED_MESSAGE"	value="Nouveau Fichier prêt à Editer"></property>
@@ -106,7 +102,6 @@ and open the template in the editor.
         <property name="WORK_FILE_EXT"	value="pm"></property>
         <property name="WORK_FILE_EXT_DESC"	value="goLogoLo Fichiers"></property>
 
-
         <!-- PROGRAM ICON FILES -->
         <property name="SELECTION_TOOL_ICON"	value="SelectionTool.png"></property>
         <property name="REMOVE_ICON"		value="Remove.png"></property>
@@ -118,17 +113,14 @@ and open the template in the editor.
 
         <property name="ADDTEXT_ICON"           value="addtext.png"></property>
         <property name="ADDPICTURE_ICON"	value="addpicture.png"></property>
-        <property name="FONT_ICON"		value="font.png"></property>
+        <!--<property name="FONT_ICON"		value="font.png"></property> -->
         
         <property name="BOLD_ICON"              value="bold.png"></property>
         <property name="ITALIC_ICON"            value="italic.png"></property>
-        <property name="TEXTSIZE_ICON"		value="textsize.png"></property>
-
-     
-     
-
+        <!--<property name="TEXTSIZE_ICON"		value="textsize.png"></property>-->
+        
         <!-- TOOLTIPS FOR BUTTONS -->
-        <property name="SELECTION_TOOL_TOOLTIP"	   value="Use Shape Selection Tool"></property>
+        <property name="SELECTION_TOOL_TOOLTIP"	   value="Sélectionner"></property>
         <property name="REMOVE_ELEMENT_TOOLTIP"	   value="Enlever l'élement"></property>
         <property name="RECTANGLE_TOOLTIP"	   value="Dessiner Rectangle"></property>
         <property name="ELLIPSE_TOOLTIP"	   value="Dessiner Ellipse"></property>
@@ -139,16 +131,6 @@ and open the template in the editor.
         <property name="OUTLINE_TOOLTIP"	   value="Selectionner Couleur de Bordure"></property>
         <property name="SNAPSHOT_TOOLTIP"	   value="Prendre une Capture d'Ecran"></property>
         
-        
-        <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
-        <property name="ADDPICTURE_TOOLTIP"	value="Ajouter Image"></property>
-        <property name="FONT_TOOLTIP"		value="Changer de Police"></property>
-        
-        <property name="BOLD_TOOLTIP"           value="Bold"></property>
-        <property name="ITALIC_TOOLTIP"         value="Italic"></property>
-        <property name="TEXTSIZE_TOOLTIP"       value="Changer taille de police "></property>
-
-        
         <!-- MESSAGES -->
         <property name="REMOVE_ELEMENT_MESSAGE"	   value="Vous-êtes sûr d'enlever cet élément?"></property>
         <!-- ERROR MESSAGES AND TITLES FOR THEIR DIALOGS -->
@@ -157,8 +139,6 @@ and open the template in the editor.
         <property name="UPDATE_ERROR_MESSAGE"	   value="Erreur de Mise à jour de UI"></property>
         <property name="UPDATE_ERROR_TITLE"	   value="UI Mise à jour Erreur"></property>
         
-      
-                        
         <property name="BACKGROUNDCOLOR"	    value="Couleur de Fond"></property>
         <property name="FILLCOLOR"                  value="Couleur de Replissage"></property>
         <property name="OUTLINECOLOR"		    value="Couelur de Bordure"></property>
