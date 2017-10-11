@@ -13,7 +13,7 @@ public enum golLanguageProperty {
     SELECTION_TOOL_TOOLTIP,
     
     REMOVE_ICON,
-    REMOVE_TOOLTIP,
+    REMOVE_ELEMENT_TOOLTIP,
     
     RECTANGLE_ICON,
     RECTANGLE_TOOLTIP,

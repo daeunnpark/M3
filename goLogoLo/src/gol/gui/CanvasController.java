@@ -16,7 +16,6 @@ import gol.data.DraggableRectangle;
 import gol.data.DraggableText;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import static javafx.scene.input.KeyCode.X;
 
 /**
  * This class responds to interactions with the rendering surface.
@@ -121,23 +120,22 @@ public class CanvasController {
                             }
                         });
 
-                        //workspace.fillColorLabel.setDisable(true);
                     }
 
                     workspace.copyButton.setOnAction(e -> {
                         //System.out.println("copy btn");
                         copy = dataManager.cloneShape(shape);
                         // System.out.println(copy.toString() + "copied " );
-
+                        workspace.pasteButton.setDisable(false);
                     });
 
                     workspace.cutButton.setOnAction(e -> {
                         // System.out.println("cut btn");
                         copy = dataManager.cloneShape(shape);
-                        
                         //System.out.println( dataManager.getSelectedShape().toString() + " selected shape removed ");
-                        dataManager.removeSelectedShape();
-                      //  dataManager.removeSelectedShape(dataManager.getSelectedShape());
+                       // dataManager.removeSelectedShape(data);
+                          dataManager.removeSelectedShape(dataManager.getSelectedShape());
+                        workspace.pasteButton.setDisable(false);
                     });
 
                     workspace.pasteButton.setOnAction(e -> {
@@ -145,9 +143,7 @@ public class CanvasController {
                         if (copy != null) {
                             dataManager.pasteShape(copy);
                         }
-                        //else {
-                        //System.out.println(" copy null");
-                        //}
+
                     });
                 }
 
@@ -172,7 +168,7 @@ public class CanvasController {
      * Respond to mouse dragging on the rendering surface, which we call canvas,
      * but is actually a Pane.
      */
-    public void processCanvasMouseDragged(int x, int y) { //, double offsetX, double offsetY) {
+    public void processCanvasMouseDragged(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         //System.out.println("LOCATIOND DRAGGED  " + x + "   " + y);
@@ -192,21 +188,17 @@ public class CanvasController {
                     && (selectedDraggableShape.getX() + selectedDraggableShape.getWidth() < 1020)
                     && (selectedDraggableShape.getY() > 0)
                     && (selectedDraggableShape.getY() + selectedDraggableShape.getHeight() < 710)) {
-                //   && y -selectedDraggableShape.getHeight() > 0 && y+selectedDraggableShape.getHeight() < 732) {
                 selectedDraggableShape.drag(x, y);
 
             } else {
                 if (selectedDraggableShape.getShapeType().equals("ELLIPSE")) {
                     DraggableEllipse E = (DraggableEllipse) dataManager.getSelectedShape();
-                    //System.out.println("ELLIPSE");
-        
-                    
-                    double Xaxis =  E.getCenterX();
+
+                    double Xaxis = E.getCenterX();
                     double Yaxis = E.getCenterY();
 
                     if ((E.getX() <= 0)) { // if negative
-                        Xaxis = Xaxis + 10 ;
-                        //Yaxis = selectedDraggableShape.getY();
+                        Xaxis = Xaxis + 10;
                     }
                     if (E.getY() <= 0) {
                         Yaxis = Yaxis + 10;
@@ -214,26 +206,19 @@ public class CanvasController {
                     if (E.getY() + E.getHeight() >= 710) {
                         Yaxis = Yaxis - 10;
                     }
-
                     if (E.getX() + E.getWidth() >= 1020) {
                         Xaxis = Xaxis - 10;
-                        //Yaxis = selectedDraggableShape.getY();
                     }
 
-                    E.setXY(Xaxis, Yaxis); // set center
-                    //selectedDraggableShape.setLocationAndSize(Xaxis, Yaxis, selectedDraggableShape.getWidth(), selectedDraggableShape.getHeight());
-                
+                    E.setXY(Xaxis, Yaxis); // set center                 
+
                 } else { // Rect, Text
-                     //DraggableText t = (DraggableText) dataManager.getSelectedShape();
-                     
-                     
-                    //
-                    
+
                     if ((selectedDraggableShape.getX() > 0)
                             && (selectedDraggableShape.getX() + selectedDraggableShape.getWidth() < 1020)
                             && (selectedDraggableShape.getY() > 0)
                             && (selectedDraggableShape.getY() + selectedDraggableShape.getHeight() < 710)) {
-                        //   && y -selectedDraggableShape.getHeight() > 0 && y+selectedDraggableShape.getHeight() < 732) {
+
                         selectedDraggableShape.drag(x, y);
 
                     } else {
@@ -243,7 +228,6 @@ public class CanvasController {
 
                         if ((selectedDraggableShape.getX() <= 0)) { // if negative
                             Xaxis = selectedDraggableShape.getX() + 10;
-                            //Yaxis = selectedDraggableShape.getY();
                         }
                         if (selectedDraggableShape.getY() <= 0) {
                             Yaxis = selectedDraggableShape.getY() + 10;
@@ -251,14 +235,10 @@ public class CanvasController {
                         if (selectedDraggableShape.getY() + selectedDraggableShape.getHeight() >= 710) {
                             Yaxis = selectedDraggableShape.getY() - 10;
                         }
-
                         if (selectedDraggableShape.getX() + selectedDraggableShape.getWidth() >= 1020) {
                             Xaxis = selectedDraggableShape.getX() - 10;
-                            //Yaxis = selectedDraggableShape.getY();
                         }
-
                         selectedDraggableShape.setXY(Xaxis, Yaxis);
-                        //selectedDraggableShape.setLocationAndSize(Xaxis, Yaxis, selectedDraggableShape.getWidth(), selectedDraggableShape.getHeight());
                     }
 
                     app.getGUI().updateToolbarControls(false);
@@ -266,10 +246,11 @@ public class CanvasController {
             }
         }
     }
-        /**
-         * Respond to mouse button release on the rendering surface, which we
-         * call canvas, but is actually a Pane.
-         */
+
+    /**
+     * Respond to mouse button release on the rendering surface, which we call
+     * canvas, but is actually a Pane.
+     */
     public void processCanvasMouseRelease(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
 
@@ -305,8 +286,8 @@ public class CanvasController {
                     if (text.getText() != null) {
                         String newS = workspace.promptToText(text.getText()); // original text passed as parameter
                         if (newS != null) {
-                           // dataManager.changeTextBox(shape, newS);
-                           dataManager.changeTextBox( newS);
+                            // dataManager.changeTextBox(shape, newS);
+                            dataManager.changeTextBox(shape, newS);
                         }
                     }
                 }
@@ -317,6 +298,7 @@ public class CanvasController {
     public void setCopy(Shape copy) { // allows access from other methods
         this.copy = copy;
     }
+
     public Shape getCopy() { // allows access from other methods
         return copy;
     }
