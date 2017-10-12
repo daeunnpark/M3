@@ -29,6 +29,8 @@ public class DraggableRectangle extends Rectangle implements Draggable {
         setOpacity(1.0);
         startX = 0.0;
         startY = 0.0;
+        startDifX = 0.0;
+        startDifY=0.0;
     }
 
     @Override
@@ -42,13 +44,16 @@ public class DraggableRectangle extends Rectangle implements Draggable {
         yProperty().set(y);
         startX = x;
         startY = y;
+        
+        
+               
     }
 
     @Override
     public void drag(int x, int y) {
 
-        diffX = x - startDifX;
-        diffY = y - startDifY;
+        diffX = x - startDifX; //getX
+        diffY = y - startDifY; //getY?
         newX = startX + diffX;
         newY = startY + diffY;
         

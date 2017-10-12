@@ -1022,9 +1022,8 @@ public class golWorkspace extends AppWorkspaceComponent {
         redoButton.setSelected(false);
         System.out.println("redo reseted");
     }
+    
     // Allows access
-    
-    
     public CanvasController getCanvasController(){
         //canvasController = new CanvasController(app);
     return canvasController;

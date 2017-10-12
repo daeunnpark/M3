@@ -16,7 +16,6 @@ import gol.data.DraggableRectangle;
 import gol.data.DraggableText;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.paint.Color;
 
 /**
  * This class responds to interactions with the rendering surface.
@@ -238,7 +237,7 @@ public class CanvasController {
      */
     public void processCanvasMouseDragged(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
-        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+       // golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         //System.out.println("LOCATIOND DRAGGED  " + x + "   " + y);
         if (dataManager.isInState(SIZING_SHAPE)) {
 

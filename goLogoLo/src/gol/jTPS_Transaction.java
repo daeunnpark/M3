@@ -29,6 +29,7 @@ public class jTPS_Transaction {
 
         if (method.equals("setBackgroundColor")) {
             dataManager.setBackgroundColor((Color) after);
+            
         } else if (method.equals("setCurrentFillColor")) { // if selected is a shape do with that
 
             dataManager.setCurrentFillColor(shape, (Color) after);
@@ -81,8 +82,10 @@ public class jTPS_Transaction {
 
         if (method.equals("setBackgroundColor")) { // SPLIT
             dataManager.setBackgroundColor((Color) before);
+            
         } else if (method.equals("setCurrentFillColor")) { 
             dataManager.setCurrentFillColor(shape, (Color) before);
+            
         } else if (method.equals("setCurrentOutlineColor")) { 
             dataManager.setCurrentOutlineColor(shape, (Color) before);
 

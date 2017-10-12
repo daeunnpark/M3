@@ -1,6 +1,5 @@
 package gol;
 
-import gol.jTPS_Transaction;
 import java.util.ArrayList;
 
 /**
@@ -15,14 +14,13 @@ public class jTPS {
     
     public void addTransaction(jTPS_Transaction transaction) {
         // IS THIS THE FIRST TRANSACTION?
-        System.out.println("ADDED");
+       
         if (mostRecentTransaction < 0) {
             // DO WE HAVE TO CHOP THE LIST?
             if (transactions.size() > 0) {
                 transactions = new ArrayList<>();
             }
             transactions.add(transaction);
-            System.out.println("ADDED2");
         }
         // ARE WE ERASING ALL THE REDO TRANSACTIONS?
         else if (mostRecentTransaction < (transactions.size()-1)) {
@@ -49,7 +47,6 @@ public class jTPS {
     }
     
     public void undoTransaction() {
-        System.out.println(mostRecentTransaction + "mostRecentTransaction");
         if (mostRecentTransaction >= 0) {
             jTPS_Transaction transaction = transactions.get(mostRecentTransaction);
             transaction.undoTransaction();

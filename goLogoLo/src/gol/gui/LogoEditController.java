@@ -182,7 +182,7 @@ public class LogoEditController {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         System.out.println("TTTHISSSS");
         if (dataManager.getSelectedShape() != null) {
-            if (dataManager.getCurrentBorderWidth() != workspace.getOutlineThicknessSlider().getValue()) {
+            if ((int) dataManager.getSelectedShape().getStrokeWidth()!= dataManager.getCurrentBorderWidth2() ) {
                 System.out.println(dataManager.getCurrentBorderWidth() + "  -- current ");
                 System.out.println(workspace.getOutlineThicknessSlider().getValue() + "  -- slider ");
                 int thickness = (int) workspace.getOutlineThicknessSlider().getValue();
