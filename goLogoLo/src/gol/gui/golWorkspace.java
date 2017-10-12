@@ -577,9 +577,11 @@ public class golWorkspace extends AppWorkspaceComponent {
         outlineColorPicker.setOnAction(e -> {
             logoEditController.processSelectOutlineColor();
         });
+        /*
         outlineThicknessSlider.valueProperty().addListener(e -> {
             logoEditController.processSelectOutlineThickness();
         });
+        */
         snapshotButton.setOnAction(e -> {
             logoEditController.processSnapshot();
         });
@@ -603,8 +605,15 @@ public class golWorkspace extends AppWorkspaceComponent {
             canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
         }
         );
+     
         canvas.setOnMouseDragged(e -> {
             canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY()); 
+        }
+        );
+        
+        outlineThicknessSlider.setOnMouseReleased(e -> {
+            //System.out.println("RELEASED");
+           logoEditController.processSelectOutlineThickness();
         }
         );
 
@@ -1015,10 +1024,10 @@ public class golWorkspace extends AppWorkspaceComponent {
     }
     // Allows access
     
-    /*
+    
     public CanvasController getCanvasController(){
         //canvasController = new CanvasController(app);
     return canvasController;
     }
-    */
+    
 }

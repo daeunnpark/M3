@@ -54,8 +54,9 @@ public class LogoEditController {
      */
     public void processRemoveSelectedShape() {
         // REMOVE THE SELECTED SHAPE IF THERE IS ONE
-         dataManager.removeSelectedShape(dataManager.getSelectedShape());
-        //dataManager.removeSelectedShape();
+        //dataManager.removeSelectedShape(dataManager.getSelectedShape());
+
+        dataManager.removeShape(dataManager.getSelectedShape());
         // ENABLE/DISABLE THE PROPER BUTTONS
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
@@ -107,7 +108,6 @@ public class LogoEditController {
 
         dataManager.startNewImage(image.getHeight(), image.getWidth(), image);
 
-
         // ENABLE/DISABLE THE PROPER BUTTONS
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
@@ -129,7 +129,7 @@ public class LogoEditController {
      */
     public void processMoveSelectedShapeToFront() {
         //dataManager.moveSelectedShapeToFront();
-         dataManager.moveSelectedShapeToFront(dataManager.getSelectedShape());
+        dataManager.moveSelectedShapeToFront(dataManager.getSelectedShape());
         app.getGUI().updateToolbarControls(false);
     }
 
@@ -141,7 +141,7 @@ public class LogoEditController {
         Color selectedColor = workspace.getFillColorPicker().getValue();
         if (selectedColor != null) {
             //dataManager.setCurrentFillColor(null,selectedColor);
-            dataManager.setCurrentFillColor(dataManager.getSelectedShape(),selectedColor);
+            dataManager.setCurrentFillColor(dataManager.getSelectedShape(), selectedColor);
             //ataManager.setCurrentFillColor(selectedColor);
             app.getGUI().updateToolbarControls(false);
         }
@@ -157,7 +157,7 @@ public class LogoEditController {
         if (selectedColor != null) {
             //dataManager.setCurrentOutlineColor(selectedColor);
             //dataManager.setCurrentOutlineColor(null,selectedColor);
-            dataManager.setCurrentOutlineColor(dataManager.getSelectedShape(),selectedColor);
+            dataManager.setCurrentOutlineColor(dataManager.getSelectedShape(), selectedColor);
             app.getGUI().updateToolbarControls(false);
         }
     }
@@ -180,9 +180,15 @@ public class LogoEditController {
      */
     public void processSelectOutlineThickness() {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        int outlineThickness = (int) workspace.getOutlineThicknessSlider().getValue();
-        //dataManager.setCurrentOutlineThickness(outlineThickness);
-        dataManager.setCurrentOutlineThickness(dataManager.getSelectedShape(),outlineThickness);
+        System.out.println("TTTHISSSS");
+        if (dataManager.getSelectedShape() != null) {
+            if (dataManager.getCurrentBorderWidth() != workspace.getOutlineThicknessSlider().getValue()) {
+                System.out.println(dataManager.getCurrentBorderWidth() + "  -- current ");
+                System.out.println(workspace.getOutlineThicknessSlider().getValue() + "  -- slider ");
+                int thickness = (int) workspace.getOutlineThicknessSlider().getValue();
+                dataManager.setCurrentOutlineThickness(dataManager.getSelectedShape(), thickness);
+            }
+        }
         app.getGUI().updateToolbarControls(false);
     }
 

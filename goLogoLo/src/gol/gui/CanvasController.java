@@ -16,6 +16,7 @@ import gol.data.DraggableRectangle;
 import gol.data.DraggableText;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.paint.Color;
 
 /**
  * This class responds to interactions with the rendering surface.
@@ -29,6 +30,7 @@ public class CanvasController {
     AppTemplate app;
     Shape shape = null;
     Shape copy = null;
+    boolean issamecopy = false;
 
     public CanvasController(AppTemplate initApp) {
         app = initApp;
@@ -124,24 +126,90 @@ public class CanvasController {
 
                     workspace.copyButton.setOnAction(e -> {
                         //System.out.println("copy btn");
-                        copy = dataManager.cloneShape(shape);
+                        copy = dataManager.copyShape(shape);
                         // System.out.println(copy.toString() + "copied " );
                         workspace.pasteButton.setDisable(false);
                     });
 
                     workspace.cutButton.setOnAction(e -> {
-                        // System.out.println("cut btn");
-                        copy = dataManager.cloneShape(shape);
+                        System.out.println("cut btn");
+                        copy = dataManager.cutShape(shape); // removed
                         //System.out.println( dataManager.getSelectedShape().toString() + " selected shape removed ");
-                       // dataManager.removeSelectedShape(data);
-                          dataManager.removeSelectedShape(dataManager.getSelectedShape());
+                        // dataManager.removeSelectedShape(data);
+
+                        //dataManager.removeShape(shape);
+                        System.out.println("cut done");
+                        //    workspace.reloadWorkspace(dataManager);
                         workspace.pasteButton.setDisable(false);
                     });
 
                     workspace.pasteButton.setOnAction(e -> {
                         // System.out.println("paste btn");
+                        System.out.println(copy.toString() + "COOOOPY");
+
                         if (copy != null) {
-                            dataManager.pasteShape(copy);
+
+                            for (int i = 0; i < dataManager.getShapes().size(); i++) {
+                                Shape s = (Shape) dataManager.getShapes().get(i);
+
+                                if (s.getUserData().equals(copy.getUserData())) {
+                                    //    System.out.println("***********111************");
+                                    if (s.getFill().equals(copy.getFill())) {
+                                        if (s.getStroke().equals(copy.getStroke())) {
+                                            if (s.getStrokeWidth() == copy.getStrokeWidth()) {
+                                                if (copy.getUserData().equals("TEXT")) { //if (s.getUserData().equals("TEXT")) {
+                                                    DraggableText text = (DraggableText) copy;
+                                                    DraggableText text2 = (DraggableText) s;
+                                                    if (text.getFont().getName().equals(text2.getFont().getName())) {
+                                                        if (text.getFont().getSize() == text2.getFont().getSize()) {
+                                                            issamecopy = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                } else {
+                                                    // System.out.println("***********222************");
+                                                    issamecopy = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                System.out.println("NO");
+                                issamecopy = false;
+                            }
+                            if (issamecopy) {
+                                copy = dataManager.copyShape(copy);
+                                dataManager.pasteShape(copy);
+                                System.out.println("IS SAME COPY");
+                            } else {
+                                dataManager.pasteShape(copy);
+                            }
+
+                            /* JUST TO CHECK EVERY SINGLE ELEMENT
+                            Color fillColor = (Color) shape.getFill();
+                            Color strokeColor = (Color) shape.getStroke();
+                            double lineThickness = shape.getStrokeWidth();
+                            fillColorPicker.setValue(fillColor);
+                            outlineColorPicker.setValue(strokeColor);
+                            outlineThicknessSlider.setValue(lineThickness);
+
+                            if (shape.getUserData().equals("TEXT")) { // Load extra properties for TEXT
+                                DraggableText text = (DraggableText) shape;
+
+                                if (text.getText() != null) {
+                                    comboBox.getSelectionModel().select(text.getFont().getFamily());
+                                    comboBox2.getSelectionModel().select((Double) text.getFont().getSize());
+
+                                }
+
+                            }
+                            if (dataManager.ge) {
+                                dataManager.pasteShape(copy);
+                            }
+                             */
+                        } else {
+                            System.out.println("COPY IS NULL");
                         }
 
                     });
@@ -253,6 +321,7 @@ public class CanvasController {
      */
     public void processCanvasMouseRelease(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
 
         if (dataManager.isInState(SIZING_SHAPE)) {
             dataManager.selectSizedShape();
@@ -265,7 +334,7 @@ public class CanvasController {
         } else if (dataManager.isInState(golState.DRAGGING_NOTHING)) {
             dataManager.setState(SELECTING_SHAPE);
         }
-
+      
     }
 
     /**

@@ -96,7 +96,7 @@ public class golData implements AppDataComponent {
         // INIT THE COLORS
         currentFillColor = Color.web(WHITE_HEX);
         currentOutlineColor = Color.web(BLACK_HEX);
-        currentBorderWidth = 1;
+        currentBorderWidth = 6;                             // to change
 
         // THIS IS FOR THE SELECTED SHAPE
         DropShadow dropShadowEffect = new DropShadow();
@@ -144,12 +144,12 @@ public class golData implements AppDataComponent {
     public double getCurrentBorderWidth() {
         return currentBorderWidth;
     }
-
+/*
     public int getCurrentOutlineThickness2() { // mine
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         return (int) workspace.getOutlineThicknessSlider().getValue();
     }
-
+*/
     public void setShapes(ObservableList<Node> initShapes) {
         shapes = initShapes;
     }
@@ -162,7 +162,6 @@ public class golData implements AppDataComponent {
             jTPS_Transaction transaction = new jTPS_Transaction(this, "setBackgroundColor", getBackgroundColor(), initBackgroundColor, null);
             jTPS.addTransaction(transaction);
         }
-
         backgroundColor = initBackgroundColor;
 
         Pane canvas = workspace.getCanvas();
@@ -174,13 +173,10 @@ public class golData implements AppDataComponent {
     }
 
     public void setCurrentFillColor(Shape shape, Color initColor) { // added shape to pass as parameter to UNDO/REDO function
-
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-
         selectedShape = shape;
         if (!workspace.getredobtn() && !workspace.getundobtn()) {
-            //System.out.println(selectedShape.getFill().toString() + "  ----- before  ");
-            //System.out.println(initColor.toString() + " ---------- after" );
+           
             jTPS_Transaction transaction = new jTPS_Transaction(this, "setCurrentFillColor", selectedShape.getFill(), initColor, selectedShape);
             jTPS.addTransaction(transaction);
 
@@ -229,7 +225,7 @@ public class golData implements AppDataComponent {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         selectedShape = shape;
         if (!workspace.getredobtn() && !workspace.getundobtn()) {
-            jTPS_Transaction transaction = new jTPS_Transaction(this, "setCurrentOutlineThickness", shape.getStrokeWidth(), initBorderWidth, shape);
+            jTPS_Transaction transaction = new jTPS_Transaction(this, "setCurrentOutlineThickness", (int) shape.getStrokeWidth(), initBorderWidth, shape);
             jTPS.addTransaction(transaction);
         }
 
@@ -237,18 +233,11 @@ public class golData implements AppDataComponent {
         if (selectedShape != null) {
             selectedShape.setStrokeWidth(initBorderWidth);
         } else {
-            System.out.println("SHAPE IS NULL from outline THIcK ");
+          //  System.out.println("SHAPE IS NULL from outline THIcK ");
         }
     }
 
-    public void removeSelectedShape(Shape shape) {
-        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        // add null
-        selectedShape = shape;
-        if (!workspace.getredobtn() && !workspace.getundobtn()) {
-            jTPS_Transaction transaction = new jTPS_Transaction(this, "removeSelectedShape", null, null, selectedShape);
-            jTPS.addTransaction(transaction);
-        }
+    public void removeSelectedShape() {
 
         if (selectedShape != null) {
             shapes.remove(selectedShape);
@@ -479,9 +468,8 @@ public class golData implements AppDataComponent {
         return null;
     }
 
-    public void getBolded(Shape shape) {     
+    public void getBolded(Shape shape) {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-       
 
         DraggableText text = (DraggableText) shape;
 
@@ -495,8 +483,8 @@ public class golData implements AppDataComponent {
         if (text.getFont().getName().contains("Italic")) { // keep italic
             fontposture = FontPosture.ITALIC;
         }
-        
-         if (!workspace.getredobtn() && !workspace.getundobtn()) {
+
+        if (!workspace.getredobtn() && !workspace.getundobtn()) {
             jTPS_Transaction transaction = new jTPS_Transaction(this, "getBolded", null, null, shape);
             jTPS.addTransaction(transaction);
         }
@@ -507,7 +495,6 @@ public class golData implements AppDataComponent {
     public void getItalicized(Shape shape) {
 
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        
 
         DraggableText text = (DraggableText) shape;
 
@@ -520,7 +507,7 @@ public class golData implements AppDataComponent {
         if (!text.getFont().getName().contains("Italic")) { // add Italic
             fontposture = FontPosture.ITALIC;
         }
-        
+
         if (!workspace.getredobtn() && !workspace.getundobtn()) {
             jTPS_Transaction transaction = new jTPS_Transaction(this, "getItalicized", null, null, shape);
             jTPS.addTransaction(transaction);
@@ -569,14 +556,15 @@ public class golData implements AppDataComponent {
         text.setFont(Font.font(text.getFont().getFamily(), fontweight, fontposture, n));
     }
 
-    public Shape cloneShape(Shape shape) {
+    public Shape copyShape(Shape shape) {
         Shape finalclone = null;
         Color fillColor2 = null;
         Color stroke = null;
         double strokeWidth = 0;
 
         if (shape != null) {
-            if (shape.getUserData().equals("RECT") || (shape.getUserData().equals("ELLIP"))) {
+            if (shape.getUserData().equals("RECT") || shape.getUserData().equals("ELLIP")
+                    || shape.getUserData().equals("TEXT")) {
                 Color n = (Color) shape.getFill();
                 fillColor2 = new Color(n.getRed(), n.getGreen(), n.getBlue(), n.getOpacity());
 
@@ -605,14 +593,41 @@ public class golData implements AppDataComponent {
                 clone.setFill(fillColor2);
                 clone.setStroke(stroke);
                 clone.setStrokeWidth(strokeWidth);
-                clone.setRadiusX(original.getRadiusY());
+                clone.setRadiusX(original.getRadiusX());
                 clone.setRadiusY(original.getRadiusY());
                 clone.setUserData("ELLIP");
                 finalclone = clone;
 
             } else if (shape.getUserData().equals("TEXT")) { // USER DATA BASE TO ADD!!
                 DraggableText original = (DraggableText) shape;
-                finalclone = cloneText(original);
+                // finalclone = cloneText(original);
+
+                DraggableText clone = new DraggableText();
+                Text text = new Text(original.getText());
+
+                clone.setText(text.getText());
+                //clone.setFont(original.getFont()); // maybe getfamily
+
+                // BOLD
+                FontWeight fontweight = FontWeight.NORMAL;
+
+                //.getName() contains font name, Bold, Italic and etc
+                if (original.getFont().getName().contains("Bold")) { // keep Bold
+                    fontweight = FontWeight.EXTRA_BOLD;
+                }
+
+                FontPosture fontposture = FontPosture.REGULAR;
+                if (original.getFont().getName().contains("Italic")) { // keep Italic
+                    fontposture = FontPosture.ITALIC;
+                }
+
+                clone.setFont(Font.font(original.getFont().getFamily(), fontweight, fontposture, original.getFont().getSize()));
+
+                clone.setFill(fillColor2);
+                clone.setStroke(stroke);
+                clone.setStrokeWidth(strokeWidth);
+                clone.setUserData("TEXT");
+                finalclone = clone;
 
             } else if (shape.getUserData().equals("IMAGE")) {
 
@@ -628,46 +643,141 @@ public class golData implements AppDataComponent {
                 finalclone = clone;
 
             }
+
+            golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+            if (!workspace.getredobtn() && !workspace.getundobtn()) {
+                Shape currentcopy = workspace.getCanvasController().getCopy();
+                jTPS_Transaction transaction = new jTPS_Transaction(this, "copyShape", currentcopy, finalclone, shape);
+                jTPS.addTransaction(transaction);
+            }
         }
         System.out.println(finalclone.toString() + " SHAPE CLONED");
         return finalclone;
     }
 
-    /**
-     * Make a deep cloned copy of original
-     *
-     * @param original
-     * @return cloned DraggableText
-     */
-    public DraggableText cloneText(DraggableText original) {
+    public Shape cutShape(Shape shape) {
+        Shape finalclone = null;
+        Color fillColor2 = null;
+        Color stroke = null;
+        double strokeWidth = 0;
 
-        DraggableText clone = new DraggableText();
-        Text text = new Text(original.getText());
+        if (shape != null) {
+            if (shape.getUserData().equals("RECT") || shape.getUserData().equals("ELLIP")
+                    || shape.getUserData().equals("TEXT")) {
+                Color n = (Color) shape.getFill();
+                fillColor2 = new Color(n.getRed(), n.getGreen(), n.getBlue(), n.getOpacity());
 
-        clone.setText(text.getText());
-        //clone.setFont(original.getFont()); // maybe getfamily
+                Color m = (Color) shape.getStroke();
+                stroke = new Color(m.getRed(), m.getGreen(), m.getBlue(), m.getOpacity());
 
-        // BOLD
-        FontWeight fontweight = FontWeight.NORMAL;
+                strokeWidth = shape.getStrokeWidth();
+            }
 
-        //.getName() contains font name, Bold, Italic and etc
-        if (original.getFont().getName().contains("Bold")) { // keep Bold
-            fontweight = FontWeight.EXTRA_BOLD;
+            if (shape.getUserData().equals("RECT")) {
+                DraggableRectangle original = (DraggableRectangle) shape;
+                DraggableRectangle clone = new DraggableRectangle();
+
+                clone.setFill(fillColor2);
+                clone.setStroke(stroke);
+                clone.setStrokeWidth(strokeWidth);
+                clone.setWidth(original.getWidth());
+                clone.setHeight(original.getHeight());
+                clone.setUserData("RECT");
+                finalclone = clone;
+
+            } else if (shape.getUserData().equals("ELLIP")) {
+                DraggableEllipse original = (DraggableEllipse) shape;
+                DraggableEllipse clone = new DraggableEllipse();
+
+                clone.setFill(fillColor2);
+                clone.setStroke(stroke);
+                clone.setStrokeWidth(strokeWidth);
+                clone.setRadiusX(original.getRadiusX());
+                clone.setRadiusY(original.getRadiusY());
+                clone.setUserData("ELLIP");
+                finalclone = clone;
+
+            } else if (shape.getUserData().equals("TEXT")) { // USER DATA BASE TO ADD!!
+                DraggableText original = (DraggableText) shape;
+                // finalclone = cloneText(original);
+
+                DraggableText clone = new DraggableText();
+                Text text = new Text(original.getText());
+
+                clone.setText(text.getText());
+                //clone.setFont(original.getFont()); // maybe getfamily
+
+                // BOLD
+                FontWeight fontweight = FontWeight.NORMAL;
+
+                //.getName() contains font name, Bold, Italic and etc
+                if (original.getFont().getName().contains("Bold")) { // keep Bold
+                    fontweight = FontWeight.EXTRA_BOLD;
+                }
+
+                FontPosture fontposture = FontPosture.REGULAR;
+                if (original.getFont().getName().contains("Italic")) { // keep Italic
+                    fontposture = FontPosture.ITALIC;
+                }
+
+                clone.setFont(Font.font(original.getFont().getFamily(), fontweight, fontposture, original.getFont().getSize()));
+
+                clone.setFill(fillColor2);
+                clone.setStroke(stroke);
+                clone.setStrokeWidth(strokeWidth);
+                clone.setUserData("TEXT");
+                finalclone = clone;
+
+            } else if (shape.getUserData().equals("IMAGE")) {
+
+                DraggableRectangle original = (DraggableRectangle) shape;
+                DraggableRectangle clone = new DraggableRectangle();
+
+                clone.setFill(original.getFill());
+
+                clone.setWidth(original.getWidth());
+                clone.setHeight(original.getHeight());
+
+                clone.setUserData("IMAGE");
+                finalclone = clone;
+
+            }
+            shapes.remove(shape);
+
+            golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+            if (!workspace.getredobtn() && !workspace.getundobtn()) {
+                Shape currentcopy = workspace.getCanvasController().getCopy();
+                jTPS_Transaction transaction = new jTPS_Transaction(this, "cutShape", currentcopy, finalclone, shape);
+                jTPS.addTransaction(transaction);
+            }
         }
-
-        FontPosture fontposture = FontPosture.REGULAR;
-        if (original.getFont().getName().contains("Italic")) { // keep Italic
-            fontposture = FontPosture.ITALIC;
-        }
-
-        clone.setFont(Font.font(original.getFont().getFamily(), fontweight, fontposture, original.getFont().getSize()));
-        clone.setUserData("TEXT");
-
-        return clone;
-
+        System.out.println(finalclone.toString() + " SHAPE CLONED");
+        return finalclone;
     }
 
     public void pasteShape(Shape shape) {
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        if (!workspace.getredobtn() && !workspace.getundobtn()) {
+
+            // System.out.println(currentcopy.toString() + " currentcopy");
+            jTPS_Transaction transaction = new jTPS_Transaction(this, "pasteShape", null, null, shape);
+            jTPS.addTransaction(transaction);
+        }
+
+        if (shape != null) {
+            shapes.add(shape);
+            System.out.println(shapes.size() + " shapes HERE");
+            
+            Draggable d = (Draggable) shapes.get(shapes.size()-1);
+            d.setXY(250, 400);
+            // location
+            // System.out.println(shape.toString() + "SHAPE PASTED");
+            state = SELECTING_SHAPE;
+        }
+    }
+
+    public void pasteShape2(Shape shape) {
+
         if (shape != null) {
             shapes.add(shape);
             // System.out.println(shape.toString() + "SHAPE PASTED");
@@ -680,7 +790,18 @@ public class golData implements AppDataComponent {
     }
 
     public void removeShape(Shape shapeToRemove) {
-        shapes.remove(shapeToRemove);
+
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        // add null
+        selectedShape = shapeToRemove;
+        if (!workspace.getredobtn() && !workspace.getundobtn()) {
+
+            jTPS_Transaction transaction = new jTPS_Transaction(this, "removeShape", null, null, selectedShape);
+            jTPS.addTransaction(transaction);
+        }
+        if (shapeToRemove != null) {
+            shapes.remove(shapeToRemove);
+        }
     }
 
     public golState getState() {
@@ -710,5 +831,16 @@ public class golData implements AppDataComponent {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.resetredobtn();
 
+    }
+
+    public void setCopy(Shape copy) { // allows access from other methods
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        workspace.getCanvasController().setCopy(copy);
+
+    }
+
+    public Shape getCopy() { // allows access from other methods
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        return workspace.getCanvasController().getCopy();
     }
 }

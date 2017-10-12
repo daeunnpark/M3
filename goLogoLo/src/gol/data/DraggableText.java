@@ -25,11 +25,11 @@ public class DraggableText extends Text implements Draggable {
     double newY;
 
     public DraggableText() {
-        setX(200);
-        setY(200);
+        setX(250);
+        setY(400);
         setWrappingWidth(0);
-        startX = 200;
-        startY = 200;
+        startX = 250;
+        startY = 400;
         
     }
 

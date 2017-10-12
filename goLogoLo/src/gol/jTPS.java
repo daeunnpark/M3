@@ -57,7 +57,7 @@ public class jTPS {
         }
         System.out.println(toString());
     }
-    
+   
     public String toString() {
         String text = "--Number of Transactions: " + transactions.size() + "\n";
         text += "--Current Index on Stack: " + mostRecentTransaction + "\n";
@@ -65,7 +65,7 @@ public class jTPS {
         for (int i = 0; i <= mostRecentTransaction; i++) {
             jTPS_Transaction jT = transactions.get(i);
             text += "----" + jT.getmethodname() + "\n";
-            //text += "----" + jT.toString() + "\n";
+          //text += "----" + jT.toString() + "\n";
         }
         return text;
     }
