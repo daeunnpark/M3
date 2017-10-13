@@ -25,6 +25,7 @@ public class DraggableText extends Text implements Draggable {
     double newY;
 
     public DraggableText() {
+        // location of text
         setX(250);
         setY(400);
         setWrappingWidth(0);
@@ -111,7 +112,7 @@ public class DraggableText extends Text implements Draggable {
 
     @Override
     public double getHeight() {
-        System.out.println(this.getFont().getSize() + "HEIGHT font");
+       // System.out.println(this.getFont().getSize() + "HEIGHT font");
 
         return this.getFont().getSize();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

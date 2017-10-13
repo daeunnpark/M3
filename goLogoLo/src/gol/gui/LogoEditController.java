@@ -101,12 +101,12 @@ public class LogoEditController {
      *
      * @param image
      */
-    public void processMakeImageasShape(Image image) {
+    public void processMakeImageasShape(Image image, String filepath) {
         // CHANGE THE CURSOR
         //Scene scene = app.getGUI().getPrimaryScene();
         //scene.setCursor(Cursor.CROSSHAIR);
 
-        dataManager.startNewImage(image.getHeight(), image.getWidth(), image);
+        dataManager.startNewImage(filepath, image.getHeight(), image.getWidth(), image);
 
         // ENABLE/DISABLE THE PROPER BUTTONS
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();

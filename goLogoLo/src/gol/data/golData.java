@@ -75,7 +75,7 @@ public class golData implements AppDataComponent {
     String Fontweight, Fontposture;
 
     static jTPS jTPS = new jTPS();
-    static PrintStream out = System.out;
+    //static PrintStream out = System.out;
     //static Scanner input = new Scanner(System.in);
     //static Num num = new Num();
 
@@ -94,6 +94,7 @@ public class golData implements AppDataComponent {
         selectedShape = null;
 
         // INIT THE COLORS
+        backgroundColor = Color.web(WHITE_HEX);
         currentFillColor = Color.web(WHITE_HEX);
         currentOutlineColor = Color.web(BLACK_HEX);
         currentBorderWidth = 6;                             // to change
@@ -163,6 +164,19 @@ public class golData implements AppDataComponent {
      */
     public void setShapes(ObservableList<Node> initShapes) {
         shapes = initShapes;
+    }
+
+    public void setBackgroundColor2(Color initBackgroundColor) {
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+        backgroundColor = initBackgroundColor;
+
+        Pane canvas = workspace.getCanvas();
+
+        BackgroundFill fill = new BackgroundFill(backgroundColor, null, null);
+        Background background = new Background(fill);
+        canvas.setBackground(background);
+
     }
 
     public void setBackgroundColor(Color initBackgroundColor) {
@@ -347,12 +361,13 @@ public class golData implements AppDataComponent {
         initNewShape();
     }
 
-    public void startNewImage(double height, double width, Image image) {
+    public void startNewImage(String filepath, double height, double width, Image image) {
         DraggableRectangle newRectangle = new DraggableRectangle();
         newRectangle.setHeight(height);
         newRectangle.setWidth(width);
         newRectangle.setFill(new ImagePattern(image));
         newRectangle.setUserData("IMAGE");
+        newRectangle.setfilepath(filepath);
 
         newShape = newRectangle;
         initNewShape();
@@ -405,7 +420,7 @@ public class golData implements AppDataComponent {
                     newShape.setFill(workspace.getFillColorPicker().getValue());
                     newShape.setStroke(workspace.getOutlineColorPicker().getValue());
                     //newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
-                     newShape.setStrokeWidth(getCurrentBorderWidth2()); //same thing with above line
+                    newShape.setStrokeWidth(getCurrentBorderWidth2()); //same thing with above line
                 }
 
                 if (!workspace.getredobtn() && !workspace.getundobtn()) {
@@ -431,6 +446,14 @@ public class golData implements AppDataComponent {
 
     public void setSelectedShape(Shape initSelectedShape) {
         selectedShape = initSelectedShape;
+    }
+
+    public void setSelectedShape2(Shape initSelectedShape) {
+        if (selectedShape != null) {
+            unhighlightShape(selectedShape);
+        }
+        selectedShape = initSelectedShape;
+        highlightShape(selectedShape);
     }
 
     public Shape selectTopShape(int x, int y) {
@@ -491,6 +514,7 @@ public class golData implements AppDataComponent {
             }
 
             text.setFont(Font.font(text.getFont().getFamily(), fontweight, fontposture, text.getFont().getSize()));
+           
         }
     }
 
@@ -710,6 +734,7 @@ public class golData implements AppDataComponent {
                 DraggableText original = (DraggableText) shape;;
 
                 DraggableText clone = new DraggableText();
+                System.out.println(clone.getX() + " and " + clone.getY() + "x and Y from cut");
                 Text text = new Text(original.getText());
 
                 clone.setText(text.getText());
@@ -774,17 +799,21 @@ public class golData implements AppDataComponent {
 
         if (shape != null) {
             shapes.add(shape);
-            System.out.println(shapes.size() + " shapes HERE");
+            //System.out.println(shapes.size() + " shapes HERE");
 
             Draggable d = (Draggable) shapes.get(shapes.size() - 1);
-            d.setXY(250, 400);
+            d.setXY(0, 0);
+            if (shape.getUserData().equals("TEXT")) {
+                d.setXY(250, 400);
+                // System.out.println( d.getX() + " x "+ d.getY() + " y HHHH");
+                //  System.out.println("TEXT ALREADY");
+            }
             // location
             // System.out.println(shape.toString() + "SHAPE PASTED");
             state = SELECTING_SHAPE;
         }
     }
 
-  
     public void addShape(Shape shapeToAdd) {
         if (shapeToAdd != null) {
             shapes.add(shapeToAdd);
@@ -846,5 +875,13 @@ public class golData implements AppDataComponent {
     public Shape getCopy() { // allows access from other methods
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         return workspace.getCanvasController().getCopy();
+    }
+
+    public void reloadworkspace2(boolean b) {
+        //golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+        workspace.reloadWorkspace2(b);
     }
 }

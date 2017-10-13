@@ -59,10 +59,21 @@ public class CanvasController {
                 if (shape.getUserData() != null) { // TO ADD
 
                     if (shape.getUserData().equals("RECT") || (shape.getUserData().equals("IMAGE"))) {
+                        workspace.italicButton.setDisable(true);
+                        workspace.boldButton.setDisable(true);
+                        workspace.comboBox.setDisable(true);
+                        workspace.comboBox2.setDisable(true);
+
                         DraggableRectangle r = (DraggableRectangle) shape;
                         r.setStartDifX(x);
                         r.setStartDifY(y);
+                        
                     } else if (shape.getUserData().equals("ELLIP")) {
+                        workspace.italicButton.setDisable(true);
+                        workspace.boldButton.setDisable(true);
+                        workspace.comboBox.setDisable(true);
+                        workspace.comboBox2.setDisable(true);
+
                         DraggableEllipse r = (DraggableEllipse) shape;
 
                         r.setStartDifX(x);
@@ -71,6 +82,10 @@ public class CanvasController {
                         r.setstartCenterY(r.getCenterY());
 
                     } else if (shape.getUserData().equals("TEXT")) {
+                        workspace.italicButton.setDisable(false);
+                        workspace.boldButton.setDisable(false);
+                        workspace.comboBox.setDisable(false);
+                        workspace.comboBox2.setDisable(false);
                         DraggableText text = (DraggableText) shape;
                         text.setStartDifX(x);
                         text.setStartDifY(y);
@@ -215,6 +230,13 @@ public class CanvasController {
                 }
 
             } else { // shape null
+                
+                
+                workspace.italicButton.setDisable(true);
+                workspace.boldButton.setDisable(true);
+                workspace.comboBox.setDisable(true);
+                workspace.comboBox2.setDisable(true);
+                
                 scene.setCursor(Cursor.DEFAULT);
                 dataManager.setState(DRAGGING_NOTHING);
                 app.getWorkspaceComponent().reloadWorkspace(dataManager);
@@ -237,7 +259,7 @@ public class CanvasController {
      */
     public void processCanvasMouseDragged(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
-       // golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        // golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         //System.out.println("LOCATIOND DRAGGED  " + x + "   " + y);
         if (dataManager.isInState(SIZING_SHAPE)) {
 
@@ -248,7 +270,6 @@ public class CanvasController {
                 newDraggableShape.size(x, y);
             }
         } else if (dataManager.isInState(DRAGGING_SHAPE)) {
-
             Draggable selectedDraggableShape = (Draggable) dataManager.getSelectedShape();
 
             if ((selectedDraggableShape.getX() > 0)
@@ -277,7 +298,7 @@ public class CanvasController {
                         Xaxis = Xaxis - 10;
                     }
 
-                    E.setXY(Xaxis, Yaxis); // set center                 
+                    E.setXY2(Xaxis, Yaxis); // set center                 
 
                 } else { // Rect, Text
 
@@ -320,7 +341,7 @@ public class CanvasController {
      */
     public void processCanvasMouseRelease(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
-        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+        //golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
 
         if (dataManager.isInState(SIZING_SHAPE)) {
             dataManager.selectSizedShape();
@@ -333,7 +354,7 @@ public class CanvasController {
         } else if (dataManager.isInState(golState.DRAGGING_NOTHING)) {
             dataManager.setState(SELECTING_SHAPE);
         }
-      
+
     }
 
     /**

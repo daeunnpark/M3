@@ -137,6 +137,11 @@ public class jTPS_Transaction {
 
     }
 
+    public void setworkspace(boolean b){
+       // if(dataManager.reloadworkspace2(b))
+        dataManager.reloadworkspace2(b);
+    
+    }
     String getmethodname() {
         return method.toString();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

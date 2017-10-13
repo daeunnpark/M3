@@ -30,6 +30,14 @@ import gol.data.DraggableEllipse;
 import gol.data.DraggableRectangle;
 import gol.data.Draggable;
 import static gol.data.Draggable.RECTANGLE;
+import gol.data.DraggableText;
+import static java.awt.PageAttributes.ColorType.COLOR;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * This class serves as the file management component for this application,
@@ -57,11 +65,15 @@ public class golFiles implements AppFileComponent {
     static final String JSON_FILL_COLOR = "fill_color";
     static final String JSON_OUTLINE_COLOR = "outline_color";
     static final String JSON_OUTLINE_THICKNESS = "outline_thickness";
+    static final String JSON_TEXT = "text";
+    static final String JSON_FONT = "font";
+    static final String JSON_FONTFAMILY = "fontfamily";
+    static final String JSON_FONTSIZE = "fontsize";
+    static final String JSON_FILEPATH = "filepath";
 
     static final String DEFAULT_DOCTYPE_DECLARATION = "<!doctype html>\n";
     static final String DEFAULT_ATTRIBUTE_VALUE = "";
     String JSON_CHOICE = "choice";
-    
 
     /**
      * This method is for saving user work, which in the case of this
@@ -90,24 +102,65 @@ public class golFiles implements AppFileComponent {
         for (Node node : shapes) {
             Shape shape = (Shape) node;
             Draggable draggableShape = ((Draggable) shape);
-            String type = draggableShape.getShapeType();
+            //String type = draggableShape.getShapeType();
+            String type = node.getUserData().toString();
+
+            String text = "";
+            String font = "";
+
+            String fontfamily = "";
+            String filepath = "";
+            JsonObject fillColorJson = null;
+            JsonObject outlineColorJson = null;
+            double outlineThickness = 0.0;
+
+            double fontsize = 0.0;
+            if (type.equals("TEXT")) {
+                // DraggableText d = (DraggableText)shape.;
+                text = ((DraggableText) shape).getText().toString();
+                font = ((DraggableText) shape).getFont().getName();
+                //font.replace(" ", "*");
+                //font = tempfont.replace(" ", "*");
+                //System.out.println(text + " text");
+                System.out.println(font + " newfont saved");
+
+                fontfamily = ((DraggableText) shape).getFont().getFamily();
+                // fontfamily = tempfontfamily.replace(' ', '*');
+                System.out.println(fontfamily + " newfontfamily");
+                fontsize = ((DraggableText) shape).getFont().getSize();
+            }
+
             double x = draggableShape.getX();
             double y = draggableShape.getY();
             double width = draggableShape.getWidth();
             double height = draggableShape.getHeight();
-            JsonObject fillColorJson = makeJsonColorObject((Color) shape.getFill());
-            JsonObject outlineColorJson = makeJsonColorObject((Color) shape.getStroke());
-            double outlineThickness = shape.getStrokeWidth();
+            if (type.equals("IMAGE")) {
+                DraggableRectangle d = (DraggableRectangle) shape;
+                fillColorJson = makeJsonColorObject(Color.web("#000000")); // random
+                outlineColorJson = makeJsonColorObject(Color.web("#000000"));
+                outlineThickness = 0;
+                filepath = d.getfilepath();
+            } else {
+                fillColorJson = makeJsonColorObject((Color) shape.getFill());
+                outlineColorJson = makeJsonColorObject((Color) shape.getStroke());
+                outlineThickness = shape.getStrokeWidth();
+            }
 
             JsonObject shapeJson = Json.createObjectBuilder()
                     .add(JSON_TYPE, type)
+                    .add(JSON_TEXT, text)
+                    .add(JSON_FONT, font)
+                    .add(JSON_FONTFAMILY, fontfamily)
+                    .add(JSON_FONTSIZE, fontsize)
                     .add(JSON_X, x)
                     .add(JSON_Y, y)
                     .add(JSON_WIDTH, width)
                     .add(JSON_HEIGHT, height)
+                    .add(JSON_FILEPATH, filepath)
                     .add(JSON_FILL_COLOR, fillColorJson)
                     .add(JSON_OUTLINE_COLOR, outlineColorJson)
                     .add(JSON_OUTLINE_THICKNESS, outlineThickness).build();
+
             arrayBuilder.add(shapeJson);
         }
         JsonArray shapesArray = arrayBuilder.build();
@@ -179,8 +232,7 @@ public class golFiles implements AppFileComponent {
             Shape shape = loadShape(jsonShape);
             dataManager.addShape(shape);
         }
-   
-        
+
     }
 
     private double getDataAsDouble(JsonObject json, String dataName) {
@@ -189,23 +241,40 @@ public class golFiles implements AppFileComponent {
         return number.bigDecimalValue().doubleValue();
     }
 
+    private String getDataAsStr(JsonObject json, String dataName) {
+        String s = json.get(dataName).toString();
+        return s;
+
+    }
+
     private Shape loadShape(JsonObject jsonShape) {
         // FIRST BUILD THE PROPER SHAPE TYPE
         String type = jsonShape.getString(JSON_TYPE);
-        Shape shape;
-        if (type.equals(RECTANGLE)) {
+
+        System.out.println(type + "type");
+        Shape shape = null;
+        if (type.equals("RECT") || type.equals("IMAGE")) {
             shape = new DraggableRectangle();
-        } else {
+
+        } else if (type.equals("ELLIP")) {
             shape = new DraggableEllipse();
+        } else if (type.equals("TEXT")) {
+            shape = new DraggableText();
+            System.out.println(type + " type");
+        } else {
+            System.out.println("loading shape null -- never happens");
         }
+        shape.setUserData(type);
 
         // THEN LOAD ITS FILL AND OUTLINE PROPERTIES
-        Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
-        Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
-        double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
-        shape.setFill(fillColor);
-        shape.setStroke(outlineColor);
-        shape.setStrokeWidth(outlineThickness);
+        if (!shape.getUserData().equals("IMAGE")) {
+            Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
+            Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
+            double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
+            shape.setFill(fillColor);
+            shape.setStroke(outlineColor);
+            shape.setStrokeWidth(outlineThickness);
+        }
 
         // AND THEN ITS DRAGGABLE PROPERTIES
         double x = getDataAsDouble(jsonShape, JSON_X);
@@ -214,6 +283,54 @@ public class golFiles implements AppFileComponent {
         double height = getDataAsDouble(jsonShape, JSON_HEIGHT);
         Draggable draggableShape = (Draggable) shape;
         draggableShape.setLocationAndSize(x, y, width, height);
+
+        if (shape.getUserData().equals("IMAGE")) {
+            DraggableRectangle d = (DraggableRectangle) shape;
+
+            String filepath = jsonShape.getString(JSON_FILEPATH);
+            Image image = new Image(filepath);
+
+            d.setFill(new ImagePattern(image));
+            d.setUserData("IMAGE");
+
+        }
+        // STR
+        if (shape.getUserData().equals("TEXT")) {
+            String text = jsonShape.getString(JSON_TEXT);
+            System.out.println(text + " text");
+            String font = getDataAsStr(jsonShape, JSON_FONT);
+            //String tempfont = jsonShape.getString(JSON_FONT);
+            //System.out.println(tempfont + "tempfont");
+
+            //String font = tempfont.replace("*", " ");
+            //System.out.println(font + " font loaded");
+            String fontfamily = jsonShape.getString(JSON_FONTFAMILY);
+            // String fontfamily = tempfontfamily.replace('*', ' ');
+            double fontsize = getDataAsDouble(jsonShape, JSON_FONTSIZE);
+
+            if (!text.equals("")) { // fontsize
+                DraggableText draggableText = (DraggableText) shape;
+                Text text2 = new Text(text);
+                draggableText.setText(text2.getText());
+
+                FontWeight fontweight = FontWeight.NORMAL;
+
+                //.getName() contains font name, Bold, Italic and etc
+                if (font.contains("Bold")) { // keep Bold
+                    fontweight = FontWeight.EXTRA_BOLD;
+                }
+
+                FontPosture fontposture = FontPosture.REGULAR;
+                if (font.contains("Italic")) { // keep Italic
+                    fontposture = FontPosture.ITALIC;
+                }
+
+                draggableText.setFont(Font.font(fontfamily, fontweight, fontposture, fontsize));
+
+                draggableText.setUserData("TEXT"); // one more time
+
+            }
+        }
 
         // ALL DONE, RETURN IT
         return shape;
@@ -238,7 +355,6 @@ public class golFiles implements AppFileComponent {
         is.close();
         return json;
     }
-    
 
     /**
      * This method is provided to satisfy the compiler, but it is not used by

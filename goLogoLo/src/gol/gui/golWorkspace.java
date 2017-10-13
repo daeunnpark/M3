@@ -251,7 +251,8 @@ public class golWorkspace extends AppWorkspaceComponent {
         // AND INIT THE STYLE FOR THE WORKSPACE
         initStyle();
 
-        undoredo();
+        
+       // logoEditController.processSelectBackgroundColor();
     }
 
     public void undoredo() {
@@ -291,15 +292,19 @@ public class golWorkspace extends AppWorkspaceComponent {
     private void initLayout() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         
+        // fileToolbar
+        saveButton = (Button) app.getGUI().getFileToolbar().getChildren().get(2);
+        saveButton.setDisable(true);
+        
         // fileToolbar2
         fileToolbar2 = new FlowPane(); 
         fileToolbar2.setPrefWidth(450);
         
         cutButton = new Button();
-        cutButton = gui.initChildButton(fileToolbar2, CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
+        cutButton = gui.initChildButton(fileToolbar2, CUT_ICON.toString(), CUT_TOOLTIP.toString(), true);
 
         copyButton = new Button();
-        copyButton = gui.initChildButton(fileToolbar2, COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
+        copyButton = gui.initChildButton(fileToolbar2, COPY_ICON.toString(), COPY_TOOLTIP.toString(), true);
 
         pasteButton = new Button();
         pasteButton = gui.initChildButton(fileToolbar2, PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), true);
@@ -315,6 +320,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(UNDO_ICON.toString());
         Image buttonImage = new Image(imagePath);
 
+        undoButton.setDisable(true);
         undoButton.setSelected(false);
         undoButton.setGraphic(new ImageView(buttonImage));
         Tooltip buttonTooltip = new Tooltip(props.getProperty(UNDO_TOOLTIP.toString()));
@@ -325,6 +331,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(REDO_ICON.toString());
         buttonImage = new Image(imagePath);
 
+        redoButton.setDisable(true);
         redoButton.setSelected(false);
         redoButton.setGraphic(new ImageView(buttonImage));
         buttonTooltip = new Tooltip(props.getProperty(REDO_TOOLTIP.toString()));
@@ -438,7 +445,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         // ROW 3
         row3Box = new VBox();
         backgroundColorLabel = new Label(props.getProperty(BACKGROUNDCOLOR));
-        backgroundColorPicker = new ColorPicker(Color.valueOf(WHITE_HEX));
+        backgroundColorPicker = new ColorPicker();
         buttonTooltip = new Tooltip(props.getProperty(BACKGROUND_TOOLTIP));
         backgroundColorPicker.setTooltip(buttonTooltip);
         row3Box.getChildren().add(backgroundColorLabel);
@@ -507,6 +514,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     private void initControllers() {
         // MAKE THE EDIT CONTROLLER
         logoEditController = new LogoEditController(app);
+        
+        
 
         imageButton.setOnAction(e -> {
             handleLoadRequest2();
@@ -534,6 +543,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         golData dataManager = (golData) app.getDataComponent();
 
+        //logoEditController.processSelectBackgroundColor();
         infoButton.setOnAction(e -> {
             info();
         });
@@ -546,7 +556,6 @@ public class golWorkspace extends AppWorkspaceComponent {
             dataManager.redoTransaction();
         });
 
- 
         // NOW CONNECT THE BUTTONS TO THEIR HANDLERS
         selectionToolButton.setOnAction(e -> {
             logoEditController.processSelectSelectionTool();
@@ -616,12 +625,14 @@ public class golWorkspace extends AppWorkspaceComponent {
            logoEditController.processSelectOutlineThickness();
         }
         );
+        
+       ;
 
     }
 
     // HELPER METHOD
     public void loadSelectedShapeSettings(Shape shape) {
-    
+    if(!shape.getUserData().equals("IMAGE")){
                 Color fillColor = (Color) shape.getFill();
                 Color strokeColor = (Color) shape.getStroke();
                 double lineThickness = shape.getStrokeWidth();
@@ -641,7 +652,7 @@ public class golWorkspace extends AppWorkspaceComponent {
             }
             System.out.println("LOADED for " + shape.toString());
 
- 
+    }
     }
 
 
@@ -729,6 +740,29 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     }
 
+    
+    public void reloadWorkspace2(boolean b) {
+        if (b){
+            saveButton.setDisable(false);
+            cutButton.setDisable(false);
+            copyButton.setDisable(false);
+            pasteButton.setDisable(false);
+            undoButton.setDisable(false);
+            redoButton.setDisable(false);
+            
+        }else {
+            saveButton.setDisable(true);
+            cutButton.setDisable(true);
+            copyButton.setDisable(true);
+            pasteButton.setDisable(true);
+            undoButton.setDisable(true);
+            
+        }
+    
+    
+    
+    }
+    
     /**
      * Asks user to select a language
      *
@@ -895,9 +929,11 @@ public class golWorkspace extends AppWorkspaceComponent {
 
                 File file = new File(selectedFile.getAbsolutePath());
                 Image image = new Image(file.toURI().toString());
+                String filepath = file.toURI().toString();
 
-                ImageView imageView = new ImageView(image);
-                logoEditController.processMakeImageasShape(image);
+                //ImageView imageView = new ImageView(image);
+                
+                logoEditController.processMakeImageasShape(image, filepath);
 
             }
         } catch (Exception ioe) {
