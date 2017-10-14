@@ -110,8 +110,9 @@ public class golFiles implements AppFileComponent {
 
             String fontfamily = "";
             String filepath = "";
-            JsonObject fillColorJson = null;
-            JsonObject outlineColorJson = null;
+            JsonObject  fillColorJson = makeJsonColorObject(Color.web("#000000")); // default
+            JsonObject  outlineColorJson = makeJsonColorObject(Color.web("#000000"));
+
             double outlineThickness = 0.0;
 
             double fontsize = 0.0;
@@ -134,12 +135,14 @@ public class golFiles implements AppFileComponent {
             double y = draggableShape.getY();
             double width = draggableShape.getWidth();
             double height = draggableShape.getHeight();
+            
             if (type.equals("IMAGE")) {
                 DraggableRectangle d = (DraggableRectangle) shape;
-                fillColorJson = makeJsonColorObject(Color.web("#000000")); // random
-                outlineColorJson = makeJsonColorObject(Color.web("#000000"));
+                //fillColorJson = makeJsonColorObject(Color.web("#000000")); // random
+                //outlineColorJson = makeJsonColorObject(Color.web("#000000"));
                 outlineThickness = 0;
                 filepath = d.getfilepath();
+                System.out.println(filepath + "filepath----");
             } else {
                 fillColorJson = makeJsonColorObject((Color) shape.getFill());
                 outlineColorJson = makeJsonColorObject((Color) shape.getStroke());
@@ -231,6 +234,9 @@ public class golFiles implements AppFileComponent {
             JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
             Shape shape = loadShape(jsonShape);
             dataManager.addShape(shape);
+            
+            
+            
         }
 
     }
@@ -262,7 +268,7 @@ public class golFiles implements AppFileComponent {
             shape = new DraggableText();
             System.out.println(type + " type");
         } else {
-            System.out.println("loading shape null -- never happens");
+           // System.out.println("loading shape null -- never happens");
         }
         shape.setUserData(type);
 
@@ -289,7 +295,8 @@ public class golFiles implements AppFileComponent {
 
             String filepath = jsonShape.getString(JSON_FILEPATH);
             Image image = new Image(filepath);
-
+            
+            d.setfilepath(filepath);
             d.setFill(new ImagePattern(image));
             d.setUserData("IMAGE");
 

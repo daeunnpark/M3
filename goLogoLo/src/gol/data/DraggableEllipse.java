@@ -97,10 +97,20 @@ public class DraggableEllipse extends Ellipse implements Draggable {
 
     @Override
     public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
+        /*
         setCenterX(initX + (initWidth / 2));
         setCenterY(initY + (initHeight / 2));
         setRadiusX(initWidth / 2);
         setRadiusY(initHeight / 2);
+*/
+      setCenterX(initX + (initWidth / 2));
+        setCenterY(initY + (initHeight / 2));
+       setRadiusX(initWidth / 2);
+       setRadiusY(initHeight / 2);
+       
+        startCenterX = initX;           // for size()
+        startCenterY = initY;
+        
     }
 
     @Override
@@ -127,8 +137,8 @@ public class DraggableEllipse extends Ellipse implements Draggable {
     @Override
     public void setXY(double x, double y) {
         
-       setCenterX(getRadiusX());
-       setCenterY(getRadiusY());
+       setCenterX(getRadiusX()+x);
+       setCenterY(getRadiusY()+y);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public void setXY2(double x, double y) {

@@ -209,7 +209,7 @@ public class golWorkspace extends AppWorkspaceComponent {
     FlowPane fileToolbar2; // cut copy paste
     FlowPane fileToolbar3; // undo redo    
     FlowPane fileToolbar4;// lang info
-    
+
     // THIS DIALOG IS USED FOR GIVING FEEDBACK TO THE USER
     //protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
     // THIS TITLE WILL GO IN THE TITLE BAR
@@ -218,7 +218,6 @@ public class golWorkspace extends AppWorkspaceComponent {
     // private File file; //=new File("E:\\LANGUAGE.json"); 
     //private String JSON_CHOICE;
     ComboBox comboBox, comboBox2;
-
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -242,17 +241,15 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         // addFilebuttons();
         languageSelection();
-        
-        //initLayout();
 
+        //initLayout();
         // HOOK UP THE CONTROLLERS
         initControllers();
 
         // AND INIT THE STYLE FOR THE WORKSPACE
         initStyle();
 
-        
-       // logoEditController.processSelectBackgroundColor();
+        // logoEditController.processSelectBackgroundColor();
     }
 
     public void undoredo() {
@@ -291,15 +288,15 @@ public class golWorkspace extends AppWorkspaceComponent {
     // HELPER SETUP METHOD
     private void initLayout() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-        
+
         // fileToolbar
         saveButton = (Button) app.getGUI().getFileToolbar().getChildren().get(2);
         saveButton.setDisable(true);
-        
+
         // fileToolbar2
-        fileToolbar2 = new FlowPane(); 
+        fileToolbar2 = new FlowPane();
         fileToolbar2.setPrefWidth(450);
-        
+
         cutButton = new Button();
         cutButton = gui.initChildButton(fileToolbar2, CUT_ICON.toString(), CUT_TOOLTIP.toString(), true);
 
@@ -310,11 +307,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         pasteButton = gui.initChildButton(fileToolbar2, PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), true);
         gui.getTopToolbarPane().getChildren().add(fileToolbar2);
 
-    
         //fileToolbar3
         fileToolbar3 = new FlowPane();
         fileToolbar3.setPrefWidth(400);
-       
+
         // UNDO
         undoButton = new ToggleButton();
         String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(UNDO_ICON.toString());
@@ -325,7 +321,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         undoButton.setGraphic(new ImageView(buttonImage));
         Tooltip buttonTooltip = new Tooltip(props.getProperty(UNDO_TOOLTIP.toString()));
         undoButton.setTooltip(buttonTooltip);
- 
+
         //REDO
         redoButton = new ToggleButton();
         imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(REDO_ICON.toString());
@@ -336,25 +332,22 @@ public class golWorkspace extends AppWorkspaceComponent {
         redoButton.setGraphic(new ImageView(buttonImage));
         buttonTooltip = new Tooltip(props.getProperty(REDO_TOOLTIP.toString()));
         redoButton.setTooltip(buttonTooltip);
-        
+
         fileToolbar3.getChildren().add(undoButton);
         fileToolbar3.getChildren().add(redoButton);
         gui.getTopToolbarPane().getChildren().add(fileToolbar3);
-        
-        
+
         //fileToolbar4
         fileToolbar4 = new FlowPane();
         fileToolbar4.setMaxWidth(120);
-        
+
         langButton = new Button();
         langButton = gui.initChildButton(fileToolbar4, LANG_ICON.toString(), LANG_TOOLTIP.toString(), false);
 
         infoButton = new Button();
         infoButton = gui.initChildButton(fileToolbar4, INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
         gui.getTopToolbarPane().getChildren().add(fileToolbar4);
-  
-        
-        
+
         // THIS WILL GO IN THE LEFT SIDE OF THE WORKSPACE
         editToolbar = new VBox();
 
@@ -381,8 +374,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         italicButton.setGraphic(new ImageView(buttonImage));
         buttonTooltip = new Tooltip(props.getProperty(ITALIC_TOOLTIP.toString()));
         italicButton.setTooltip(buttonTooltip);
-        
-        
+
         boldButton = new ToggleButton();
         imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(BOLD_ICON.toString());
         buttonImage = new Image(imagePath);
@@ -391,11 +383,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         boldButton.setGraphic(new ImageView(buttonImage));
         buttonTooltip = new Tooltip(props.getProperty(BOLD_TOOLTIP.toString()));
         boldButton.setTooltip(buttonTooltip);
-        
+
         row1_3Box.getChildren().add(italicButton);
         row1_3Box.getChildren().add(boldButton);
 
-        
         // FONT TYPE
         comboBox = new ComboBox<>();
 
@@ -407,7 +398,6 @@ public class golWorkspace extends AppWorkspaceComponent {
                 "Arial Narrow"
         );
 
-        
         // FONT SIZE
         comboBox2 = new ComboBox<>();
 
@@ -436,7 +426,6 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         row1_3Box.getChildren().addAll(comboBox, comboBox2);
 
-        
         // ROW 2
         row2Box = new HBox();
         moveToBackButton = gui.initChildButton(row2Box, MOVE_TO_BACK_ICON.toString(), MOVE_TO_BACK_TOOLTIP.toString(), true);
@@ -459,7 +448,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         fillColorPicker.setTooltip(buttonTooltip);
         row4Box.getChildren().add(fillColorLabel);
         row4Box.getChildren().add(fillColorPicker);
-       
+
         // ROW 5
         row5Box = new VBox();
         outlineColorLabel = new Label(props.getProperty(OUTLINECOLOR));
@@ -473,7 +462,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         row6Box = new VBox();
         outlineThicknessLabel = new Label(props.getProperty(OUTLINETHICKNESS));
         outlineThicknessSlider = new Slider(0, 10, 6);                          // default min max value
-        
+
         row6Box.getChildren().add(outlineThicknessLabel);
         row6Box.getChildren().add(outlineThicknessSlider);
 
@@ -514,8 +503,6 @@ public class golWorkspace extends AppWorkspaceComponent {
     private void initControllers() {
         // MAKE THE EDIT CONTROLLER
         logoEditController = new LogoEditController(app);
-        
-        
 
         imageButton.setOnAction(e -> {
             handleLoadRequest2();
@@ -590,7 +577,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         outlineThicknessSlider.valueProperty().addListener(e -> {
             logoEditController.processSelectOutlineThickness();
         });
-        */
+         */
         snapshotButton.setOnAction(e -> {
             logoEditController.processSnapshot();
         });
@@ -614,31 +601,30 @@ public class golWorkspace extends AppWorkspaceComponent {
             canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());
         }
         );
-     
+
         canvas.setOnMouseDragged(e -> {
-            canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY()); 
+            canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY());
         }
         );
-        
+
         outlineThicknessSlider.setOnMouseReleased(e -> {
             //System.out.println("RELEASED");
-           logoEditController.processSelectOutlineThickness();
+            logoEditController.processSelectOutlineThickness();
         }
         );
-        
-       ;
+        ;
 
     }
 
     // HELPER METHOD
     public void loadSelectedShapeSettings(Shape shape) {
-    if(!shape.getUserData().equals("IMAGE")){
-                Color fillColor = (Color) shape.getFill();
-                Color strokeColor = (Color) shape.getStroke();
-                double lineThickness = shape.getStrokeWidth();
-                fillColorPicker.setValue(fillColor);
-                outlineColorPicker.setValue(strokeColor);
-                outlineThicknessSlider.setValue(lineThickness);
+        if (!shape.getUserData().equals("IMAGE")) {
+            Color fillColor = (Color) shape.getFill();
+            Color strokeColor = (Color) shape.getStroke();
+            double lineThickness = shape.getStrokeWidth();
+            fillColorPicker.setValue(fillColor);
+            outlineColorPicker.setValue(strokeColor);
+            outlineThicknessSlider.setValue(lineThickness);
 
             if (shape.getUserData().equals("TEXT")) { // Load extra properties for TEXT
                 DraggableText text = (DraggableText) shape;
@@ -646,15 +632,14 @@ public class golWorkspace extends AppWorkspaceComponent {
                 if (text.getText() != null) {
                     comboBox.getSelectionModel().select(text.getFont().getFamily());
                     comboBox2.getSelectionModel().select((Double) text.getFont().getSize());
-                   
+
                 }
 
             }
             System.out.println("LOADED for " + shape.toString());
 
+        }
     }
-    }
-
 
     /**
      * This function specifies the CSS style classes for all the UI components
@@ -676,23 +661,22 @@ public class golWorkspace extends AppWorkspaceComponent {
         fileToolbar2.getStyleClass().add(CLASS_BORDERED_PANE);
         fileToolbar3.getStyleClass().add(CLASS_BORDERED_PANE);
         fileToolbar4.getStyleClass().add(CLASS_BORDERED_PANE);
-        
+
         cutButton.getStyleClass().add(CLASS_FILE_BUTTON);
-	copyButton.getStyleClass().add(CLASS_FILE_BUTTON);
-	pasteButton.getStyleClass().add(CLASS_FILE_BUTTON);
-        
-	undoButton.getStyleClass().add(CLASS_FILE_BUTTON);
-	redoButton.getStyleClass().add(CLASS_FILE_BUTTON);
-        
-	langButton.getStyleClass().add(CLASS_FILE_BUTTON);
-	infoButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        copyButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        pasteButton.getStyleClass().add(CLASS_FILE_BUTTON);
+
+        undoButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        redoButton.getStyleClass().add(CLASS_FILE_BUTTON);
+
+        langButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        infoButton.getStyleClass().add(CLASS_FILE_BUTTON);
 
         editToolbar.getStyleClass().add(CLASS_EDIT_TOOLBAR);
         row1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         row1_2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         row1_3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
-        
-        
+
         row2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         row3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         backgroundColorLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
@@ -704,7 +688,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         outlineThicknessLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
         row7Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
 
-        
     }
 
     /**
@@ -740,29 +723,37 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     }
 
-    
-    public void reloadWorkspace2(boolean b) {
-        if (b){
+    public void reloadWorkspace2(boolean b) { // b for index 0 b2 for last index
+        if (b) {
             saveButton.setDisable(false);
             cutButton.setDisable(false);
             copyButton.setDisable(false);
             pasteButton.setDisable(false);
             undoButton.setDisable(false);
             redoButton.setDisable(false);
-            
-        }else {
+
+        } else {
             saveButton.setDisable(true);
             cutButton.setDisable(true);
             copyButton.setDisable(true);
             pasteButton.setDisable(true);
             undoButton.setDisable(true);
-            
+
         }
-    
-    
-    
+
     }
-    
+
+    public void reloadWorkspace3(boolean b) { // if last action disable redo
+
+        if (b) {
+            redoButton.setDisable(false);
+            System.out.println("TT");
+        } else {
+            redoButton.setDisable(true);
+        }
+
+    }
+
     /**
      * Asks user to select a language
      *
@@ -792,7 +783,7 @@ public class golWorkspace extends AppWorkspaceComponent {
     private void initTopToolbar2(AppTemplate app) {
 
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-        
+
         // filetoolbar
         newButton = (Button) app.getGUI().getFileToolbar().getChildren().get(0);
         Tooltip buttonTooltip = new Tooltip(props.getProperty(NEW_TOOLTIP));
@@ -823,10 +814,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         //filetoolbar3
         buttonTooltip = new Tooltip(props.getProperty(UNDO_TOOLTIP));
         undoButton.setTooltip(buttonTooltip);
-        
+
         buttonTooltip = new Tooltip(props.getProperty(REDO_TOOLTIP));
         redoButton.setTooltip(buttonTooltip);
-        
+
         //filetoolbar4
         buttonTooltip = new Tooltip(props.getProperty(LANG_TOOLTIP));
         langButton.setTooltip(buttonTooltip);
@@ -855,11 +846,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         buttonTooltip = new Tooltip(props.getProperty(ADDTEXT_TOOLTIP));
         textButton.setTooltip(buttonTooltip);
 
-  
         //row1_3
         buttonTooltip = new Tooltip(props.getProperty(ITALIC_TOOLTIP));
         italicButton.setTooltip(buttonTooltip);
-        
+
         buttonTooltip = new Tooltip(props.getProperty(BOLD_TOOLTIP));
         boldButton.setTooltip(buttonTooltip);
 
@@ -874,7 +864,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         buttonTooltip = new Tooltip(props.getProperty(SNAPSHOT_TOOLTIP));
         snapshotButton.setTooltip(buttonTooltip);
 
-      
         // Add new label in new lang
         backgroundColorLabel = new Label(props.getProperty(BACKGROUNDCOLOR));
         row3Box.getChildren().set(0, backgroundColorLabel);
@@ -886,14 +875,14 @@ public class golWorkspace extends AppWorkspaceComponent {
         // ROW 4
         fillColorLabel = new Label(props.getProperty(FILLCOLOR));
         row4Box.getChildren().set(0, fillColorLabel);
-        
+
         buttonTooltip = new Tooltip(props.getProperty(FILL_TOOLTIP));
         fillColorPicker.setTooltip(buttonTooltip);
 
         // ROW 5
         outlineColorLabel = new Label(props.getProperty(OUTLINECOLOR));
         row5Box.getChildren().set(0, outlineColorLabel);
-        
+
         buttonTooltip = new Tooltip(props.getProperty(OUTLINE_TOOLTIP));
         outlineColorPicker.setTooltip(buttonTooltip);
 
@@ -932,7 +921,6 @@ public class golWorkspace extends AppWorkspaceComponent {
                 String filepath = file.toURI().toString();
 
                 //ImageView imageView = new ImageView(image);
-                
                 logoEditController.processMakeImageasShape(image, filepath);
 
             }
@@ -1058,11 +1046,11 @@ public class golWorkspace extends AppWorkspaceComponent {
         redoButton.setSelected(false);
         System.out.println("redo reseted");
     }
-    
+
     // Allows access
-    public CanvasController getCanvasController(){
+    public CanvasController getCanvasController() {
         //canvasController = new CanvasController(app);
-    return canvasController;
+        return canvasController;
     }
-    
+
 }

@@ -50,21 +50,15 @@ public class DraggableRectangle extends Rectangle implements Draggable {
 
     @Override
     public void drag(int x, int y) {
+        
 
         diffX = x - startDifX; //getX
         diffY = y - startDifY; //getY?
         newX = startX + diffX;
         newY = startY + diffY;
 
-        //System.out.println(xProperty()+" x1");
-        // System.out.println();
-        //System.out.println(xProperty().getValue()+" x2");
-        //System.out.println(getX()+" x3");
-        //System.out.println(this.xProperty().toString()+" Before");
         xProperty().set(newX);
         yProperty().set(newY);
-        // System.out.println(this.xProperty().toString()+" After");
-        // System.out.println(this.yProperty().toString()+" After");
 
         startX = newX;
         startY = newY;
@@ -92,6 +86,13 @@ public class DraggableRectangle extends Rectangle implements Draggable {
         yProperty().set(initY);
         widthProperty().set(initWidth);
         heightProperty().set(initHeight);
+        //startDifX = 0;
+        //startDifY = 0;
+       // System.out.println(startDifX + "stardifx");
+       // System.out.println(startDifY + "stardify");
+        
+        startX = initX;
+        startY = initY;
     }
 
     @Override
@@ -112,6 +113,11 @@ public class DraggableRectangle extends Rectangle implements Draggable {
         xProperty().set(x);
         yProperty().set(y);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setStartXY(double x, double y) {
+        startX = x;
+        startY = y;
     }
 
     public void setfilepath(String s) {

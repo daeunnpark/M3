@@ -802,9 +802,12 @@ public class golData implements AppDataComponent {
             //System.out.println(shapes.size() + " shapes HERE");
 
             Draggable d = (Draggable) shapes.get(shapes.size() - 1);
-            d.setXY(0, 0);
+            Draggable s = (Draggable) shape;
+            //d.setXY(0, 0);
+            
+            d.setLocationAndSize(s.getX(), s.getY(), s.getWidth(), s.getHeight());
             if (shape.getUserData().equals("TEXT")) {
-                d.setXY(250, 400);
+                //d.setXY(250, 400);
                 // System.out.println( d.getX() + " x "+ d.getY() + " y HHHH");
                 //  System.out.println("TEXT ALREADY");
             }
@@ -883,5 +886,13 @@ public class golData implements AppDataComponent {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
 
         workspace.reloadWorkspace2(b);
+    }
+    
+    public void reloadworkspace3(boolean b) {
+        //golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+        golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+
+        workspace.reloadWorkspace3(b);
     }
 }

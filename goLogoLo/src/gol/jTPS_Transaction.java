@@ -137,10 +137,16 @@ public class jTPS_Transaction {
 
     }
 
-    public void setworkspace(boolean b){
+    public void setworkspace2(boolean b){
        // if(dataManager.reloadworkspace2(b))
         dataManager.reloadworkspace2(b);
+    }
     
+    
+    public void setworkspace3(boolean b){
+       // if(dataManager.reloadworkspace2(b))
+        System.out.println("hh");
+        dataManager.reloadworkspace3(b);
     }
     String getmethodname() {
         return method.toString();

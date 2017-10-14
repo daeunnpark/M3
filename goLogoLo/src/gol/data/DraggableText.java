@@ -79,7 +79,8 @@ public class DraggableText extends Text implements Draggable {
     public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
         xProperty().set(initX);
         yProperty().set(initY);
-        //wrappingWidthProperty().set(initWidth);
+        startX = initX;
+        startY = initY;
         
         //widthProperty().set(initWidth);
         //heightProperty().set(initHeight);

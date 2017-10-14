@@ -33,9 +33,19 @@ public class jTPS {
         else {
             transactions.add(transaction);
         }
-        mostRecentTransaction++;
-        setworkspace(true);
 
+        mostRecentTransaction++;
+        setworkspace2(true); // undo
+        setworkspace3(false); // redo
+
+        System.out.println(transactions.size() + " ---size--");
+
+        
+        if (mostRecentTransaction == transactions.size() - 1) { // last action
+            setworkspace3(false);
+            System.out.println("NOoo");
+        }
+         
         //doTransaction();
         System.out.println(toString());
     }
@@ -46,8 +56,18 @@ public class jTPS {
 
             transaction.redoTransaction();
             mostRecentTransaction++;
+            setworkspace2(true);
+
+            if (mostRecentTransaction < (transactions.size() - 1)) {
+                setworkspace3(true);
+
+
+            } else {
+                setworkspace3(false);
+            }
+
+            System.out.println(toString());
         }
-        System.out.println(toString());
     }
 
     public void undoTransaction() {
@@ -55,22 +75,52 @@ public class jTPS {
             jTPS_Transaction transaction = transactions.get(mostRecentTransaction);
             transaction.undoTransaction();
             mostRecentTransaction--;
+
+            //if(transactions.size()>0){
+                setworkspace3(true);
+            //}
+            if (mostRecentTransaction > -1) {
+                setworkspace2(true);
+            } else {
+                setworkspace2(false);
+            }
         }
+        /*
         if (mostRecentTransaction == -1) {
-            setworkspace(false);
+            setworkspace2(false);
+        } else {
+            setworkspace2(true);
         }
+        /*
+        if ( mostRecentTransaction < transactions.size()-1 ) {
+            System.out.println("active");
+            setworkspace3(true);
+        }
+         */
+
         System.out.println(toString());
     }
 
-    public void setworkspace(boolean b) {
+    public void setworkspace2(boolean b) {
         // dummy
         jTPS_Transaction transaction;
         if (transactions.size() >= 1) {
             transaction = transactions.get(0);
         } else {
-             transaction = transactions.get(mostRecentTransaction);
+            transaction = transactions.get(mostRecentTransaction);
         }
-        transaction.setworkspace(b);
+        transaction.setworkspace2(b);
+    }
+
+    public void setworkspace3(boolean b) {
+        // dummy
+        jTPS_Transaction transaction;
+        if (transactions.size() >= 1) {
+            transaction = transactions.get(0);
+        } else {
+            transaction = transactions.get(mostRecentTransaction);
+        }
+        transaction.setworkspace3(b);
     }
 
     public String toString() {
