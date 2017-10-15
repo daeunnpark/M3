@@ -40,7 +40,7 @@ public class CanvasController {
      * but is actually a Pane.
      */
     public void processCanvasMousePress(int x, int y) {
-        System.out.println("LOCATIOND DRAGGED  " + x + "   " + y);
+        //System.out.println("LOCATIOND DRAGGED  " + x + "   " + y);
         golData dataManager = (golData) app.getDataComponent();
 
         if (dataManager.isInState(SELECTING_SHAPE)) {
@@ -59,26 +59,22 @@ public class CanvasController {
                 // RESET all btns
                 //workspace.selectionToolButton.setDisable(false);
                 //workspace.removeButton.setDisable(false);
-                
                 //workspace.rectButton.setDisable(false);
                 //workspace.ellipseButton.setDisable(false);
-                
                 workspace.imageButton.setDisable(false);
                 workspace.textButton.setDisable(false);
-                
+
                 workspace.italicButton.setDisable(false);
                 workspace.boldButton.setDisable(false);
 
                 workspace.comboBox.setDisable(false);
                 workspace.comboBox2.setDisable(false);
-                
-                
+
                 workspace.backgroundColorPicker.setDisable(false);
                 workspace.fillColorPicker.setDisable(false);
                 workspace.outlineColorPicker.setDisable(false);
                 workspace.outlineThicknessSlider.setDisable(false);
-                            
-                            
+
                 if (shape.getUserData() != null) { // TO ADD
 
                     if (shape.getUserData().equals("RECT") || (shape.getUserData().equals("IMAGE"))) {
@@ -90,7 +86,10 @@ public class CanvasController {
                         DraggableRectangle r = (DraggableRectangle) shape;
                         r.setStartDifX(x);
                         r.setStartDifY(y);
-                        
+
+                        r.setInitialXY(r.getX(), r.getY());
+
+                        // System.out.println(r.getWidth() + " rect width " + r.getHeight() + " rect hegith");
                         if ((shape.getUserData().equals("IMAGE"))) {
                             workspace.fillColorPicker.setDisable(true);
                             workspace.outlineColorPicker.setDisable(true);
@@ -110,17 +109,23 @@ public class CanvasController {
                         r.setstartCenterX(r.getCenterX());
                         r.setstartCenterY(r.getCenterY());
 
+                        r.setInitialXY(r.getX(), r.getY());
+
+                        //System.out.println(r.getWidth() + " ellip width " + r.getHeight() + " ellip hegith");
                     } else if (shape.getUserData().equals("TEXT")) {
                         /*
                         workspace.italicButton.setDisable(false);
                         workspace.boldButton.setDisable(false);
                         workspace.comboBox.setDisable(false);
                         workspace.comboBox2.setDisable(false);
-                        */
+                         */
                         DraggableText text = (DraggableText) shape;
                         text.setStartDifX(x);
                         text.setStartDifY(y);
 
+                        text.setInitialXY(text.getX(), text.getY());
+
+                        // System.out.println(text.getWidth() + " text width " + text.getHeight() + " text height");
                         workspace.boldButton.setOnAction(e -> {
                             dataManager.getBolded(shape);
                         });
@@ -156,7 +161,6 @@ public class CanvasController {
                                 if (shape != null) {
                                     if (shape.getUserData().equals("TEXT")) {
                                         DraggableText text = (DraggableText) shape;
-                                        //dataManager.cloneRect(shape);
                                         if (!workspace.comboBox2.getSelectionModel().selectedItemProperty().getValue().equals((Double) text.getFont().getSize())) {
                                             dataManager.changesize(shape, (double) workspace.comboBox2.getSelectionModel().selectedItemProperty().getValue());
                                         }
@@ -170,27 +174,16 @@ public class CanvasController {
                     }
 
                     workspace.copyButton.setOnAction(e -> {
-                        //System.out.println("copy btn");
                         copy = dataManager.copyShape(shape);
-                        // System.out.println(copy.toString() + "copied " );
                         workspace.pasteButton.setDisable(false);
                     });
 
                     workspace.cutButton.setOnAction(e -> {
-                        System.out.println("cut btn");
                         copy = dataManager.cutShape(shape); // removed
-                        //System.out.println( dataManager.getSelectedShape().toString() + " selected shape removed ");
-                        // dataManager.removeSelectedShape(data);
-
-                        //dataManager.removeShape(shape);
-                        System.out.println("cut done");
-                        //    workspace.reloadWorkspace(dataManager);
                         workspace.pasteButton.setDisable(false);
                     });
 
                     workspace.pasteButton.setOnAction(e -> {
-                        // System.out.println("paste btn");
-                        System.out.println(copy.toString() + "COOOOPY");
 
                         if (copy != null) {
 
@@ -198,7 +191,6 @@ public class CanvasController {
                                 Shape s = (Shape) dataManager.getShapes().get(i);
 
                                 if (s.getUserData().equals(copy.getUserData())) {
-                                    //    System.out.println("***********111************");
                                     if (s.getFill().equals(copy.getFill())) {
                                         if (s.getStroke().equals(copy.getStroke())) {
                                             if (s.getStrokeWidth() == copy.getStrokeWidth()) {
@@ -212,7 +204,6 @@ public class CanvasController {
                                                         }
                                                     }
                                                 } else {
-                                                    // System.out.println("***********222************");
                                                     issamecopy = true;
                                                     break;
                                                 }
@@ -231,28 +222,6 @@ public class CanvasController {
                                 dataManager.pasteShape(copy);
                             }
 
-                            /* JUST TO CHECK EVERY SINGLE ELEMENT
-                            Color fillColor = (Color) shape.getFill();
-                            Color strokeColor = (Color) shape.getStroke();
-                            double lineThickness = shape.getStrokeWidth();
-                            fillColorPicker.setValue(fillColor);
-                            outlineColorPicker.setValue(strokeColor);
-                            outlineThicknessSlider.setValue(lineThickness);
-
-                            if (shape.getUserData().equals("TEXT")) { // Load extra properties for TEXT
-                                DraggableText text = (DraggableText) shape;
-
-                                if (text.getText() != null) {
-                                    comboBox.getSelectionModel().select(text.getFont().getFamily());
-                                    comboBox2.getSelectionModel().select((Double) text.getFont().getSize());
-
-                                }
-
-                            }
-                            if (dataManager.ge) {
-                                dataManager.pasteShape(copy);
-                            }
-                             */
                         } else {
                             System.out.println("COPY IS NULL");
                         }
@@ -266,17 +235,16 @@ public class CanvasController {
                 workspace.boldButton.setDisable(true);
                 workspace.comboBox.setDisable(true);
                 workspace.comboBox2.setDisable(true);
-                
+
                 workspace.fillColorPicker.setDisable(true);
                 workspace.outlineColorPicker.setDisable(true);
                 workspace.outlineThicknessSlider.setDisable(true);
-                
 
                 scene.setCursor(Cursor.DEFAULT);
                 dataManager.setState(DRAGGING_NOTHING);
                 app.getWorkspaceComponent().reloadWorkspace(dataManager);
             }
-            
+
         } else if (dataManager.isInState(golState.STARTING_RECTANGLE)) {
             dataManager.startNewRectangle(x, y);
         } else if (dataManager.isInState(golState.STARTING_ELLIPSE)) {
@@ -295,19 +263,20 @@ public class CanvasController {
      */
     public void processCanvasMouseDragged(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
-        // golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        //System.out.println("LOCATIOND DRAGGED  " + x + "   " + y);
+
         if (dataManager.isInState(SIZING_SHAPE)) {
 
             Draggable newDraggableShape = (Draggable) dataManager.getNewShape();
-            // System.out.println(newDraggableShape.getX() + newDraggableShape.getY() + "HH");
             if (x > 0 && x < 1020
-                    && y > 0 && y < 710) { // - height
+                    && y > 0 && y < 710) {
                 newDraggableShape.size(x, y);
             }
         } else if (dataManager.isInState(DRAGGING_SHAPE)) {
-            Draggable selectedDraggableShape = (Draggable) dataManager.getSelectedShape();
 
+            Draggable selectedDraggableShape = (Draggable) dataManager.getSelectedShape();
+            System.out.println();
+
+            // TO ADD
             if ((selectedDraggableShape.getX() > 0)
                     && (selectedDraggableShape.getX() + selectedDraggableShape.getWidth() < 1020)
                     && (selectedDraggableShape.getY() > 0)
@@ -347,6 +316,7 @@ public class CanvasController {
 
                     } else {
 
+                        //System.out.println("noppppeeee-----");
                         double Xaxis = selectedDraggableShape.getX();
                         double Yaxis = selectedDraggableShape.getY();
 
@@ -364,9 +334,8 @@ public class CanvasController {
                         }
                         selectedDraggableShape.setXY(Xaxis, Yaxis);
                     }
-
-                    app.getGUI().updateToolbarControls(false);
                 }
+                app.getGUI().updateToolbarControls(false);
             }
         }
     }
@@ -377,20 +346,28 @@ public class CanvasController {
      */
     public void processCanvasMouseRelease(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
-        //golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
 
+        Shape selectedShape = dataManager.getSelectedShape();
         if (dataManager.isInState(SIZING_SHAPE)) {
             dataManager.selectSizedShape();
             app.getGUI().updateToolbarControls(false);
         } else if (dataManager.isInState(golState.DRAGGING_SHAPE)) {
+
+            Draggable d = (Draggable) selectedShape;
+
+            if (d.getInitialX() != x || d.getInitialY() != y) {
+                dataManager.dragShape(shape, d.getInitialX(), d.getInitialY());
+                d.setInitialXY(d.getX(), d.getY());
+            }
+
             dataManager.setState(SELECTING_SHAPE);
             Scene scene = app.getGUI().getPrimaryScene();
             scene.setCursor(Cursor.DEFAULT);
             app.getGUI().updateToolbarControls(false);
+
         } else if (dataManager.isInState(golState.DRAGGING_NOTHING)) {
             dataManager.setState(SELECTING_SHAPE);
         }
-
     }
 
     /**
@@ -411,7 +388,6 @@ public class CanvasController {
                     if (text.getText() != null) {
                         String newS = workspace.promptToText(text.getText()); // original text passed as parameter
                         if (newS != null) {
-                            // dataManager.changeTextBox(shape, newS);
                             dataManager.changeTextBox(shape, newS);
                         }
                     }

@@ -1,6 +1,5 @@
 package gol;
 
-import gol.data.golData;
 import java.util.ArrayList;
 
 /**
@@ -38,16 +37,14 @@ public class jTPS {
         setworkspace2(true); // undo
         setworkspace3(false); // redo
 
-        System.out.println(transactions.size() + " ---size--");
 
         
         if (mostRecentTransaction == transactions.size() - 1) { // last action
-            setworkspace3(false);
-            System.out.println("NOoo");
+            setworkspace3(false);        
         }
          
         //doTransaction();
-        System.out.println(toString());
+        //System.out.println(toString());
     }
 
     public void redoTransaction() {
@@ -60,13 +57,10 @@ public class jTPS {
 
             if (mostRecentTransaction < (transactions.size() - 1)) {
                 setworkspace3(true);
-
-
             } else {
                 setworkspace3(false);
             }
-
-            System.out.println(toString());
+           // System.out.println(toString());
         }
     }
 
@@ -76,29 +70,14 @@ public class jTPS {
             transaction.undoTransaction();
             mostRecentTransaction--;
 
-            //if(transactions.size()>0){
                 setworkspace3(true);
-            //}
             if (mostRecentTransaction > -1) {
                 setworkspace2(true);
             } else {
                 setworkspace2(false);
             }
         }
-        /*
-        if (mostRecentTransaction == -1) {
-            setworkspace2(false);
-        } else {
-            setworkspace2(true);
-        }
-        /*
-        if ( mostRecentTransaction < transactions.size()-1 ) {
-            System.out.println("active");
-            setworkspace3(true);
-        }
-         */
-
-        System.out.println(toString());
+     
     }
 
     public void setworkspace2(boolean b) {

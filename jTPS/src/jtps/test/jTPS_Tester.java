@@ -1,16 +1,16 @@
 package jtps.test;
-
+/*
 import java.io.PrintStream;
 import java.util.Scanner;
-import jtps.jTPS;
-import jtps.jTPS_Transaction;
+import jtps.jTPS2;
+import gol.jTPS_Transaction;
 
 /**
  *
  * @author McKillaGorilla
- */
+ 
 public class jTPS_Tester {
-    static jTPS jTPS = new jTPS();
+    static jTPS2 jTPS = new jTPS2();
     static PrintStream out = System.out;
     static Scanner input = new Scanner(System.in);
     static Num num = new Num();
@@ -34,8 +34,8 @@ public class jTPS_Tester {
                 System.out.print("\nEnter an amount to add: ");
                 entry = input.nextLine();
                 int amountToAdd = Integer.parseInt(entry);
-                jTPS_Transaction transaction = new AddToNum_Transaction(num, amountToAdd);
-                jTPS.addTransaction(transaction);
+               // jTPS_Transaction transaction = new AddToNum_Transaction(num, amountToAdd);
+              //  jTPS.addTransaction(transaction);
             }
             else if (entry.startsWith("2")) {
                 jTPS.undoTransaction();
@@ -50,3 +50,4 @@ public class jTPS_Tester {
         System.out.println("GOODBYE");
     }
 }
+*/

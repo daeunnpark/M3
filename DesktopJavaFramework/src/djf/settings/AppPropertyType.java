@@ -13,6 +13,7 @@ public enum AppPropertyType {
     // INITIAL WINDOW TITLE AND LOGO
     APP_TITLE,
     APP_LOGO,
+    APP_INFO,
 
     // INITIAL WINDOW GEOMETRY
     PREF_WIDTH,
@@ -29,7 +30,15 @@ public enum AppPropertyType {
     SAVE_ICON,
     SAVE_AS_ICON,
     EXIT_ICON,
-        
+    LANG_ICON,
+    INFO_ICON,
+    CUT_ICON,
+    COPY_ICON,
+    PASTE_ICON,
+    UNDO_ICON,
+    REDO_ICON,
+    
+    
     // FILE TOOLBAR TOOLTIPS FOR BUTTONS
     NEW_TOOLTIP,
     LOAD_TOOLTIP,
@@ -37,7 +46,22 @@ public enum AppPropertyType {
     SAVE_AS_TOOLTIP,
     EXPORT_TOOLTIP,
     EXIT_TOOLTIP,
+    LANG_TOOLTIP,
+    INFO_TOOLTIP,
+    CUT_TOOLTIP,
+    COPY_TOOLTIP,
+    PASTE_TOOLTIP,
+    UNDO_TOOLTIP,
+    REDO_TOOLTIP,
     
+    
+// DIALOGUE LANGUAGE SETTINGS
+   LANG_TITLE,
+   LANG_TEXT,		
+   EN,
+   FR,
+   OK,
+   CANCEL,
     
     BACKGROUNDCOLOR,
     FILLCOLOR,

@@ -1,16 +1,17 @@
 package jtps;
-
+/*
+import gol.jTPS_Transaction;
 import java.util.ArrayList;
 
 /**
  *
  * @author McKillaGorilla
- */
-public class jTPS {
+ 
+public class jTPS2 {
     private ArrayList<jTPS_Transaction> transactions = new ArrayList<>();
     private int mostRecentTransaction = -1;
     
-    public jTPS() {}
+    public jTPS2() {}
     
     public void addTransaction(jTPS_Transaction transaction) {
         // IS THIS THE FIRST TRANSACTION?
@@ -36,6 +37,7 @@ public class jTPS {
     public void doTransaction() {
         if (mostRecentTransaction < (transactions.size()-1)) {
             jTPS_Transaction transaction = transactions.get(mostRecentTransaction+1);
+           
             transaction.doTransaction();
             mostRecentTransaction++;
         }
@@ -59,4 +61,7 @@ public class jTPS {
         }
         return text;
     }
+
+  
 }
+*/

@@ -21,6 +21,8 @@ public class DraggableRectangle extends Rectangle implements Draggable {
     double newX;
     double newY;
     String filepath;
+    double initialX;
+    double initialY;
 
     public DraggableRectangle() {
         setX(0.0);
@@ -50,10 +52,9 @@ public class DraggableRectangle extends Rectangle implements Draggable {
 
     @Override
     public void drag(int x, int y) {
-        
 
-        diffX = x - startDifX; //getX
-        diffY = y - startDifY; //getY?
+        diffX = x - startDifX; 
+        diffY = y - startDifY; 
         newX = startX + diffX;
         newY = startY + diffY;
 
@@ -65,7 +66,7 @@ public class DraggableRectangle extends Rectangle implements Draggable {
 
         setStartDifX(x);
         setStartDifY(y);
-
+        
     }
 
     public String cT(double x, double y) {
@@ -86,11 +87,7 @@ public class DraggableRectangle extends Rectangle implements Draggable {
         yProperty().set(initY);
         widthProperty().set(initWidth);
         heightProperty().set(initHeight);
-        //startDifX = 0;
-        //startDifY = 0;
-       // System.out.println(startDifX + "stardifx");
-       // System.out.println(startDifY + "stardify");
-        
+ 
         startX = initX;
         startY = initY;
     }
@@ -109,10 +106,9 @@ public class DraggableRectangle extends Rectangle implements Draggable {
     }
 
     @Override
-    public void setXY(double x, double y) {
+    public void setXY(double x, double y) { 
         xProperty().set(x);
         yProperty().set(y);
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setStartXY(double x, double y) {
@@ -126,6 +122,23 @@ public class DraggableRectangle extends Rectangle implements Draggable {
 
     public String getfilepath() {
         return filepath;
+    }
+
+    @Override
+    public void setInitialXY(double x, double y) {
+        this.initialX = x;
+        this.initialY = y;
+        
+    }
+
+    @Override
+    public double getInitialX() {
+        return initialX;
+    }
+
+    @Override
+    public double getInitialY() {
+        return initialY;
     }
 
 }

@@ -38,6 +38,7 @@ import djf.ui.AppGUI;
 import djf.AppTemplate;
 import djf.components.AppDataComponent;
 import djf.components.AppWorkspaceComponent;
+import static djf.settings.AppPropertyType.APP_INFO;
 import static djf.settings.AppPropertyType.BACKGROUNDCOLOR;
 import static djf.settings.AppPropertyType.COPY_ICON;
 import static djf.settings.AppPropertyType.COPY_TOOLTIP;
@@ -107,6 +108,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
+import javax.swing.ImageIcon;
 
 import properties_manager.PropertiesManager;
 
@@ -488,6 +490,14 @@ public class golWorkspace extends AppWorkspaceComponent {
         debugText.setX(100);
         debugText.setY(100);
 
+        
+     
+        imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_INFO.toString());  
+       // java.awt.Image image2 = new ImageIcon("cat2.png").getImage();
+       // com.apple.eawt.Application.getApplication().setDockIconImage(image2);
+        
+     
+       
         // AND MAKE SURE THE DATA MANAGER IS IN SYNCH WITH THE PANE
         golData data = (golData) app.getDataComponent();
         data.setShapes(canvas.getChildren());
@@ -591,7 +601,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         canvas.setOnMouseClicked((MouseEvent mouseEvent) -> {
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                 if (mouseEvent.getClickCount() == 2) {
-                    // golData dataManager = (golData) app.getDataComponent();
                     canvasController.processModifyText((int) mouseEvent.getX(), (int) mouseEvent.getY());
                 }
             }
@@ -608,7 +617,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         );
 
         outlineThicknessSlider.setOnMouseReleased(e -> {
-            //System.out.println("RELEASED");
             logoEditController.processSelectOutlineThickness();
         }
         );
@@ -636,7 +644,7 @@ public class golWorkspace extends AppWorkspaceComponent {
                 }
 
             }
-            System.out.println("LOADED for " + shape.toString());
+            //System.out.println("LOADED for " + shape.toString());
 
         }
     }
@@ -747,7 +755,6 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         if (b) {
             redoButton.setDisable(false);
-            System.out.println("TT");
         } else {
             redoButton.setDisable(true);
         }
@@ -1009,8 +1016,11 @@ public class golWorkspace extends AppWorkspaceComponent {
      * Dialogue for Info about app
      */
     public void info() {
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
 
-        Image image = new Image("file:/Users/Daeun/NetBeansProjects/hw2/goLogoLo/images/cat.png");
+        // LOAD THE ICON FROM THE PROVIDED FILE
+        String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_INFO.toString());
+        Image image = new Image(imagePath);
 
         Alert a = new Alert(AlertType.INFORMATION);
         a.setTitle(appTitle);
@@ -1038,18 +1048,17 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     public void resetundobtn() {
         undoButton.setSelected(false);
-        System.out.println("undo reseted");
+       // System.out.println("undo reseted");
 
     }
 
     public void resetredobtn() {
         redoButton.setSelected(false);
-        System.out.println("redo reseted");
+        //System.out.println("redo reseted");
     }
 
     // Allows access
     public CanvasController getCanvasController() {
-        //canvasController = new CanvasController(app);
         return canvasController;
     }
 

@@ -29,9 +29,7 @@ import gol.data.golData;
 import gol.data.DraggableEllipse;
 import gol.data.DraggableRectangle;
 import gol.data.Draggable;
-import static gol.data.Draggable.RECTANGLE;
 import gol.data.DraggableText;
-import static java.awt.PageAttributes.ColorType.COLOR;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
@@ -117,17 +115,10 @@ public class golFiles implements AppFileComponent {
 
             double fontsize = 0.0;
             if (type.equals("TEXT")) {
-                // DraggableText d = (DraggableText)shape.;
-                text = ((DraggableText) shape).getText().toString();
+                text = ((DraggableText) shape).getText();
                 font = ((DraggableText) shape).getFont().getName();
-                //font.replace(" ", "*");
-                //font = tempfont.replace(" ", "*");
-                //System.out.println(text + " text");
-                System.out.println(font + " newfont saved");
 
                 fontfamily = ((DraggableText) shape).getFont().getFamily();
-                // fontfamily = tempfontfamily.replace(' ', '*');
-                System.out.println(fontfamily + " newfontfamily");
                 fontsize = ((DraggableText) shape).getFont().getSize();
             }
 
@@ -138,11 +129,9 @@ public class golFiles implements AppFileComponent {
             
             if (type.equals("IMAGE")) {
                 DraggableRectangle d = (DraggableRectangle) shape;
-                //fillColorJson = makeJsonColorObject(Color.web("#000000")); // random
-                //outlineColorJson = makeJsonColorObject(Color.web("#000000"));
                 outlineThickness = 0;
                 filepath = d.getfilepath();
-                System.out.println(filepath + "filepath----");
+                
             } else {
                 fillColorJson = makeJsonColorObject((Color) shape.getFill());
                 outlineColorJson = makeJsonColorObject((Color) shape.getStroke());
@@ -234,11 +223,7 @@ public class golFiles implements AppFileComponent {
             JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
             Shape shape = loadShape(jsonShape);
             dataManager.addShape(shape);
-            
-            
-            
         }
-
     }
 
     private double getDataAsDouble(JsonObject json, String dataName) {
@@ -257,7 +242,6 @@ public class golFiles implements AppFileComponent {
         // FIRST BUILD THE PROPER SHAPE TYPE
         String type = jsonShape.getString(JSON_TYPE);
 
-        System.out.println(type + "type");
         Shape shape = null;
         if (type.equals("RECT") || type.equals("IMAGE")) {
             shape = new DraggableRectangle();
@@ -266,9 +250,8 @@ public class golFiles implements AppFileComponent {
             shape = new DraggableEllipse();
         } else if (type.equals("TEXT")) {
             shape = new DraggableText();
-            System.out.println(type + " type");
         } else {
-           // System.out.println("loading shape null -- never happens");
+
         }
         shape.setUserData(type);
 
@@ -304,15 +287,8 @@ public class golFiles implements AppFileComponent {
         // STR
         if (shape.getUserData().equals("TEXT")) {
             String text = jsonShape.getString(JSON_TEXT);
-            System.out.println(text + " text");
             String font = getDataAsStr(jsonShape, JSON_FONT);
-            //String tempfont = jsonShape.getString(JSON_FONT);
-            //System.out.println(tempfont + "tempfont");
-
-            //String font = tempfont.replace("*", " ");
-            //System.out.println(font + " font loaded");
             String fontfamily = jsonShape.getString(JSON_FONTFAMILY);
-            // String fontfamily = tempfontfamily.replace('*', ' ');
             double fontsize = getDataAsDouble(jsonShape, JSON_FONTSIZE);
 
             if (!text.equals("")) { // fontsize
@@ -335,7 +311,6 @@ public class golFiles implements AppFileComponent {
                 draggableText.setFont(Font.font(fontfamily, fontweight, fontposture, fontsize));
 
                 draggableText.setUserData("TEXT"); // one more time
-
             }
         }
 

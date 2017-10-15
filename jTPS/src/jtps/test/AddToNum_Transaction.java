@@ -1,11 +1,11 @@
 package jtps.test;
-
-import jtps.jTPS_Transaction;
+/*
+import gol.jTPS_Transaction;
 
 /**
  *
  * @author McKillaGorilla
- */
+ 
 public class AddToNum_Transaction implements jTPS_Transaction {
     private Num num;
     private int amountToAdd;
@@ -34,3 +34,4 @@ public class AddToNum_Transaction implements jTPS_Transaction {
         return "Add " + amountToAdd;
     }
 }
+*/

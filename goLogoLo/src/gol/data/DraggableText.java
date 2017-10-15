@@ -24,6 +24,9 @@ public class DraggableText extends Text implements Draggable {
     double newX;
     double newY;
 
+    double initialX;
+    double initialY;
+
     public DraggableText() {
         // location of text
         setX(250);
@@ -31,7 +34,7 @@ public class DraggableText extends Text implements Draggable {
         setWrappingWidth(0);
         startX = 250;
         startY = 400;
-        
+
     }
 
     @Override
@@ -81,9 +84,7 @@ public class DraggableText extends Text implements Draggable {
         yProperty().set(initY);
         startX = initX;
         startY = initY;
-        
-        //widthProperty().set(initWidth);
-        //heightProperty().set(initHeight);
+
     }
 
     @Override
@@ -101,30 +102,39 @@ public class DraggableText extends Text implements Draggable {
 
     @Override
     public double getWidth() {
-        int width;
-        //Graphics g = (Graphics) this;
-        //g.getFontMetrics((Font)this.getFont());
-        //width = getFont().getFontMetrics().stringWidth(this.toString());
-        //return wrappingWidthProperty().getValue();
-        return this.getText().length();
-
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        float width = com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().computeStringWidth(this.getText(), this.getFont());
+        return width;
     }
 
     @Override
     public double getHeight() {
-       // System.out.println(this.getFont().getSize() + "HEIGHT font");
-
-        return this.getFont().getSize();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // not accurate
+        Text text = this;
+        double h = text.getBoundsInLocal().getHeight() - 100;
+        return h;
     }
 
     @Override
     public void setXY(double x, double y) {
         xProperty().set(x);
         yProperty().set(y);
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public void setInitialXY(double x, double y) {
+        this.initialX = x;
+        this.initialY = y;
+
+    }
+
+    @Override
+    public double getInitialX() {
+        return initialX;
+    }
+
+    @Override
+    public double getInitialY() {
+        return initialY;
+    }
 
 }

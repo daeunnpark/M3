@@ -9,9 +9,11 @@
 <properties>
     <property_list>
         <property name="APP_TITLE"	    value="goLogoLo"></property>
-        <property name="APP_LOGO"	    value="goLogoLo.png"></property>
+        <property name="APP_LOGO"	    value="cat2.png"></property>
         <property name="APP_PATH_CSS"	    value="css/"></property>
         <property name="APP_CSS"	    value="gol_style.css"></property>
+        <property name="APP_INFO"	    value="cat.png"></property>
+        
 
         <!-- PREFERRED GEOMETRY -->
         <property name="PREF_WIDTH"         value="800"></property>
