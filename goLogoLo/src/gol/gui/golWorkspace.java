@@ -38,6 +38,7 @@ import djf.ui.AppGUI;
 import djf.AppTemplate;
 import djf.components.AppDataComponent;
 import djf.components.AppWorkspaceComponent;
+import djf.controller.AppFileController;
 import static djf.settings.AppPropertyType.APP_INFO;
 import static djf.settings.AppPropertyType.BACKGROUNDCOLOR;
 import static djf.settings.AppPropertyType.COPY_ICON;
@@ -231,7 +232,7 @@ public class golWorkspace extends AppWorkspaceComponent {
      * data for setting up the user interface.
      */
     public golWorkspace(AppTemplate initApp) {
-        System.out.println("HH");
+
         // KEEP THIS FOR LATER
         app = initApp;
 
@@ -251,7 +252,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         // AND INIT THE STYLE FOR THE WORKSPACE
         initStyle();
 
-        // logoEditController.processSelectBackgroundColor();
     }
 
     public void undoredo() {
@@ -490,14 +490,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         debugText.setX(100);
         debugText.setY(100);
 
-        
-     
-        imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_INFO.toString());  
-       // java.awt.Image image2 = new ImageIcon("cat2.png").getImage();
-       // com.apple.eawt.Application.getApplication().setDockIconImage(image2);
-        
-     
-       
+        imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_INFO.toString());
+        // java.awt.Image image2 = new ImageIcon("cat2.png").getImage();
+        // com.apple.eawt.Application.getApplication().setDockIconImage(image2);
+
         // AND MAKE SURE THE DATA MANAGER IS IN SYNCH WITH THE PANE
         golData data = (golData) app.getDataComponent();
         data.setShapes(canvas.getChildren());
@@ -512,6 +508,7 @@ public class golWorkspace extends AppWorkspaceComponent {
     // HELPER SETUP METHOD
     private void initControllers() {
         // MAKE THE EDIT CONTROLLER
+
         logoEditController = new LogoEditController(app);
 
         imageButton.setOnAction(e -> {
@@ -519,7 +516,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         });
 
         textButton.setOnAction(e -> {
-            logoEditController.processTextBox(promptToText("daeun"));               // TO CHANGE
+            logoEditController.processTextBox(promptToText(""));
         });
 
         langButton.setOnAction(e -> {
@@ -731,14 +728,17 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     }
 
-    public void reloadWorkspace2(boolean b) { // b for index 0 b2 for last index
+    public void reloadWorkspace2(boolean b) { // false at index -1
         if (b) {
             saveButton.setDisable(false);
             cutButton.setDisable(false);
             copyButton.setDisable(false);
-            pasteButton.setDisable(false);
+            //pasteButton.setDisable(false);
             undoButton.setDisable(false);
             redoButton.setDisable(false);
+            AppFileController f = app.getGUI().getFileController();
+            f.setisSaved(false);
+            //System.out.println("something to save");
 
         } else {
             saveButton.setDisable(true);
@@ -746,6 +746,9 @@ public class golWorkspace extends AppWorkspaceComponent {
             copyButton.setDisable(true);
             pasteButton.setDisable(true);
             undoButton.setDisable(true);
+            AppFileController f = app.getGUI().getFileController();
+            f.setisSaved(true);
+            //System.out.println("nothing to save");
 
         }
 
@@ -779,6 +782,11 @@ public class golWorkspace extends AppWorkspaceComponent {
         dialog.setHeaderText(props.getProperty(LANG_TEXT));
 
         Optional<String> result = dialog.showAndWait();
+
+        if (!result.isPresent()) {
+            return "English";
+        }
+
         return result.get();
     }
 
@@ -985,13 +993,14 @@ public class golWorkspace extends AppWorkspaceComponent {
                 } else {
                     // ENG by default
                 }
-            } else { // ASKS sleection
+            } else { // ASKS selection
 
                 FileWriter fw = new FileWriter(file);
                 BufferedWriter bw = new BufferedWriter(fw);
 
                 answer0 = askLanguageSelection();
                 answer = answer0 + "\n";
+                System.out.println(answer0);
 
                 bw.write(answer);
                 bw.flush();
@@ -1048,7 +1057,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     public void resetundobtn() {
         undoButton.setSelected(false);
-       // System.out.println("undo reseted");
+        // System.out.println("undo reseted");
 
     }
 

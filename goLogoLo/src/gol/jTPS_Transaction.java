@@ -17,7 +17,7 @@ public class jTPS_Transaction {
     private Object after;
     private Shape shape;
     
-    // beforeX= before and beforeY = after are passed by param  
+    // beforeX = before and beforeY = after are passed by param  
     private double afterX; 
     private double afterY;
 

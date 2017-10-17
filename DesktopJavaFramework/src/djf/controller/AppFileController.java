@@ -27,10 +27,6 @@ import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_TITLE;
 import static djf.settings.AppPropertyType.SAVE_WORK_TITLE;
 import static djf.settings.AppStartupConstants.PATH_WORK;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * This class provides the event programmed responses for the file controls that
@@ -108,7 +104,7 @@ public class AppFileController {
                 app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());
 
                 // WORK IS NOT SAVED
-                saved = false;
+               // saved = false;
                 currentWorkFile = null;
 
                 // REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
@@ -146,7 +142,6 @@ public class AppFileController {
             }
         } catch (IOException ioe) {
             // SOMETHING WENT WRONG
-            System.out.println("rr");
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             PropertiesManager props = PropertiesManager.getPropertiesManager();
             dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
@@ -166,6 +161,7 @@ public class AppFileController {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         try {
             // MAYBE WE ALREADY KNOW THE FILE
+            if(!saved){
             if (currentWorkFile != null) {
                 saveWork(currentWorkFile);
             } // OTHERWISE WE NEED TO PROMPT THE USER
@@ -182,8 +178,8 @@ public class AppFileController {
                     saveWork(selectedFile);
                 }
             }
+            }
         } catch (IOException ioe) {
-            System.out.println("ERROR");
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
         }
@@ -219,7 +215,7 @@ public class AppFileController {
             boolean continueToExit = true;
             if (!saved) {
                 // THE USER CAN OPT OUT HERE
-                continueToExit = promptToSave();
+                continueToExit = promptToSave();         
             }
 
             // IF THE USER REALLY WANTS TO EXIT THE APP
@@ -247,11 +243,10 @@ public class AppFileController {
             // IF THE USER REALLY WANTS TO OPEN A Course
             if (continueToOpen) {
                 // GO AHEAD AND PROCEED LOADING A Course
-               // promptToOpenPic();
+                // promptToOpenPic();
             }
         } catch (IOException ioe) {
             // SOMETHING WENT WRONG
-            System.out.println("rr");
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             PropertiesManager props = PropertiesManager.getPropertiesManager();
             dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
@@ -304,6 +299,10 @@ public class AppFileController {
                     saveWork(selectedFile);
                     saved = true;
                 }
+                else{
+                    
+                return false;
+                }
             } else {
                 saveWork(currentWorkFile);
                 saved = true;
@@ -319,17 +318,7 @@ public class AppFileController {
         // HAD IN MIND IN THE FIRST PLACE
         return true;
     }
-
-    public void prepromptToSave() {
-
-        try {
-            promptToSave();
-        } catch (IOException ex) {
-            System.out.println("CHECK errort");
-            Logger.getLogger(AppFileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     /**
      * This helper method asks the user for a file to open. The user-selected
      * file is then loaded and the GUI updated. Note that if the user cancels
@@ -365,67 +354,12 @@ public class AppFileController {
                 saved = true;
                 app.getGUI().updateToolbarControls(saved);
             } catch (Exception e) {
-                System.out.println("ee");
                 e.printStackTrace();
                 // AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
                 //dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
             }
         }
     }
-
-    /*
-    private String promptToOpenPic() {
-        // WE'LL NEED TO GET CUSTOMIZED STUFF WITH THIS
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
-
-        // AND NOW ASK THE USER FOR THE FILE TO OPEN
-        FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File(PATH_WORK));
-        fc.setTitle(props.getProperty(LOAD_WORK_TITLE));
-        File selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
-        
-
-       // golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        try {
-
-            // ONLY OPEN A NEW FILE IF THE USER SAYS OK
-            if (selectedFile != null) {
-                // RESET THE WORKSPACE
-                //app.getWorkspaceComponent().resetWorkspace();
-
-                // RESET THE DATA
-                //app.getDataComponent().resetData();
-                // LOAD THE FILE INTO THE DATA
-                //app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
-                // MAKE SURE THE WORKSPACE IS ACTIVATED
-                app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());
-
-                File file = new File(selectedFile.getAbsolutePath());
-                Image image = new Image(file.toURI().toString());
-                System.out.println(file.toURI().toString() + "filepath");
-
-                ImageView imageView = new ImageView(image);
-
-                // workspace.getCanvas().getChildren().add(imageView);
-                // workspace.getCanvas().getChildren().add(imageView);
-               
-                app.getWorkspaceComponent().getWorkspace().getChildren().add(imageView);
-                 workspace.getCanvas().getChildren().add(imageView);
-                // } catch (Exception e){
-                System.out.println("lll");
-            }
-
-        } catch (Exception ioe) {
-            // SOMETHING WENT WRONG
-            System.out.println("rr");
-            ioe.printStackTrace();
-            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
-            //PropertiesManager props = PropertiesManager.getPropertiesManager();
-            dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
-        }
-    }
-
-*/
 
     /**
      * This mutator method marks the file as not saved, which means that when
@@ -445,5 +379,9 @@ public class AppFileController {
      */
     public boolean isSaved() {
         return saved;
+    }
+
+    public void setisSaved(boolean b) {
+        saved = b;
     }
 }

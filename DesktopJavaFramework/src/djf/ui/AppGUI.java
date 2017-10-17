@@ -180,6 +180,7 @@ public class AppGUI {
         fileController = new AppFileController(app);
         newButton.setOnAction(e -> {
             fileController.handleNewRequest();
+            
         });
         loadButton.setOnAction(e -> {
             fileController.handleLoadRequest();
@@ -188,7 +189,9 @@ public class AppGUI {
             fileController.handleSaveRequest();
         });
         exitButton.setOnAction(e -> {
+            System.out.println(fileController.isSaved() + " is saved");
             fileController.handleExitRequest();
+            
         });	
         
         // NOW PUT THE FILE TOOLBAR IN THE TOP TOOLBAR, WHICH COULD
