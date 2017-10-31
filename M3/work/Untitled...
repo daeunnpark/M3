@@ -1,0 +1,31 @@
+
+{
+    "background_color":{
+        "red":0.0,
+        "green":0.0,
+        "blue":0.0,
+        "alpha":1.0
+    },
+    "shapes":[
+        {
+            "type":"TEXT",
+            "x":250.0,
+            "y":400.0,
+            "width":5.0,
+            "height":200.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":1.0,
+                "alpha":1.0
+            },
+            "outline_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "outline_thickness":6.0
+        }
+    ]
+}
