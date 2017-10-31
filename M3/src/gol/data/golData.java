@@ -82,6 +82,7 @@ public class golData implements AppDataComponent {
      *
      * @param initApp The application within which this data manager is serving.
      */
+    
     public golData(AppTemplate initApp) {
         // KEEP THE APP FOR LATER
         app = initApp;
@@ -132,7 +133,7 @@ public class golData implements AppDataComponent {
 
     public int getCurrentBorderWidth2() {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        int thickness = (int) workspace.getOutlineThicknessSlider().getValue();
+        int thickness = (int) workspace.getLineThicknessSlider().getValue();
         return thickness;
     }
 
@@ -274,7 +275,8 @@ public class golData implements AppDataComponent {
      * This function clears out the HTML tree and reloads it with the minimal
      * tags, like html, head, and body such that the user can begin editing a
      * page.
-     */
+     
+    */
     @Override
     public void resetData() {
         setState(SELECTING_SHAPE);
@@ -382,8 +384,8 @@ public class golData implements AppDataComponent {
 
                 if (newShape.getUserData().equals("RECT") || newShape.getUserData().equals("ELLIP")
                         || newShape.getUserData().equals("TEXT")) { // Rect, Elip, Text
-                    newShape.setFill(workspace.getFillColorPicker().getValue());
-                    newShape.setStroke(workspace.getOutlineColorPicker().getValue());
+                    newShape.setFill(workspace.getLineColorPicker().getValue());
+                    newShape.setStroke(workspace.getStationColorPicker().getValue());
                     //newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
                     newShape.setStrokeWidth(getCurrentBorderWidth2()); //same thing with above line
                 }
@@ -440,7 +442,7 @@ public class golData implements AppDataComponent {
 
         if (shape != null) {
             if (shape.getUserData() != null) {
-                workspace.loadSelectedShapeSettings(shape);
+                //workspace.loadSelectedShapeSettings(shape);
             }
         }
         return shape;
@@ -644,11 +646,13 @@ public class golData implements AppDataComponent {
             }
 
             golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+            /*
             if (!workspace.getredobtn() && !workspace.getundobtn()) {
                 Shape currentcopy = workspace.getCanvasController().getCopy();
                 jTPS_Transaction transaction = new jTPS_Transaction(this, "copyShape", currentcopy, finalclone, shape);
                 jTPS.addTransaction(transaction);
             }
+*/
         }
 //        System.out.println(finalclone.toString() + " SHAPE CLONED");
         return finalclone;
@@ -743,11 +747,13 @@ public class golData implements AppDataComponent {
             shapes.remove(shape); // CUT
 
             golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
+            /*
             if (!workspace.getredobtn() && !workspace.getundobtn()) {
                 Shape currentcopy = workspace.getCanvasController().getCopy();
                 jTPS_Transaction transaction = new jTPS_Transaction(this, "cutShape", currentcopy, finalclone, shape);
                 jTPS.addTransaction(transaction);
             }
+*/
         }
         // System.out.println(finalclone.toString() + " SHAPE CLONED for cut");
         return finalclone;
@@ -858,13 +864,14 @@ public class golData implements AppDataComponent {
 
     public void setCopy(Shape copy) { // allows access from other methods
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        workspace.getCanvasController().setCopy(copy);
+       // workspace.getCanvasController().setCopy(copy);
 
     }
 
     public Shape getCopy() { // allows access from other methods
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        return workspace.getCanvasController().getCopy();
+       // return workspace.getCanvasController().getCopy();
+       return null;
     }
 
     public void reloadworkspace2(boolean b) {
@@ -876,4 +883,5 @@ public class golData implements AppDataComponent {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace3(b);
     }
+    
 }

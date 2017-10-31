@@ -135,7 +135,7 @@ public class LogoEditController {
      */
     public void processSelectFillColor() {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        Color selectedColor = workspace.getFillColorPicker().getValue();
+        Color selectedColor = workspace.getLineColorPicker().getValue();
         if (selectedColor != null) {
             dataManager.setCurrentFillColor(dataManager.getSelectedShape(), selectedColor);
             app.getGUI().updateToolbarControls(false);
@@ -148,7 +148,7 @@ public class LogoEditController {
      */
     public void processSelectOutlineColor() {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        Color selectedColor = workspace.getOutlineColorPicker().getValue();
+        Color selectedColor = workspace.getStationColorPicker().getValue();
         if (selectedColor != null) {
             dataManager.setCurrentOutlineColor(dataManager.getSelectedShape(), selectedColor);
             app.getGUI().updateToolbarControls(false);
@@ -160,7 +160,7 @@ public class LogoEditController {
      */
     public void processSelectBackgroundColor() {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
-        Color selectedColor = workspace.getBackgroundColorPicker().getValue();
+        Color selectedColor = workspace.getDecorColorPicker().getValue();
         if (selectedColor != null) {
             dataManager.setBackgroundColor(selectedColor);
             app.getGUI().updateToolbarControls(false);
@@ -175,7 +175,7 @@ public class LogoEditController {
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         if (dataManager.getSelectedShape() != null) {
             if ((int) dataManager.getSelectedShape().getStrokeWidth()!= dataManager.getCurrentBorderWidth2() ) {
-                int thickness = (int) workspace.getOutlineThicknessSlider().getValue();
+                int thickness = (int) workspace.getLineThicknessSlider().getValue();
                 dataManager.setCurrentOutlineThickness(dataManager.getSelectedShape(), thickness);
             }
         }

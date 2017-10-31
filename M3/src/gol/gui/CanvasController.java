@@ -39,6 +39,8 @@ public class CanvasController {
      * Respond to mouse presses on the rendering surface, which we call canvas,
      * but is actually a Pane.
      */
+   
+   /** 
     public void processCanvasMousePress(int x, int y) {
         //System.out.println("LOCATIOND DRAGGED  " + x + "   " + y);
         golData dataManager = (golData) app.getDataComponent();
@@ -113,12 +115,7 @@ public class CanvasController {
 
                         //System.out.println(r.getWidth() + " ellip width " + r.getHeight() + " ellip hegith");
                     } else if (shape.getUserData().equals("TEXT")) {
-                        /*
-                        workspace.italicButton.setDisable(false);
-                        workspace.boldButton.setDisable(false);
-                        workspace.comboBox.setDisable(false);
-                        workspace.comboBox2.setDisable(false);
-                         */
+                        
                         DraggableText text = (DraggableText) shape;
                         text.setStartDifX(x);
                         text.setStartDifY(y);
@@ -260,7 +257,7 @@ public class CanvasController {
     /**
      * Respond to mouse dragging on the rendering surface, which we call canvas,
      * but is actually a Pane.
-     */
+     
     public void processCanvasMouseDragged(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
 
@@ -343,7 +340,7 @@ public class CanvasController {
     /**
      * Respond to mouse button release on the rendering surface, which we call
      * canvas, but is actually a Pane.
-     */
+     
     public void processCanvasMouseRelease(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
 
@@ -375,7 +372,7 @@ public class CanvasController {
      *
      * @param x
      * @param y
-     */
+     
     public void processModifyText(int x, int y) {
         golData dataManager = (golData) app.getDataComponent();
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
@@ -403,5 +400,5 @@ public class CanvasController {
     public Shape getCopy() { // allows access from other methods
         return copy;
     }
-
+*/
 }
