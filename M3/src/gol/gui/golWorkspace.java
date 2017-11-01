@@ -88,10 +88,17 @@ import static gol.golLanguageProperty.ADDTEXT_TOOLTIP;
 import static gol.golLanguageProperty.BACKGROUND_TOOLTIP;
 import static gol.golLanguageProperty.BOLD_ICON;
 import static gol.golLanguageProperty.BOLD_TOOLTIP;
+import static gol.golLanguageProperty.DECREASE_ICON;
+import static gol.golLanguageProperty.DIRECTION_ICON;
 import static gol.golLanguageProperty.FILL_TOOLTIP;
+import static gol.golLanguageProperty.INCREASE_ICON;
 import static gol.golLanguageProperty.ITALIC_ICON;
 import static gol.golLanguageProperty.ITALIC_TOOLTIP;
+import static gol.golLanguageProperty.LIST_ICON;
 import static gol.golLanguageProperty.OUTLINE_TOOLTIP;
+import static gol.golLanguageProperty.ROTATE_ICON;
+import static gol.golLanguageProperty.ZOOMIN_ICON;
+import static gol.golLanguageProperty.ZOOMOUT_ICON;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -401,12 +408,19 @@ public class golWorkspace extends AppWorkspaceComponent {
         row1_1Box.getChildren().addAll(metroLinesLabel, lines, lineColorpicker);
 
         // initChildButton adds to the row1Box
-        addLineButton = gui.initChildButton(row1_2Box, SELECTION_TOOL_ICON.toString(), SELECTION_TOOL_TOOLTIP.toString(), true);
+       addLineButton =  initChildBtn(row1_2Box, "+", null);
+       removeLineButton = initChildBtn(row1_2Box, "-", null);
+       addStationButton = initChildBtn(row1_2Box, "Add Station", null);
+       removeStationButton = initChildBtn(row1_2Box, "Remove Station", null);
+       listStationButton = initChildBtn(row1_2Box, null, LIST_ICON.toString());
+       
+        //addLineButton = gui.initChildButton(row1_2Box, SELECTION_TOOL_ICON.toString(), SELECTION_TOOL_TOOLTIP.toString(), true);
+        /*
         removeLineButton = gui.initChildButton(row1_2Box, REMOVE_ICON.toString(), REMOVE_ELEMENT_TOOLTIP.toString(), true);
         addStationButton = gui.initChildButton(row1_2Box, RECTANGLE_ICON.toString(), RECTANGLE_TOOLTIP.toString(), false);
         removeStationButton = gui.initChildButton(row1_2Box, ELLIPSE_ICON.toString(), ELLIPSE_TOOLTIP.toString(), false);
         listStationButton = gui.initChildButton(row1_2Box, ELLIPSE_ICON.toString(), ELLIPSE_TOOLTIP.toString(), false);
-
+*/
         lineThickness = new Slider(0, 10, 6);                          // default min max
         row1_3Box.getChildren().add(lineThickness);
 
@@ -423,11 +437,12 @@ public class golWorkspace extends AppWorkspaceComponent {
         stationColorpicker = new ColorPicker();
         row2_1Box.getChildren().addAll(metroStationsLabel, stations, stationColorpicker);
 
-        addStationButton2 = gui.initChildButton(row2_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        removeStationButton2 = gui.initChildButton(row2_2Box, ADDTEXT_ICON.toString(), ADDTEXT_TOOLTIP.toString(), false);
-        snapButton = gui.initChildButton(row2_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        moveLabelButton = gui.initChildButton(row2_2Box, ADDTEXT_ICON.toString(), ADDTEXT_TOOLTIP.toString(), false);
-        rotateButton = gui.initChildButton(row2_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
+        addStationButton2 = initChildBtn(row2_2Box, "+", null);
+       removeStationButton2 = initChildBtn(row2_2Box, "-", null);
+        //removeStationButton2 = gui.initChildButton(row2_2Box, ADDTEXT_ICON.toString(), ADDTEXT_TOOLTIP.toString(), false);
+        snapButton = initChildBtn(row2_2Box, "Snap", null);
+        moveLabelButton = initChildBtn(row2_2Box, "Move Label", null);
+        rotateButton = initChildBtn(row2_2Box, null, ROTATE_ICON.toString());
 
         stationRadius = new Slider(0, 10, 6);
         row2_3Box.getChildren().add(stationRadius);
@@ -442,7 +457,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         direction1 = new ComboBox();
         direction2 = new ComboBox();
         row3_1Box.getChildren().addAll(direction1, direction2);
-        changeDirButton = gui.initChildButton(row3_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
+        changeDirButton = initChildBtn(row3_2Box, null, DIRECTION_ICON.toString());
 
         row3Box.getChildren().addAll(row3_1Box, row3_2Box);
 
@@ -455,10 +470,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         decorColorpicker = new ColorPicker();
         row4_1Box.getChildren().addAll(decorLabel, decorColorpicker);
 
-        setImageBgdButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        addImageButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        addLabelButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        RemoveElmtButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
+        setImageBgdButton = initChildBtn(row4_2Box, "Set Image Background", null);
+        addImageButton = initChildBtn(row4_2Box, "Add Image", null);
+        addLabelButton = initChildBtn(row4_2Box, "Add Label", null);
+        RemoveElmtButton = initChildBtn(row4_2Box, "Remove Element", null);
 
         row4Box.getChildren().addAll(row4_1Box, row4_2Box);
 
@@ -535,10 +550,10 @@ public class golWorkspace extends AppWorkspaceComponent {
         showGrid = new CheckBox("Show Grid");
         row6_1Box.getChildren().addAll(navigationLabel, showGrid);
 
-        zoomin = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        zoomout = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        increase = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        decrease = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
+        zoomin = initChildBtn(row6_2Box, null, ZOOMIN_ICON.toString());
+        zoomout = initChildBtn(row6_2Box, null, ZOOMOUT_ICON.toString());
+        increase = initChildBtn(row6_2Box, null, INCREASE_ICON.toString());
+        decrease = initChildBtn(row6_2Box, null, DECREASE_ICON.toString());
 
         row6Box.getChildren().addAll(row6_1Box, row6_2Box);
 
@@ -557,7 +572,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         debugText.setX(100);
         debugText.setY(100);
 
-        imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_INFO.toString());
+       // imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_INFO.toString());
         // java.awt.Image image2 = new ImageIcon("cat2.png").getImage();
         // com.apple.eawt.Application.getApplication().setDockIconImage(image2);
 
@@ -572,6 +587,33 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     }
 
+    
+    private Button initChildBtn(Pane toolbar, String s, String filename){
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        
+        Button button = new Button();
+        if(s!=null){
+            button.setText(s);
+           
+        }
+        if (filename!=null){
+        
+        String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(filename);
+        Image buttonImage = new Image(imagePath);
+	
+	// NOW MAKE THE BUTTON
+
+        button.setGraphic(new ImageView(buttonImage));
+        
+        
+        }
+        toolbar.getChildren().add(button);
+        
+        return button;
+        
+    }
+    
+    
     // HELPER SETUP METHOD
     private void initControllers() {
         // MAKE THE EDIT CONTROLLER
@@ -589,7 +631,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         langButton.setOnAction(e -> {
             String selectedLang = askLanguageSelection();
 
-            if (selectedLang.equals("French") || selectedLang.equals("Français")) {
+            if (selectedLang.equals("French") || selectedLang.equals("FranÃ§ais")) {
                 boolean success = app.loadProperties("app_properties_FR.xml");
                 if (success) {
                     initTopToolbar2(app);

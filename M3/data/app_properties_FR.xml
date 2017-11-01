@@ -44,18 +44,18 @@ and open the template in the editor.
 
         
         <!-- TOOLTIPS FOR BUTTONS -->
-        <property name="NEW_TOOLTIP"	value="Créer un Nouveau Logo"></property>
+        <property name="NEW_TOOLTIP"	value="CrÃ©er un Nouveau Logo"></property>
         <property name="LOAD_TOOLTIP"	value="Ouvrir un Logo existant"></property>
         <property name="SAVE_TOOLTIP"	value="Sauvegarder ce Logo"></property>
         <property name="EXIT_TOOLTIP"	value="Quitter l'Application"></property>
         <property name="LANG_TOOLTIP"		value="Changer de Langue"></property>
         <property name="INFO_TOOLTIP"		value="Savoir plus sur cette Application"></property>
-        <property name="CUT_TOOLTIP"            value="Couper element sélectionné"></property>
-        <property name="COPY_TOOLTIP"           value="Copier element sélectionné"></property>
-        <property name="PASTE_TOOLTIP"          value="Insérer element sélectionné"></property> 
+        <property name="CUT_TOOLTIP"            value="Couper element sÃ©lectionnÃ©"></property>
+        <property name="COPY_TOOLTIP"           value="Copier element sÃ©lectionnÃ©"></property>
+        <property name="PASTE_TOOLTIP"          value="InsÃ©rer element sÃ©lectionnÃ©"></property> 
         
         <property name="UNDO_TOOLTIP"           value="Annuler"></property>
-        <property name="REDO_TOOLTIP"           value="Rétablir"></property> 
+        <property name="REDO_TOOLTIP"           value="RÃ©tablir"></property> 
        
         <property name="ADDTEXT_TOOLTIP"       value="Ajouter Text"></property>
         <property name="ADDPICTURE_TOOLTIP"	value="Ajouter Image"></property>
@@ -66,40 +66,40 @@ and open the template in the editor.
         <property name="TEXTSIZE_TOOLTIP"       value="Changer taille de police "></property>
    
         <!-- Language Selection Message-->
-        <property name="LANG_TITLE"		value="Préférence de Langue"></property>
+        <property name="LANG_TITLE"		value="PrÃ©fÃ©rence de Langue"></property>
         <property name="LANG_TEXT"		value="Selectionnez une Langue"></property>
         <property name="EN"                     value="Anglais"></property>
-        <property name="FR"                     value="Français"></property>
+        <property name="FR"                     value="FranÃ§ais"></property>
         <property name="OK"                     value="Valider"></property>
         <property name="CANCEL"                 value="Annuler"></property>
 
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Fermer"></property>
-        <property name="NEW_ERROR_MESSAGE"              value="Erreur de création de Nouveau Fichier."></property>
+        <property name="NEW_ERROR_MESSAGE"              value="Erreur de crÃ©ation de Nouveau Fichier."></property>
         <property name="NEW_ERROR_TITLE"	value="Nouveau Fichier Erreur "></property>
         <property name="LOAD_ERROR_MESSAGE"             value="Erreur d'Ouverture de Fichier."></property>
         <property name="LOAD_ERROR_TITLE"	value="Ouverture de Fichier Erreur"></property>
         <property name="SAVE_ERROR_MESSAGE"             value="Erreur de Sauvegarde de Fichier."></property>
         <property name="SAVE_ERROR_TITLE"	value="Sauvegarde de Fichier Erreur"></property>
-        <property name="PROPERTIES_LOAD_ERROR_MESSAGE"	value="Erreur de Chargement de Fichier de propriété"></property>
-        <property name="PROPERTIES_LOAD_ERROR_TITLE"	value="Chargement de Fichier de propriété Erreur"></property>
+        <property name="PROPERTIES_LOAD_ERROR_MESSAGE"	value="Erreur de Chargement de Fichier de propriÃ©tÃ©"></property>
+        <property name="PROPERTIES_LOAD_ERROR_TITLE"	value="Chargement de Fichier de propriÃ©tÃ© Erreur"></property>
 
         <!-- VERIFICATION MESSAGES -->
-        <property name="NEW_COMPLETED_MESSAGE"	value="Nouveau Fichier prêt à Editer"></property>
-        <property name="NEW_COMPLETED_TITLE"	value="Nouveau Fichier crée"></property>
-        <property name="LOAD_COMPLETED_MESSAGE"	value="Fichier prêt à éditer"></property>
-        <property name="LOAD_COMPLETED_TITLE"	value="Chargement Réussie"></property>
-        <property name="SAVE_COMPLETED_MESSAGE"	value="Sauvegarde de FichierRéussie"></property>
-        <property name="SAVE_COMPLETED_TITLE"	value="Sauvegarde Réussie"></property>
+        <property name="NEW_COMPLETED_MESSAGE"	value="Nouveau Fichier prÃªt Ã  Editer"></property>
+        <property name="NEW_COMPLETED_TITLE"	value="Nouveau Fichier crÃ©e"></property>
+        <property name="LOAD_COMPLETED_MESSAGE"	value="Fichier prÃªt Ã  Ã©diter"></property>
+        <property name="LOAD_COMPLETED_TITLE"	value="Chargement RÃ©ussie"></property>
+        <property name="SAVE_COMPLETED_MESSAGE"	value="Sauvegarde de FichierRÃ©ussie"></property>
+        <property name="SAVE_COMPLETED_TITLE"	value="Sauvegarde RÃ©ussie"></property>
         <property name="SAVE_UNSAVED_WORK_MESSAGE"	value="Vouslez- vous sauvegarer le fichier?"></property>
         <property name="SAVE_UNSAVED_WORK_TITLE"	value="Sauvegarder le fichier?"></property>
         
-        <property name="NEW_CREATED_MESSAGE"	value="Nouveau Fichier créé, non sauvegardé"></property>
+        <property name="NEW_CREATED_MESSAGE"	value="Nouveau Fichier crÃ©Ã©, non sauvegardÃ©"></property>
         <property name="WORK_LOADED_MESSAGE"	value="Fichier est ouvert"></property>
-        <property name="WORK_SAVED_MESSAGE"	value="Fichier non sauvegardé"></property>
+        <property name="WORK_SAVED_MESSAGE"	value="Fichier non sauvegardÃ©"></property>
         <property name="SAVE_UNSAVED_WORK_MESSAGE"	value="Vouslez- vous sauvegarer le fichier?"></property>
         <property name="SAVE_WORK_TITLE"	value="Sauvegarder votre fichier"></property>
-        <property name="LOAD_WORK_TITLE"	value="Selectionner le fichier à ouvrir"></property>
+        <property name="LOAD_WORK_TITLE"	value="Selectionner le fichier Ã  ouvrir"></property>
         <property name="WORK_FILE_EXT"	value="pm"></property>
         <property name="WORK_FILE_EXT_DESC"	value="goLogoLo Fichiers"></property>
 
@@ -121,11 +121,11 @@ and open the template in the editor.
         <!--<property name="TEXTSIZE_ICON"		value="textsize.png"></property>-->
         
         <!-- TOOLTIPS FOR BUTTONS -->
-        <property name="SELECTION_TOOL_TOOLTIP"	   value="Sélectionner"></property>
-        <property name="REMOVE_ELEMENT_TOOLTIP"	   value="Enlever l'élement"></property>
+        <property name="SELECTION_TOOL_TOOLTIP"	   value="SÃ©lectionner"></property>
+        <property name="REMOVE_ELEMENT_TOOLTIP"	   value="Enlever l'Ã©lement"></property>
         <property name="RECTANGLE_TOOLTIP"	   value="Dessiner Rectangle"></property>
         <property name="ELLIPSE_TOOLTIP"	   value="Dessiner Ellipse"></property>
-        <property name="MOVE_TO_BACK_TOOLTIP"	   value="En Arrière"></property>
+        <property name="MOVE_TO_BACK_TOOLTIP"	   value="En ArriÃ¨re"></property>
         <property name="MOVE_TO_FRONT_TOOLTIP"	   value="En Avant"></property>
         <property name="BACKGROUND_TOOLTIP"	    value="Selectionner Couleur de Fond"></property>
         <property name="FILL_TOOLTIP"              value="Selectionner Couleur de Remplissqge"></property>
@@ -133,12 +133,12 @@ and open the template in the editor.
         <property name="SNAPSHOT_TOOLTIP"	   value="Prendre une Capture d'Ecran"></property>
         
         <!-- MESSAGES -->
-        <property name="REMOVE_ELEMENT_MESSAGE"	   value="Vous-êtes sûr d'enlever cet élément?"></property>
+        <property name="REMOVE_ELEMENT_MESSAGE"	   value="Vous-Ãªtes sÃ»r d'enlever cet Ã©lÃ©ment?"></property>
         <!-- ERROR MESSAGES AND TITLES FOR THEIR DIALOGS -->
-        <property name="ATTRIBUTE_UPDATE_ERROR_MESSAGE"	   value="Attention: Erreur de Mise à jour des attributs des éléments."></property>
-        <property name="ATTRIBUTE_UPDATE_ERROR_TITLE"	   value="Mise à jour des attributs erreurs"></property>
-        <property name="UPDATE_ERROR_MESSAGE"	   value="Erreur de Mise à jour de UI"></property>
-        <property name="UPDATE_ERROR_TITLE"	   value="UI Mise à jour Erreur"></property>
+        <property name="ATTRIBUTE_UPDATE_ERROR_MESSAGE"	   value="Attention: Erreur de Mise Ã  jour des attributs des Ã©lÃ©ments."></property>
+        <property name="ATTRIBUTE_UPDATE_ERROR_TITLE"	   value="Mise Ã  jour des attributs erreurs"></property>
+        <property name="UPDATE_ERROR_MESSAGE"	   value="Erreur de Mise Ã  jour de UI"></property>
+        <property name="UPDATE_ERROR_TITLE"	   value="UI Mise Ã  jour Erreur"></property>
         
         <property name="BACKGROUNDCOLOR"	    value="Couleur de Fond"></property>
         <property name="FILLCOLOR"                  value="Couleur de Replissage"></property>

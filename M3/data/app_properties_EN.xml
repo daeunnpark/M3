@@ -15,6 +15,23 @@
         <property name="APP_INFO"	    value="cat.png"></property>
         
 
+
+
+        <property name="LIST_ICON"	   value="List.png"></property>
+        <property name="ROTATE_ICON"	   value="Rotate.png"></property>
+        
+        <property name="ZOOMIN_ICON"	   value="Zoom-in.png"></property>
+        <property name="ZOOMOUT_ICON"	   value="Zoom-out.png"></property>
+        
+        
+        <property name="INCREASE_ICON"	   value="Increase.png"></property>
+        <property name="DECREASE_ICON"	   value="Decrease.png"></property>
+        
+        <property name="DIRECTION_ICON"	   value="Direction.png"></property>
+         <property name="MAP_ICON"	   value="Map.png"></property>
+        
+
+
         <!-- PREFERRED GEOMETRY -->
         <property name="PREF_WIDTH"         value="800"></property>
         <property name="PREF_HEIGHT"        value="600"></property>

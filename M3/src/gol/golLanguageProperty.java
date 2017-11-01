@@ -9,6 +9,22 @@ package gol;
  * @version 1.0
  */
 public enum golLanguageProperty {
+    
+    
+    
+    
+LIST_ICON,
+ROTATE_ICON,
+DIRECTION_ICON,
+
+ZOOMIN_ICON,
+ZOOMOUT_ICON,
+INCREASE_ICON,
+DECREASE_ICON,
+
+MAP_ICON,
+    
+    
     SELECTION_TOOL_ICON,
     SELECTION_TOOL_TOOLTIP,
     
