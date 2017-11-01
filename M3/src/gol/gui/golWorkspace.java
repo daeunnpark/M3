@@ -140,25 +140,18 @@ public class golWorkspace extends AppWorkspaceComponent {
     protected Button saveButton;
     protected Button saveAsButton;
     private Button exportButton;
-    
-    Button cutButton;
-    Button copyButton;
-    Button pasteButton;
-    
-   
+
     ToggleButton undoButton;
     ToggleButton redoButton;
-    
-    private Button settingButton;
+
     private Button aboutButton;
-    
-      
+
     // ROW1
     private VBox row1Box;
     private HBox row1_1Box;
     private HBox row1_2Box;
     private HBox row1_3Box;
-    
+
     private Label metroLinesLabel;
     private ComboBox lines;
     private ColorPicker lineColorpicker;
@@ -168,10 +161,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     private Button removeStationButton;
     private Button listStationButton;
     private Slider lineThickness;
-    
-    
 
-    // 2 ROW
+    // ROW 2
     private VBox row2Box;
     private HBox row2_1Box;
     private HBox row2_2Box;
@@ -185,53 +176,49 @@ public class golWorkspace extends AppWorkspaceComponent {
     private Button moveLabelButton;
     private Button rotateButton;
     private Slider stationRadius;
-    
+
     // Row 3
-    private HBox row3Box; 
+    private HBox row3Box;
     private VBox row3_1Box;
     private VBox row3_2Box;
     private ComboBox direction1;
     private ComboBox direction2;
     private Button changeDirButton;
-    
-    
-    // Row 4
 
+    // Row 4
     private VBox row4Box;
     private HBox row4_1Box;
     private HBox row4_2Box;
-   
+
     private Label decorLabel;
     private ColorPicker decorColorpicker;
     private Button setImageBgdButton;
     private Button addImageButton;
     private Button addLabelButton;
     private Button RemoveElmtButton;
-    
-  // Row 5
-     private VBox row5Box;
+
+    // Row 5
+    private VBox row5Box;
     private HBox row5_1Box;
     private HBox row5_2Box;
-    
+
     private Label fontLabel;
     private ColorPicker fontColorpicker;
     private ToggleButton boldButton;
     private ToggleButton italicButton;
     private ComboBox fontsizecomboBox, fontcomboBox;
-    
+
     // Row 6
     private VBox row6Box;
     private HBox row6_1Box;
     private HBox row6_2Box;
-    
+
     private Label navigationLabel;
     private CheckBox showGrid;
     private Button zoomin;
     private Button zoomout;
     private Button increase;
     private Button decrease;
-    
-    
 
     // THIS IS WHERE WE'LL RENDER OUR DRAWING, NOTE THAT WE
     // CALL THIS A CANVAS, BUT IT'S REALLY JUST A Pane
@@ -248,8 +235,6 @@ public class golWorkspace extends AppWorkspaceComponent {
     // FOR DISPLAYING DEBUG STUFF
     Text debugText;
 
-    
-
     boolean continueToOpen;
 
     //fileToolbar is from Framework
@@ -265,7 +250,6 @@ public class golWorkspace extends AppWorkspaceComponent {
     // private File file; //=new File("E:\\LANGUAGE.json"); 
     //private String JSON_CHOICE;
     //ComboBox comboBox, comboBox2;
-
     /**
      * Constructor for initializing the workspace, note that this constructor
      * will fully setup the workspace user interface for use.
@@ -322,14 +306,16 @@ public class golWorkspace extends AppWorkspaceComponent {
     public ColorPicker getDecorColorPicker() {
         return decorColorpicker;
     }
-     public ColorPicker getFontColorPicker() {
+
+    public ColorPicker getFontColorPicker() {
         return fontColorpicker;
     }
 
     public Slider getLineThicknessSlider() {
         return lineThickness;
     }
-     public Slider getStationRadiusSlider() {
+
+    public Slider getStationRadiusSlider() {
         return stationRadius;
     }
 
@@ -348,6 +334,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         exportButton = gui.initChildButton(gui.getFileToolbar(), EXIT_ICON.toString(), EXIT_TOOLTIP.toString(), false);
 
         // fileToolbar2
+        /*
         fileToolbar2 = new FlowPane();
         fileToolbar2.setPrefWidth(450);
 
@@ -360,7 +347,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         pasteButton = new Button();
         pasteButton = gui.initChildButton(fileToolbar2, PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), true);
         gui.getTopToolbarPane().getChildren().add(fileToolbar2);
-
+         */
         //fileToolbar3
         fileToolbar3 = new FlowPane();
         fileToolbar3.setPrefWidth(400);
@@ -395,9 +382,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         fileToolbar4 = new FlowPane();
         fileToolbar4.setMaxWidth(120);
 
-        settingButton = new Button();
-        settingButton = gui.initChildButton(fileToolbar4, LANG_ICON.toString(), LANG_TOOLTIP.toString(), false);
-
         aboutButton = new Button();
         aboutButton = gui.initChildButton(fileToolbar4, INFO_ICON.toString(), INFO_TOOLTIP.toString(), false);
         gui.getTopToolbarPane().getChildren().add(fileToolbar4);
@@ -410,85 +394,83 @@ public class golWorkspace extends AppWorkspaceComponent {
         row1_1Box = new HBox();
         row1_2Box = new HBox();
         row1_3Box = new HBox();
-        
+
         metroLinesLabel = new Label("Metro Lines");
         lines = new ComboBox();
         lineColorpicker = new ColorPicker();
         row1_1Box.getChildren().addAll(metroLinesLabel, lines, lineColorpicker);
-        
-        
-       // initChildButton adds to the row1Box
+
+        // initChildButton adds to the row1Box
         addLineButton = gui.initChildButton(row1_2Box, SELECTION_TOOL_ICON.toString(), SELECTION_TOOL_TOOLTIP.toString(), true);
         removeLineButton = gui.initChildButton(row1_2Box, REMOVE_ICON.toString(), REMOVE_ELEMENT_TOOLTIP.toString(), true);
         addStationButton = gui.initChildButton(row1_2Box, RECTANGLE_ICON.toString(), RECTANGLE_TOOLTIP.toString(), false);
         removeStationButton = gui.initChildButton(row1_2Box, ELLIPSE_ICON.toString(), ELLIPSE_TOOLTIP.toString(), false);
         listStationButton = gui.initChildButton(row1_2Box, ELLIPSE_ICON.toString(), ELLIPSE_TOOLTIP.toString(), false);
-        
+
         lineThickness = new Slider(0, 10, 6);                          // default min max
         row1_3Box.getChildren().add(lineThickness);
-        
-        row1Box.getChildren().addAll(row1_1Box, row1_2Box, row1_3Box);
-       
-        // ROW2
 
+        row1Box.getChildren().addAll(row1_1Box, row1_2Box, row1_3Box);
+
+        // ROW2
         row2Box = new VBox();
         row2_1Box = new HBox();
         row2_2Box = new HBox();
         row2_3Box = new HBox();
-        
+
         metroStationsLabel = new Label("Metro Stations");
         stations = new ComboBox();
         stationColorpicker = new ColorPicker();
         row2_1Box.getChildren().addAll(metroStationsLabel, stations, stationColorpicker);
-        
+
         addStationButton2 = gui.initChildButton(row2_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         removeStationButton2 = gui.initChildButton(row2_2Box, ADDTEXT_ICON.toString(), ADDTEXT_TOOLTIP.toString(), false);
         snapButton = gui.initChildButton(row2_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         moveLabelButton = gui.initChildButton(row2_2Box, ADDTEXT_ICON.toString(), ADDTEXT_TOOLTIP.toString(), false);
         rotateButton = gui.initChildButton(row2_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        
-        stationRadius = new Slider(0, 10, 6); 
+
+        stationRadius = new Slider(0, 10, 6);
         row2_3Box.getChildren().add(stationRadius);
-        
+
         row2Box.getChildren().addAll(row2_1Box, row2_2Box, row2_3Box);
-        
+
         // ROW3
         row3Box = new HBox();
         row3_1Box = new VBox();
         row3_2Box = new VBox();
-        
+
         direction1 = new ComboBox();
         direction2 = new ComboBox();
         row3_1Box.getChildren().addAll(direction1, direction2);
         changeDirButton = gui.initChildButton(row3_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        
+
         row3Box.getChildren().addAll(row3_1Box, row3_2Box);
-        
+
         // ROW4
         row4Box = new VBox();
         row4_1Box = new HBox();
         row4_2Box = new HBox();
-        
+
         decorLabel = new Label("Decor");
         decorColorpicker = new ColorPicker();
         row4_1Box.getChildren().addAll(decorLabel, decorColorpicker);
-        
+
         setImageBgdButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         addImageButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         addLabelButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         RemoveElmtButton = gui.initChildButton(row4_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        
+
         row4Box.getChildren().addAll(row4_1Box, row4_2Box);
-        
+
         // ROW5
         row5Box = new VBox();
         row5_1Box = new HBox();
         row5_2Box = new HBox();
-        
+
         fontLabel = new Label("Font");
         fontColorpicker = new ColorPicker();
         row5_1Box.getChildren().addAll(fontLabel, fontColorpicker);
-        
+
         boldButton = new ToggleButton();
         imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(BOLD_ICON.toString());
         buttonImage = new Image(imagePath);
@@ -497,8 +479,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         boldButton.setGraphic(new ImageView(buttonImage));
         buttonTooltip = new Tooltip(props.getProperty(BOLD_TOOLTIP.toString()));
         boldButton.setTooltip(buttonTooltip);
-        
-        
+
         italicButton = new ToggleButton();
         imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(ITALIC_ICON.toString());
         buttonImage = new Image(imagePath);
@@ -507,9 +488,9 @@ public class golWorkspace extends AppWorkspaceComponent {
         italicButton.setGraphic(new ImageView(buttonImage));
         buttonTooltip = new Tooltip(props.getProperty(ITALIC_TOOLTIP.toString()));
         italicButton.setTooltip(buttonTooltip);
-        
+
         fontsizecomboBox = new ComboBox<>();
-        
+
         fontsizecomboBox.getItems().addAll(
                 new Double(100),
                 new Double(105),
@@ -533,10 +514,8 @@ public class golWorkspace extends AppWorkspaceComponent {
                 new Double(200)
         );
 
-        
-        
         fontcomboBox = new ComboBox<>();
-         fontcomboBox.getItems().addAll(
+        fontcomboBox.getItems().addAll(
                 "Arial",
                 "Menlo",
                 "Tw Cen MT",
@@ -544,27 +523,25 @@ public class golWorkspace extends AppWorkspaceComponent {
                 "Arial Narrow"
         );
 
-        
-        row5_2Box.getChildren().addAll(boldButton, italicButton, fontsizecomboBox, fontcomboBox );
+        row5_2Box.getChildren().addAll(boldButton, italicButton, fontsizecomboBox, fontcomboBox);
         row5Box.getChildren().addAll(row5_1Box, row5_2Box);
 
-     
         // ROW6
         row6Box = new VBox();
         row6_1Box = new HBox();
         row6_2Box = new HBox();
-        
+
         navigationLabel = new Label("Navigation");
         showGrid = new CheckBox("Show Grid");
         row6_1Box.getChildren().addAll(navigationLabel, showGrid);
-        
+
         zoomin = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         zoomout = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         increase = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
         decrease = gui.initChildButton(row6_2Box, ADDPICTURE_ICON.toString(), ADDPICTURE_TOOLTIP.toString(), false);
-        
+
         row6Box.getChildren().addAll(row6_1Box, row6_2Box);
-        
+
         // NOW ORGANIZE THE EDIT TOOLBAR
         editToolbar.getChildren().add(row1Box);
         editToolbar.getChildren().add(row2Box);
@@ -572,7 +549,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         editToolbar.getChildren().add(row4Box); // index 5
         editToolbar.getChildren().add(row5Box);
         editToolbar.getChildren().add(row6Box);
-
 
         // WE'LL RENDER OUR STUFF HERE IN THE CANVAS
         canvas = new Pane();
@@ -735,7 +711,7 @@ public class golWorkspace extends AppWorkspaceComponent {
             //System.out.println("LOADED for " + shape.toString());
 
         }
-        */
+         */
     }
 
     /**
@@ -756,20 +732,14 @@ public class golWorkspace extends AppWorkspaceComponent {
         fillColorPicker.getStyleClass().add(CLASS_BUTTON);
         outlineColorPicker.getStyleClass().add(CLASS_BUTTON);
         backgroundColorPicker.getStyleClass().add(CLASS_BUTTON);
-        */
-
-        fileToolbar2.getStyleClass().add(CLASS_BORDERED_PANE);
+         */
+        // fileToolbar2.getStyleClass().add(CLASS_BORDERED_PANE);
         fileToolbar3.getStyleClass().add(CLASS_BORDERED_PANE);
         fileToolbar4.getStyleClass().add(CLASS_BORDERED_PANE);
-
-        cutButton.getStyleClass().add(CLASS_FILE_BUTTON);
-        copyButton.getStyleClass().add(CLASS_FILE_BUTTON);
-        pasteButton.getStyleClass().add(CLASS_FILE_BUTTON);
 
         undoButton.getStyleClass().add(CLASS_FILE_BUTTON);
         redoButton.getStyleClass().add(CLASS_FILE_BUTTON);
 
-        settingButton.getStyleClass().add(CLASS_FILE_BUTTON);
         aboutButton.getStyleClass().add(CLASS_FILE_BUTTON);
 
         editToolbar.getStyleClass().add(CLASS_EDIT_TOOLBAR);
@@ -787,7 +757,6 @@ public class golWorkspace extends AppWorkspaceComponent {
         row6Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         fontLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
         navigationLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
-       
 
     }
 
@@ -822,15 +791,12 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         removeButton.setDisable(dataManager.getSelectedShape() == null);
         backgroundColorPicker.setValue(dataManager.getBackgroundColor());
-*/
+         */
     }
 
     public void reloadWorkspace2(boolean b) { // false at index -1
         if (b) {
             saveButton.setDisable(false);
-            cutButton.setDisable(false);
-            copyButton.setDisable(false);
-            //pasteButton.setDisable(false);
             undoButton.setDisable(false);
             redoButton.setDisable(false);
             AppFileController f = app.getGUI().getFileController();
@@ -839,9 +805,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         } else {
             saveButton.setDisable(true);
-            cutButton.setDisable(true);
-            copyButton.setDisable(true);
-            pasteButton.setDisable(true);
+
             undoButton.setDisable(true);
             AppFileController f = app.getGUI().getFileController();
             f.setisSaved(true);
@@ -908,12 +872,13 @@ public class golWorkspace extends AppWorkspaceComponent {
         saveButton = (Button) app.getGUI().getFileToolbar().getChildren().get(2);
         buttonTooltip = new Tooltip(props.getProperty(SAVE_TOOLTIP));
         saveButton.setTooltip(buttonTooltip);
-/*
+        /*
         exitButton = (Button) app.getGUI().getFileToolbar().getChildren().get(3);
         buttonTooltip = new Tooltip(props.getProperty(EXIT_TOOLTIP));
         exitButton.setTooltip(buttonTooltip);
-*/
+         */
         //filetoolbar2
+        /*
         buttonTooltip = new Tooltip(props.getProperty(CUT_TOOLTIP));
         cutButton.setTooltip(buttonTooltip);
 
@@ -922,7 +887,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         buttonTooltip = new Tooltip(props.getProperty(PASTE_TOOLTIP));
         pasteButton.setTooltip(buttonTooltip);
-
+         */
         //filetoolbar3
         buttonTooltip = new Tooltip(props.getProperty(UNDO_TOOLTIP));
         undoButton.setTooltip(buttonTooltip);
@@ -932,7 +897,6 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         //filetoolbar4
         buttonTooltip = new Tooltip(props.getProperty(LANG_TOOLTIP));
-        settingButton.setTooltip(buttonTooltip);
 
         buttonTooltip = new Tooltip(props.getProperty(INFO_TOOLTIP));
         aboutButton.setTooltip(buttonTooltip);
@@ -1005,7 +969,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         // Update styles since some Labels are new()
         initStyle();
-*/
+         */
     }
 
     /**
