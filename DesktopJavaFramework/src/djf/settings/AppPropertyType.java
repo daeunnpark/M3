@@ -15,6 +15,7 @@ public enum AppPropertyType {
     APP_LOGO,
     APP_INFO,
 
+
     // INITIAL WINDOW GEOMETRY
     PREF_WIDTH,
     PREF_HEIGHT,

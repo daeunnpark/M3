@@ -224,7 +224,7 @@ public class AppGUI {
         double prefHeight = Double.parseDouble(props.getProperty(PREF_HEIGHT));
         appPane.setPrefWidth(prefWidth);
         appPane.setPrefHeight(prefHeight);
-        System.out.println("app logo");
+        
 
         // SET THE APP ICON
         String appIcon = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_LOGO);

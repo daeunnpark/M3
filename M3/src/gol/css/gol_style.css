@@ -14,14 +14,25 @@
 }
 
 .edit_toolbar_row {
-    -fx-padding: 0px;
-    -fx-spacing: 10;
     -fx-background-color: #ddddff;
     -fx-background-radius: 5.0;
     -fx-padding: 15;
     -fx-spacing: 10;
     -fx-border-width: 2px;
     -fx-border-color: #7777dd;
+}
+.edit_toolbar_btn {
+   
+}
+
+
+.edit_toolbar_subrow {
+    -fx-background-color: #ddddff;
+    -fx-background-radius: 5.0;
+    -fx-padding: 0;
+    -fx-spacing: 5;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 60px;
 }
 
 .color_chooser_pane {

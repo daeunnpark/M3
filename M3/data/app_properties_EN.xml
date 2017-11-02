@@ -9,7 +9,14 @@
 <properties>
     <property_list>
         <property name="APP_TITLE"	    value="goLogoLo"></property>
-        <property name="APP_LOGO"	    value="cat2.png"></property>
+        
+        <property name="APP_WELCOME"	    value="Welcome to the Metro Map Maker"></property>     
+        <property name="APP_WORKSPACE"	    value="Metro Map Maker - Seoul"></property>
+        <property name="APP_EDITLINE"	    value="Metro Map Maker - Metro Line Edit"></property>
+        <property name="APP_STATIONLIST"    value="Metro Map Maker - Metro Line Stops"></property>
+        <property name="APP_ROUTE"	    value="Metro Map Maker - Route"></property>
+        
+        <property name="APP_LOGO"	    value="Map.png"></property>
         <property name="APP_PATH_CSS"	    value="css/"></property>
         <property name="APP_CSS"	    value="gol_style.css"></property>
         <property name="APP_INFO"	    value="cat.png"></property>
@@ -28,7 +35,8 @@
         <property name="DECREASE_ICON"	   value="Decrease.png"></property>
         
         <property name="DIRECTION_ICON"	   value="Direction.png"></property>
-         <property name="MAP_ICON"	   value="Map.png"></property>
+        <property name="MAP_ICON"	   value="Map.png"></property>
+        <property name="MAIN_IMAGE"	   value="M3_main.png"></property>
         
 
 

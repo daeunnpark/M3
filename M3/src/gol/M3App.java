@@ -1,4 +1,4 @@
- package gol;
+package gol;
 
 import java.util.Locale;
 import gol.data.golData;
@@ -18,12 +18,18 @@ import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import djf.ui.AppGUI;
 import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppYesNoCancelDialogSingleton;
+import static gol.golLanguageProperty.APP_WELCOME;
+import static gol.golLanguageProperty.APP_WORKSPACE;
+import static gol.golLanguageProperty.MAIN_IMAGE;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 
@@ -38,8 +44,9 @@ import properties_manager.PropertiesManager;
  * @author Richard McKenna
  * @author ?
  * @version 1.0
- **/
-public class goLogoLoApp extends AppTemplate {
+ *
+ */
+public class M3App extends AppTemplate {
 
     Stage window;
     Scene welcomedialog, workspace;
@@ -49,7 +56,8 @@ public class goLogoLoApp extends AppTemplate {
      * ensuring proper dependencies are respected, meaning all proper objects
      * are already constructed when they are needed for use, since some may need
      * others for initialization.
-     **/
+     *
+     */
     @Override
     public void buildAppComponentsHook() {
         // CONSTRUCT ALL THREE COMPONENTS. NOTE THAT FOR THIS APP
@@ -78,7 +86,7 @@ public class goLogoLoApp extends AppTemplate {
 
             if (success) {
                 // GET THE TITLE FROM THE XML FILE
-                String appTitle = props.getProperty(APP_TITLE);
+                String appTitle = props.getProperty(APP_WORKSPACE);
 
                 // BUILD THE BASIC APP GUI OBJECT FIRST
                 gui = new AppGUI(primaryStage, appTitle, this);
@@ -86,19 +94,45 @@ public class goLogoLoApp extends AppTemplate {
 
                 workspace = gui.getPrimaryScene();
 
+                // SET THE WINDOW TITLE
+                primaryStage.setTitle(appTitle);
+
                 window.setResizable(true);
                 window.setWidth(workspace.getWidth());
                 window.setHeight(workspace.getHeight());
 
-                StackPane s = new StackPane();
-                Button b = new Button("Create New Metro Map");
+                BorderPane welcomePage = new BorderPane(); // spacing in param
 
-                b.setOnAction(e -> window.setScene(workspace));
-                s.getChildren().add(b);
-                welcomedialog = new Scene(s);
+                VBox left = new VBox();
+                left.getChildren().add(new Label("Recent Work"));
+                left.setMinWidth(500);
+
+                VBox right = new VBox();
+                String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(MAIN_IMAGE.toString());
+
+                Image image = new Image(imagePath);
+                ImageView iv2 = new ImageView();
+                iv2.setImage(image);
+                //iv2.setFitWidth(100);
+                iv2.setPreserveRatio(true);
+                Button b = new Button("Create New Metro Map");
+                right.getChildren().addAll(iv2, b);
+
+
+                welcomePage.setLeft(left);
+                welcomePage.setCenter(right);
+
+                b.setOnAction(e -> {
+                    window.setTitle(props.getProperty(APP_WORKSPACE));
+                    window.setScene(workspace);
+                    
+                }
+                );
+                welcomedialog = new Scene(welcomePage);
 
                 window.setScene(welcomedialog);
-
+                window.setTitle(props.getProperty(APP_WELCOME));
+                
                 // NOW OPEN UP THE WINDOW
                 primaryStage.show();
             }
@@ -114,7 +148,8 @@ public class goLogoLoApp extends AppTemplate {
      * will simply call launch, which gets JavaFX rolling, resulting in sending
      * the properly initialized Stage (i.e. window) to the start method
      * inherited from AppTemplate, defined in the Desktop Java Framework.
-     **/
+     *
+     */
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
         launch(args);

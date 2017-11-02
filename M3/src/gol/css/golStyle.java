@@ -17,6 +17,8 @@ public class golStyle {
     public static final String CLASS_BUTTON = "button";
     public static final String CLASS_EDIT_TOOLBAR = "edit_toolbar";
     public static final String CLASS_EDIT_TOOLBAR_ROW = "edit_toolbar_row";
+    public static final String CLASS_EDIT_TOOLBAR_SUBROW = "edit_toolbar_subrow";
+    public static final String CLASS_EDIT_TOOLBAR_BTN ="edit_toolbar_btn";
     public static final String CLASS_COLOR_CHOOSER_PANE = "color_chooser_pane";
     public static final String CLASS_COLOR_CHOOSER_CONTROL = "color_chooser_control";
     public static final String EMPTY_TEXT = "";

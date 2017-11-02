@@ -118,6 +118,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.FileChooser;
 
 import properties_manager.PropertiesManager;
@@ -156,7 +157,8 @@ public class golWorkspace extends AppWorkspaceComponent {
     // ROW1
     private VBox row1Box;
     private HBox row1_1Box;
-    private HBox row1_2Box;
+    //private HBox row1_2Box;
+    private TilePane row1_2Box;
     private HBox row1_3Box;
 
     private Label metroLinesLabel;
@@ -399,9 +401,11 @@ public class golWorkspace extends AppWorkspaceComponent {
         // ROW 1
         row1Box = new VBox();
         row1_1Box = new HBox();
-        row1_2Box = new HBox();
+        row1_2Box = new TilePane();
+        //row1_2Box = new HBox();
         row1_3Box = new HBox();
-
+        
+        
         metroLinesLabel = new Label("Metro Lines");
         lines = new ComboBox();
         lineColorpicker = new ColorPicker();
@@ -423,6 +427,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 */
         lineThickness = new Slider(0, 10, 6);                          // default min max
         row1_3Box.getChildren().add(lineThickness);
+       
 
         row1Box.getChildren().addAll(row1_1Box, row1_2Box, row1_3Box);
 
@@ -763,7 +768,6 @@ public class golWorkspace extends AppWorkspaceComponent {
      * runs so they will have their style setup separately.
      */
     public void initStyle() {
-        System.out.println("initiated");
         // NOTE THAT EACH CLASS SHOULD CORRESPOND TO
         // A STYLE CLASS SPECIFIED IN THIS APPLICATION'S
         // CSS FILE
@@ -786,11 +790,13 @@ public class golWorkspace extends AppWorkspaceComponent {
 
         editToolbar.getStyleClass().add(CLASS_EDIT_TOOLBAR);
         row1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
-        row1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
-        row1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
-
+        
+        
         row2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         row3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
+
+        row4Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
+        row5Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         metroLinesLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
         row4Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         metroStationsLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
@@ -799,6 +805,17 @@ public class golWorkspace extends AppWorkspaceComponent {
         row6Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         fontLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
         navigationLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
+        
+        
+        
+        row1_1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_SUBROW);
+        //row1_2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_SUBROW);
+        row1_3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_SUBROW);
+        
+        
+        row2_1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_SUBROW);
+        row2_2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_SUBROW);
+        row2_3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_SUBROW);
 
     }
 
